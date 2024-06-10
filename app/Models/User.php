@@ -4,14 +4,18 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Configuracion\Ubica;
+use App\Models\Diligencias\Diligencia;
 use App\Models\Facturacion\Empresa;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -20,6 +24,7 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -73,5 +78,23 @@ class User extends Authenticatable
     public function empresas() : BelongsToMany
     {
         return $this->BelongsToMany(Empresa::class);
+    }
+
+    /**
+     * Relación uno a muchos.
+     * Usuarios con ubicaciones
+     */
+    public function ubicaciones() : HasMany
+    {
+        return $this->hasMany(Ubica::class);
+    }
+
+    /**
+     * Relación muchos a muchos.
+     * Diligencias con users
+     */
+    public function mensajeros() : BelongsToMany
+    {
+        return $this->belongsToMany(Diligencia::class);
     }
 }

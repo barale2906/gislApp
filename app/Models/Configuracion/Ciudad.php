@@ -1,43 +1,32 @@
 <?php
 
-namespace App\Models\Facturacion;
+namespace App\Models\Configuracion;
 
-use App\Models\Configuracion\Ciudad;
-use App\Models\Configuracion\Ubica;
 use App\Models\Diligencias\Diligencia;
-use App\Models\User;
+use App\Models\Facturacion\Empresa;
+use App\Models\Facturacion\Sucursal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Empresa extends Model
+class Ciudad extends Model
 {
     use HasFactory;
-
     protected $guarded = ['id', 'created_at', 'updated_at'];
-
-    /**
-     * Relación muchos a muchos.
-     * Usuarios con empresas
-     */
-    public function users() : BelongsToMany
-    {
-        return $this->BelongsToMany(User::class);
-    }
 
     /**
      * Relación muchos a muchos.
      * ciudades con empresas
      */
-    public function ciudades() : BelongsToMany
+    public function empresas() : BelongsToMany
     {
-        return $this->BelongsToMany(Ciudad::class);
+        return $this->BelongsToMany(Empresa::class);
     }
 
     /**
      * Relación uno a muchos.
-     * sucursales a Empresas
+     * Ciudad a sucursales
      */
     public function sucursales() : HasMany
     {
@@ -46,19 +35,10 @@ class Empresa extends Model
 
     /**
      * Relación uno a muchos.
-     * diligencias a Empresas
+     * Ciudad a diligencia destino
      */
     public function diligencias() : HasMany
     {
         return $this->hasMany(Diligencia::class);
-    }
-
-    /**
-     * Relación uno a muchos.
-     * Empresas con ubicaciones
-     */
-    public function ubicaciones() : HasMany
-    {
-        return $this->hasMany(Ubica::class);
     }
 }
