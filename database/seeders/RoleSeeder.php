@@ -24,22 +24,40 @@ class RoleSeeder extends Seeder
         $Mensajero=Role::create(['name'=>'Mensajero']);
 
         Permission::create([
-            'name'=>'Acceso',
-            'descripcion'=>'ingreso al menú acceso',
-            'modulo'=>'acceso'
-            ])->syncRoles([$Superusuario,$Financiero,$OperacionesEmpresa,$OperacionesGeneral,$Auxiliar,$Administrativo,$Mensajero]);
+                    'name'=>'Configuracion',
+                    'descripcion'=>'ingreso al menú configuracion',
+                    'modulo'=>'configuracion'
+                    ])->syncRoles([$Superusuario,$OperacionesGeneral,$Administrativo]);
 
         Permission::create([
-                    'name'=>'ac_usuarios',
+                    'name'=>'co_users',
                     'descripcion'=>'Ver listado de usuarios registrados en el sistema',
-                    'modulo'=>'acceso'
-                    ])->syncRoles([$Superusuario,$OperacionesEmpresa,$OperacionesGeneral,$Administrativo]);
+                    'modulo'=>'configuracion'
+                    ])->syncRoles([$Superusuario,$OperacionesGeneral,$Administrativo]);
 
         Permission::create([
-            'name'=>'Diligencias',
-            'descripcion'=>'ingreso al menú diligencias',
-            'modulo'=>'diligencias'
-            ])->syncRoles([$Superusuario,$Financiero,$OperacionesEmpresa,$OperacionesGeneral,$Auxiliar,$Administrativo,$Mensajero,$Usuario]);
+                    'name'=>'co_rols',
+                    'descripcion'=>'Ver listado de roles registrados en el sistema',
+                    'modulo'=>'configuracion'
+                    ])->syncRoles([$Superusuario,$OperacionesGeneral,$Administrativo]);
+
+        Permission::create([
+                    'name'=>'co_areas',
+                    'descripcion'=>'Ver listado de áreas registrados en el sistema',
+                    'modulo'=>'configuracion'
+                    ])->syncRoles([$Superusuario,$OperacionesGeneral,$Administrativo]);
+
+        Permission::create([
+                    'name'=>'co_ciudads',
+                    'descripcion'=>'Ver listado de ciudades registrados en el sistema',
+                    'modulo'=>'configuracion'
+                    ])->syncRoles([$Superusuario,$OperacionesGeneral,$Administrativo]);
+
+        Permission::create([
+                    'name'=>'Diligencias',
+                    'descripcion'=>'ingreso al menú diligencias',
+                    'modulo'=>'diligencias'
+                    ])->syncRoles([$Superusuario,$Financiero,$OperacionesEmpresa,$OperacionesGeneral,$Auxiliar,$Administrativo,$Mensajero,$Usuario]);
 
         Permission::create([
                     'name'=>'di_diligencias',
@@ -48,27 +66,33 @@ class RoleSeeder extends Seeder
                     ])->syncRoles([$Superusuario,$OperacionesEmpresa,$OperacionesGeneral,$Administrativo,$Auxiliar,$Mensajero,$Usuario]);
 
         Permission::create([
-            'name'=>'Nomina',
-            'descripcion'=>'ingreso al menú Nómina',
-            'modulo'=>'nomina'
-            ])->syncRoles([$Superusuario,$Financiero,$OperacionesGeneral,$Auxiliar,$Administrativo,$Mensajero]);
+                    'name'=>'Humana',
+                    'descripcion'=>'ingreso al menú Humana',
+                    'modulo'=>'humana'
+                    ])->syncRoles([$Superusuario,$Financiero,$OperacionesGeneral,$Auxiliar,$Administrativo,$Mensajero]);
 
         Permission::create([
                     'name'=>'no_nomina',
                     'descripcion'=>'Ver registros de nómina',
-                    'modulo'=>'nomina'
+                    'modulo'=>'humana'
                     ])->syncRoles([$Superusuario,$Financiero,$OperacionesGeneral,$Auxiliar,$Administrativo,$Mensajero]);
 
         Permission::create([
-            'name'=>'Financiera',
-            'descripcion'=>'ingreso al menú financiera',
-            'modulo'=>'financiera'
-            ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+                    'name'=>'Financiera',
+                    'descripcion'=>'ingreso al menú financiera',
+                    'modulo'=>'financiera'
+                    ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+
+        Permission::create([
+                    'name'=>'Facturacion',
+                    'descripcion'=>'ingreso al menú Facturacion',
+                    'modulo'=>'Facturacion'
+                    ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
 
         Permission::create([
                     'name'=>'fi_facturas',
                     'descripcion'=>'listado de facturas.',
-                    'modulo'=>'financiera'
+                    'modulo'=>'Facturacion'
                     ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
 
         Permission::create([
