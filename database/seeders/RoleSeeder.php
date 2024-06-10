@@ -36,6 +36,18 @@ class RoleSeeder extends Seeder
                     ])->syncRoles([$Superusuario,$OperacionesGeneral,$Administrativo]);
 
         Permission::create([
+                        'name'=>'co_userModify',
+                        'descripcion'=>'Modificar - crear usuarios',
+                        'modulo'=>'configuracion'
+                        ])->syncRoles([$Superusuario,$OperacionesGeneral,$Administrativo]);
+
+        Permission::create([
+                        'name'=>'co_usersPerfil',
+                        'descripcion'=>'Revisar perfiles de los usuarios',
+                        'modulo'=>'configuracion'
+                        ])->syncRoles([$Superusuario,$OperacionesGeneral,$Administrativo]);
+
+        Permission::create([
                     'name'=>'co_rols',
                     'descripcion'=>'Ver listado de roles registrados en el sistema',
                     'modulo'=>'configuracion'
