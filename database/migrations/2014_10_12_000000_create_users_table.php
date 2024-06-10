@@ -20,6 +20,10 @@ return new class extends Migration
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
+            $table->boolean('status')->default(true)->comment('false Usuario Inactivo, true Usuario Activo');
+            $table->boolean('diaria')->default(true)->comment('false no ha hecho inspección diaria, ya true ha hecho inspección diaria');
+            $table->integer('rol_id')->default(5)->comment('1 Superusuario, 2 Financiero, 3 OperacionesGeneral, 4 OperacionesEmpresa, 5 Administrativo, 6 Auxiliar, 7 Usuario, 8 Mensajero');
+            $table->integer('empresa_id')->default(1)->comment('Empresa en la que esta activo en este mommento');
             $table->timestamps();
         });
     }
@@ -32,3 +36,4 @@ return new class extends Migration
         Schema::dropIfExists('users');
     }
 };
+
