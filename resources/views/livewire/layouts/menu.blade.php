@@ -19,6 +19,16 @@
 
                         </span>
                     </a>
+                    <div class="py-1">
+                        <form method="POST" action="{{ route('logout') }}" x-data>
+                            @csrf
+
+                            <x-dropdown-link class="bg-cyan-600 hover:bg-cyan-300 text-2xl uppercase font-extrabold rounded-lg text-black text-center" href="{{ route('logout') }}"
+                                    @click.prevent="$root.submit();">
+                                Cerrar Sesión
+                            </x-dropdown-link>
+                        </form>
+                    </div>
                 </div>
                 <div class="flex items-center">
                     <div class="flex items-center ms-3">
