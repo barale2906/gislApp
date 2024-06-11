@@ -37,6 +37,7 @@ class Lista extends Model
     public function scopeBuscar($query, $item){
         $query->when($item ?? null, function($query, $item){
             $query->where('name', 'like', "%".$item."%")
+                    ->orWhere('descripcion', 'like', "%".$item."%")
                     ->orwherehas('detalles', function($quer) use($item){
                         $quer->orwherehas('productos', function($quer) use($item){
                             $quer->where('productos.name', 'like', "%".$item."%");

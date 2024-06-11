@@ -10,6 +10,8 @@ trait FiltroTrait
     public $is_entrega=false;
     public $is_ubicaenvia=false;
     public $is_ubicarecibe=false;
+    public $is_inicia=false;
+    public $is_termina=false;
 
     public function filtroMostrar(){
         $this->is_filtro=!$this->is_filtro;
@@ -27,6 +29,16 @@ trait FiltroTrait
             case 2:
                 $this->text='Buscar empresa por NIT, nombre';
                 break;
+
+            case 3:
+                $this->text='Buscar lista por nombre, producto o descripción';
+                $this->is_inicia=!$this->is_inicia;
+                $this->is_termina=!$this->is_termina;
+                break;
+
+            case 4:
+                    $this->text='Buscar producto por nombre';
+                    break;
         }
     }
 }
