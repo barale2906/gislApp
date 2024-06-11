@@ -66,6 +66,12 @@ class RoleSeeder extends Seeder
                     ])->syncRoles([$Superusuario,$OperacionesGeneral,$Administrativo]);
 
         Permission::create([
+                    'name'=>'co_ciudadModify',
+                    'descripcion'=>'Crear - Editar Ciudades',
+                    'modulo'=>'configuracion'
+                    ])->syncRoles([$Superusuario,$OperacionesGeneral,$Administrativo]);
+
+        Permission::create([
                     'name'=>'co_ciudads',
                     'descripcion'=>'Ver listado de ciudades registrados en el sistema',
                     'modulo'=>'configuracion'

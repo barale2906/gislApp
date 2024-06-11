@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Livewire\Configuracion\Area;
+namespace App\Livewire\Configuracion\Ciudad;
 
-use App\Models\Configuracion\Area;
+use App\Models\Configuracion\Ciudad;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class AreaModificar extends Component
+class CiudadModificar extends Component
 {
     public $name;
+    public $codigopostal;
     public $actual;
     public $tipo=0;
     public $status;
 
     public function mount($elegido=null, $tipo=null){
         if($elegido){
-            $this->actual=Area::find($elegido);
+            $this->actual=Ciudad::find($elegido);
             $this->tipo=$tipo;
             $this->valores();
         }
@@ -28,6 +29,7 @@ class AreaModificar extends Component
 
     public function valores(){
         $this->name=$this->actual->name;
+        $this->codigopostal=$this->actual->codigopostal;
 
         if($this->actual->status===1){
             $this->status=true;
@@ -58,7 +60,8 @@ class AreaModificar extends Component
      * Reglas de validación
      */
     protected $rules = [
-        'name' => 'required|unique:areas|max:100',
+        'name' => 'required|unique:ciudads|max:100',
+        'codigopostal'=>'required',
     ];
 
     /**
@@ -66,7 +69,7 @@ class AreaModificar extends Component
      * @return void
      */
     public function resetFields(){
-        $this->reset('name');
+        $this->reset('name', 'codigopostal');
 
     }
 
@@ -76,20 +79,21 @@ class AreaModificar extends Component
         $this->validate();
 
         //Verificar que no exista el registro en la base de datos
-        $existe=Area::Where('name', '=',strtolower($this->name))->count();
+        $existe=Ciudad::Where('name', '=',strtolower($this->name))->count();
 
         if($existe>0){
-            $this->dispatch('alerta', name:'Ya existe esta el área: '.$this->name);
+            $this->dispatch('alerta', name:'Ya existe esta ciudad: '.$this->name);
         } else {
 
             //Crear registro
-            Area::create([
+            Ciudad::create([
                 'name'          =>strtolower($this->name),
+                'codigopostal'  =>strtolower($this->codigopostal),
             ]);
 
 
             // Notificación
-            $this->dispatch('alerta', name:'Se ha creado correctamente el área: '.$this->name);
+            $this->dispatch('alerta', name:'Se ha creado correctamente ciudad: '.$this->name);
             $this->resetFields();
 
             //refresh
@@ -106,10 +110,11 @@ class AreaModificar extends Component
 
         $this->actual->update([
             'name'          =>strtolower($this->name),
+            'codigopostal'  =>strtolower($this->codigopostal),
         ]);
 
         // Notificación
-        $this->dispatch('alerta', name:'Se ha modificado correctamente el área: '.strtolower($this->name));
+        $this->dispatch('alerta', name:'Se ha modificado correctamente la ciudad: '.strtolower($this->name));
         $this->resetFields();
 
         //refresh
@@ -117,8 +122,9 @@ class AreaModificar extends Component
         $this->dispatch('cancelando');
     }
 
+
     public function render()
     {
-        return view('livewire.configuracion.area.area-modificar');
+        return view('livewire.configuracion.ciudad.ciudad-modificar');
     }
 }
