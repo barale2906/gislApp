@@ -95,6 +95,24 @@ class MenuSeeder extends Seeder
                     'menu_id'           => $m4->id
                 ]);
 
+        Menu::create([
+                    'permiso'           => 'fa_listas',
+                    'ruta'              => 'facturacion.listas',
+                    'identificaRuta'    => 'facturacion.listas',
+                    'name'              => 'Listas Precio',
+                    'icono'             => 'fa-solid fa-building',
+                    'menu_id'           => $m4->id
+                ]);
+
+        Menu::create([
+                    'permiso'           => 'fa_productos',
+                    'ruta'              => 'facturacion.productos',
+                    'identificaRuta'    => 'facturacion.productos',
+                    'name'              => 'Productos',
+                    'icono'             => 'fa-solid fa-building',
+                    'menu_id'           => $m4->id
+                ]);
+
         $m5=Menu::create([
                     'name'              => 'FINANCIERA',
                     'identificaRuta'    => 'financiera.*',

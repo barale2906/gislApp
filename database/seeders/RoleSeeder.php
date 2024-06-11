@@ -143,17 +143,50 @@ class RoleSeeder extends Seeder
                         'descripcion'=>'Crear empresas',
                         'modulo'=>'Facturacion'
                         ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+
         Permission::create([
-                    'name'=>'fa_empresamodify',
-                    'descripcion'=>'Editar empresas',
+                        'name'=>'fa_empresamodify',
+                        'descripcion'=>'Editar empresas',
+                        'modulo'=>'Facturacion'
+                        ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+
+
+        Permission::create([
+                        'name'=>'fa_listas',
+                        'descripcion'=>'ver listas de precios',
+                        'modulo'=>'Facturacion'
+                        ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+
+        Permission::create([
+                        'name'=>'fa_listasCrear',
+                        'descripcion'=>'Crear listas de precios',
+                        'modulo'=>'Facturacion'
+                        ])->syncRoles([$Superusuario,$Financiero]);
+
+        Permission::create([
+                    'name'=>'fa_listamodify',
+                    'descripcion'=>'Editar listas de precios',
                     'modulo'=>'Facturacion'
-                    ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+                    ])->syncRoles([$Superusuario,$Financiero]);
+
+        Permission::create([
+                        'name'=>'fa_productos',
+                        'descripcion'=>'ver productos',
+                        'modulo'=>'Facturacion'
+                        ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+
+        Permission::create([
+                    'name'=>'fa_productomodify',
+                    'descripcion'=>'Editar productos',
+                    'modulo'=>'Facturacion'
+                    ])->syncRoles([$Superusuario,$Financiero]);
 
         Permission::create([
                     'name'=>'fi_facturas',
                     'descripcion'=>'listado de facturas.',
                     'modulo'=>'Facturacion'
                     ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+
 
         Permission::create([
             'name'=>'PESV',

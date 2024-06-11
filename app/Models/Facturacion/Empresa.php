@@ -36,6 +36,15 @@ class Empresa extends Model
     }
 
     /**
+     * Relación muchos a muchos.
+     * Empresas con las listas de precios
+     */
+    public function listas() : BelongsToMany
+    {
+        return $this->belongsToMany(Lista::class);
+    }
+
+    /**
      * Relación uno a muchos.
      * sucursales a Empresas
      */
@@ -61,6 +70,7 @@ class Empresa extends Model
     {
         return $this->hasMany(Ubica::class);
     }
+
 
     //Buscar
     public function scopeBuscar($query, $item){
