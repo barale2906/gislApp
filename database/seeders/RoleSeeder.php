@@ -78,6 +78,12 @@ class RoleSeeder extends Seeder
                     ])->syncRoles([$Superusuario,$OperacionesEmpresa,$OperacionesGeneral,$Administrativo,$Auxiliar,$Mensajero,$Usuario]);
 
         Permission::create([
+                    'name'=>'di_diligenciaModify',
+                    'descripcion'=>'Crear y editar diligencias',
+                    'modulo'=>'diligencias'
+                    ])->syncRoles([$Superusuario,$OperacionesEmpresa,$OperacionesGeneral,$Administrativo,$Auxiliar,$Mensajero,$Usuario]);
+
+        Permission::create([
                     'name'=>'Humana',
                     'descripcion'=>'ingreso al menú Humana',
                     'modulo'=>'humana'
