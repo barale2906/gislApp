@@ -3,6 +3,7 @@
 namespace App\Livewire\Facturacion\Empresa;
 
 use App\Models\Facturacion\Empresa;
+use App\Traits\FiltroTrait;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -10,6 +11,11 @@ use Livewire\WithPagination;
 class Empresas extends Component
 {
     use WithPagination;
+    use FiltroTrait;
+
+    public $permiso='fa_empresasCrear';
+    public $buscar;
+    public $busqueda;
 
     public $ordena='id';
     public $ordenado='ASC';
@@ -22,6 +28,15 @@ class Empresas extends Component
     public $elegido;
 
     protected $listeners = ['refresh' => '$refresh'];
+
+    public function mount(){
+        $this->claseFiltro(2);
+    }
+
+    public function buscando(){
+        $this->resetPage();
+        $this->busqueda=strtolower($this->buscar);
+    }
 
     // Ordenar Registros
     public function organizar($campo){
@@ -60,6 +75,14 @@ class Empresas extends Component
         $this->is_creating = !$this->is_creating;
     }
 
+    #[On('limpiando')]
+    public function limpiaFiltro(){
+        $this->reset(
+            'buscar',
+            'busqueda'
+        );
+    }
+
     //Modificar registro
     public function show($id, $est){
         $this->cancela();
@@ -70,7 +93,8 @@ class Empresas extends Component
     }
 
     private function empresas(){
-        return Empresa::orderBy($this->ordena, $this->ordenado)
+        return Empresa::buscar($this->busqueda)
+                        ->orderBy($this->ordena, $this->ordenado)
                         ->paginate($this->pages);
     }
     public function render()

@@ -23,6 +23,10 @@ trait FiltroTrait
                 $this->is_creacion=!$this->is_creacion;
                 $this->is_entrega=!$this->is_entrega;
                 break;
+
+            case 2:
+                $this->text='Buscar empresa por NIT, nombre';
+                break;
         }
     }
 }

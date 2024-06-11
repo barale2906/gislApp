@@ -61,4 +61,13 @@ class Empresa extends Model
     {
         return $this->hasMany(Ubica::class);
     }
+
+    //Buscar
+    public function scopeBuscar($query, $item){
+        $query->when($item ?? null, function($query, $item){
+                    $query->where('nit', 'like', "%".$item."%")
+                        ->orwhere('name', 'like', "%".$item."%");
+                });
+
+    }
 }

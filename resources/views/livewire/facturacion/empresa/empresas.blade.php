@@ -1,19 +1,7 @@
 <div>
     @if ($is_modify)
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <div class="grid sm:grid-cols-1 md:grid-cols-6 gap-4 m-2">
-                <div class="pb-4 bg-white dark:bg-gray-900 mr-2">
-                    <input type="text" id="table-search" class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
-                </div>
-                <div class=" ml-28">
-                    @can('fa_empresasCrear')
-                        <a href="" wire:click.prevent="$dispatch('created')" class="w-auto text-black bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 capitalize" >
-                            <i class="fa-solid fa-plus"></i> crear
-                        </a>
-                    @endcan
-
-                </div>
-            </div>
+            @include('include.filtro')
 
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -147,11 +135,11 @@
                                 {{$item->name}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                {{$item->direccion}}
+                                {{$item->telefono}}
                             </th>
 
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white capitalize">
-                                {{$item->telefono}}
+                                {{$item->direccion}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                 {{$item->contacto}}
