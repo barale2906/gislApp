@@ -102,6 +102,23 @@ class RoleSeeder extends Seeder
                     ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
 
         Permission::create([
+                    'name'=>'fa_empresas',
+                    'descripcion'=>'ver empresas',
+                    'modulo'=>'Facturacion'
+                    ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+
+        Permission::create([
+                        'name'=>'fa_empresasCrear',
+                        'descripcion'=>'Crear empresas',
+                        'modulo'=>'Facturacion'
+                        ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+        Permission::create([
+                    'name'=>'fa_empresamodify',
+                    'descripcion'=>'Editar empresas',
+                    'modulo'=>'Facturacion'
+                    ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+
+        Permission::create([
                     'name'=>'fi_facturas',
                     'descripcion'=>'listado de facturas.',
                     'modulo'=>'Facturacion'
