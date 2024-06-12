@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('nombre del producto');
+            $table->string('name')->unique()->comment('nombre del producto');
             $table->string('tipo')->default(1)->comment('1 Entrega por evento, 2 Entrega global');
             $table->longText('descripcion')->comment('Datos importantes del producto');
             $table->boolean('status')->default(true)->comment('false Inactivo, true Activo');

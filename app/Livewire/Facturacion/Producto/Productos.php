@@ -23,16 +23,20 @@ class Productos extends Component
 
     public $is_modify = true;
     public $is_creating = false;
-
-
+    public $is_producto = false;
 
     public $tipo;
     public $elegido;
+    public $lista;
+    public $producto;
 
     protected $listeners = ['refresh' => '$refresh'];
 
-    public function mount(){
+    public function mount($lista=null){
         $this->claseFiltro(4);
+        if($lista){
+            $this->lista=$lista;
+        }
     }
 
     public function buscando(){
@@ -86,6 +90,15 @@ class Productos extends Component
         );
     }
 
+    #[On('volviendo')]
+    public function volver(){
+        $this->reset(
+            'is_producto',
+            'is_modify',
+            'producto'
+        );
+    }
+
     //Modificar registro
     public function show($id, $est){
         $this->cancela();
@@ -93,6 +106,13 @@ class Productos extends Component
         $this->tipo=$est;
         $this->is_modify = !$this->is_modify;
         $this->is_creating = !$this->is_creating;
+    }
+
+    //Cargar a lista de precios
+    public function cargar($id){
+        $this->is_producto=!$this->producto;
+        $this->is_modify = !$this->is_modify;
+        $this->producto=$id;
     }
 
     private function productos(){

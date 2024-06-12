@@ -1,7 +1,13 @@
 <div>
     @if ($is_modify)
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            @include('include.filtro')
+            @if ($lista>0)
+                <h1 class=" text-center font-semibold">
+                    Seleccione los productos a agregar a lista
+                </h1>
+            @else
+                @include('include.filtro')
+            @endif
 
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -12,18 +18,6 @@
                         <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('name')">
                             NOMBRE
                             @if ($ordena != 'name')
-                                <i class="fas fa-sort"></i>
-                            @else
-                                @if ($ordenado=='ASC')
-                                    <i class="fas fa-sort-up"></i>
-                                @else
-                                    <i class="fas fa-sort-down"></i>
-                                @endif
-                            @endif
-                        </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('descripcion')">
-                            DESCRIPCION
-                            @if ($ordena != 'descripcion')
                                 <i class="fas fa-sort"></i>
                             @else
                                 @if ($ordenado=='ASC')
@@ -45,6 +39,18 @@
                                 @endif
                             @endif
                         </th>
+                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('descripcion')">
+                            DESCRIPCION
+                            @if ($ordena != 'descripcion')
+                                <i class="fas fa-sort"></i>
+                            @else
+                                @if ($ordenado=='ASC')
+                                    <i class="fas fa-sort-up"></i>
+                                @else
+                                    <i class="fas fa-sort-down"></i>
+                                @endif
+                            @endif
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,23 +59,27 @@
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
                                 <div class="inline-flex rounded-md shadow-sm" role="group">
-                                    @can('fa_productomodify')
-                                        @if ($item->status===1)
-                                            <button wire:click.prevent="show({{$item->id}},{{1}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 border border-blue-900 rounded-s-lg hover:bg-blue-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-blue-700 dark:focus:bg-blue-700">
-                                                <i class="fa-solid fa-marker"></i>
-                                            </button>
-                                        @endif
-                                        <button wire:click.prevent="show({{$item->id}},{{2}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-yellow-900 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 border border-yellow-900 rounded-e-lg hover:bg-yellow-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-yellow-500 focus:bg-yellow-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-yellow-700">
-                                            <i class="fa-brands fa-creative-commons-sa"></i>
+
+                                    @if ($lista>0)
+                                        <button wire:click.prevent="cargar({{$item->id}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-indigo-900 bg-gradient-to-r from-indigo-300 via-indigo-400 to-indigo-500 border border-indigo-900 rounded-lg hover:bg-indigo-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-indigo-500 focus:bg-indigo-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-indigo-700">
+                                            <i class="fa-solid fa-tags"></i>
                                         </button>
-                                    @endcan
+                                    @else
+                                        @can('fa_productomodify')
+                                            @if ($item->status===1)
+                                                <button wire:click.prevent="show({{$item->id}},{{1}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 border border-blue-900 rounded-s-lg hover:bg-blue-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-blue-700 dark:focus:bg-blue-700">
+                                                    <i class="fa-solid fa-marker"></i>
+                                                </button>
+                                            @endif
+                                            <button wire:click.prevent="show({{$item->id}},{{2}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-yellow-900 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 border border-yellow-900 rounded-e-lg hover:bg-yellow-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-yellow-500 focus:bg-yellow-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-yellow-700">
+                                                <i class="fa-brands fa-creative-commons-sa"></i>
+                                            </button>
+                                        @endcan
+                                    @endif
                                 </div>
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white uppercase">
                                 {{$item->name}}
-                            </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                {{$item->descripcion}}
                             </th>
 
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white capitalize">
@@ -81,6 +91,9 @@
                                         Entrega global
                                         @break
                                 @endswitch
+                            </th>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
+                                {{$item->descripcion}}
                             </th>
                         </tr>
                     @endforeach
@@ -107,6 +120,9 @@
     @endif
     @if ($is_creating)
         <livewire:facturacion.producto.producto-modificar :elegido="$elegido" :tipo="$tipo"/>
+    @endif
+    @if ($is_producto)
+        <livewire:facturacion.producto.producto-cargar :lista="$lista" :producto="$producto"/>
     @endif
 
     @push('js')
