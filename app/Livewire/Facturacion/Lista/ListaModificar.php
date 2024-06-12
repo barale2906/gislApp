@@ -3,6 +3,7 @@
 namespace App\Livewire\Facturacion\Lista;
 
 use App\Models\Facturacion\Lista;
+use App\Models\Facturacion\ListaDetalle;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -18,7 +19,11 @@ class ListaModificar extends Component
     public $status;
 
     public $actual;
+    public $detalle;
+    public $cargados;
     public $tipo;
+
+    public $is_modifica=false;
 
     public function mount($elegido=null, $tipo=null){
         if($elegido){
@@ -31,6 +36,8 @@ class ListaModificar extends Component
         }else{
             $this->tipo=0;
         }
+
+        $this->detalles();
     }
 
     public function valores(){
@@ -45,6 +52,7 @@ class ListaModificar extends Component
         }else{
             $this->status=false;
         }
+
     }
 
     //Inactivar Registro
@@ -129,6 +137,29 @@ class ListaModificar extends Component
         //refresh
         $this->dispatch('refresh');
         $this->valores();
+    }
+
+    public function show($id,$est){
+        switch ($est) {
+            case '1':
+                $this->detalle=$id;
+                $this->is_modifica=!$this->is_modifica;
+                break;
+        }
+
+    }
+
+    #[On('volviendo')]
+    public function volver(){
+        $this->reset(
+            'is_modifica',
+            'detalle'
+        );
+    }
+
+    public function detalles(){
+        $this->cargados=ListaDetalle::where('lista_id', $this->actual->id)
+                                        ->get();
     }
 
     public function render()
