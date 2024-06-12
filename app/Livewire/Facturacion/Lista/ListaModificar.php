@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Facturacion\Lista;
 
+use App\Models\Facturacion\Empresa;
 use App\Models\Facturacion\Lista;
 use App\Models\Facturacion\ListaDetalle;
+use App\Models\Facturacion\ListaEmpresa;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -21,9 +23,12 @@ class ListaModificar extends Component
     public $actual;
     public $detalle;
     public $cargados;
+    public $empresas;
     public $tipo;
 
     public $is_modifica=false;
+
+    protected $listeners = ['refresh' => '$refresh'];
 
     public function mount($elegido=null, $tipo=null){
         if($elegido){
@@ -37,7 +42,6 @@ class ListaModificar extends Component
             $this->tipo=0;
         }
 
-        $this->detalles();
     }
 
     public function valores(){
@@ -53,6 +57,7 @@ class ListaModificar extends Component
             $this->status=false;
         }
 
+        $this->detalles();
     }
 
     //Inactivar Registro
@@ -103,23 +108,28 @@ class ListaModificar extends Component
         // validate
         $this->validate();
 
-        //Crear
-        $nueva=Lista::create([
-            'name'              => strtolower($this->name),
-            'descripcion'       => strtolower($this->descripcion),
-            'inicia'            => $this->inicia,
-            'finaliza'          => $this->finaliza
-        ]);
+        if($this->inicia<$this->finaliza){
+            //Crear
+            $nueva=Lista::create([
+                'name'              => strtolower($this->name),
+                'descripcion'       => strtolower($this->descripcion),
+                'inicia'            => $this->inicia,
+                'finaliza'          => $this->finaliza
+            ]);
 
-        $this->actual=$nueva;
+            $this->actual=$nueva;
 
 
-        $this->dispatch('alerta', name:'Se ha creado correctamente la lista: '.$this->name);
-        $this->resetFields();
+            $this->dispatch('alerta', name:'Se ha creado correctamente la lista: '.$this->name);
+            $this->resetFields();
 
-        //refresh
-        $this->dispatch('refresh');
-        $this->valores();
+            //refresh
+            $this->dispatch('refresh');
+            $this->valores();
+        }else{
+            $this->dispatch('alerta', name:'La fecha de inicio debe ser menor a la fecha de finalización.');
+        }
+
     }
 
     public function edit(){
@@ -155,15 +165,32 @@ class ListaModificar extends Component
             'is_modifica',
             'detalle'
         );
+        $this->valores();
     }
 
     public function detalles(){
         $this->cargados=ListaDetalle::where('lista_id', $this->actual->id)
                                         ->get();
+
+        $this->clientes();
+    }
+
+    public function clientes(){
+        $this->empresas=ListaEmpresa::where('lista_id', $this->actual->id)
+                                        ->orderBy('empresa', 'ASC')
+                                        ->get();
+    }
+
+    private function remitentes(){
+        return Empresa::where('status', true)
+                        ->orderBy('name', 'ASC')
+                        ->get();
     }
 
     public function render()
     {
-        return view('livewire.facturacion.lista.lista-modificar');
+        return view('livewire.facturacion.lista.lista-modificar',[
+            'remitentes'    =>$this->remitentes()
+        ]);
     }
 }

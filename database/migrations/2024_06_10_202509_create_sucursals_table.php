@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sucursals', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name')->unique()->comment('nombre de la sucursal');
+            $table->string('name')->comment('nombre de la sucursal');
             $table->string('direccion')->comment('dirección de la sucursal');
             $table->boolean('status')->default(true)->comment('false Inactivo, true Activo');
 

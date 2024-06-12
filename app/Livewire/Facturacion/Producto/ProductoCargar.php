@@ -93,6 +93,15 @@ class ProductoCargar extends Component
         $this->dispatch('volviendo');
     }
 
+    public function eliminar(){
+
+        $this->actual->delete();
+        $this->dispatch('alerta', name:'El producto: '.$this->actual->producto->name.' se elimino de esta lista. ');
+        //refresh
+        $this->dispatch('refresh');
+        $this->dispatch('volviendo');
+    }
+
     public function render()
     {
         return view('livewire.facturacion.producto.producto-cargar');

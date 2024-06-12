@@ -5,7 +5,6 @@ namespace App\Models\Facturacion;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Lista extends Model
@@ -16,7 +15,7 @@ class Lista extends Model
 
     /**
      * Relación uno a muchos.
-     * sucursales a Empresas
+     * detalles de la lista
      */
     public function detalles() : HasMany
     {
@@ -24,12 +23,12 @@ class Lista extends Model
     }
 
     /**
-     * Relación muchos a muchos.
-     * listas por empresa
+     * Relación uno a muchos.
+     * clientes con esta lista
      */
-    public function mensajeros() : BelongsToMany
+    public function empresas() : HasMany
     {
-        return $this->belongsToMany(Empresa::class);
+        return $this->hasMany(ListaEmpresa::class);
     }
 
 

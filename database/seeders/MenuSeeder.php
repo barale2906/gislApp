@@ -100,7 +100,7 @@ class MenuSeeder extends Seeder
                     'ruta'              => 'facturacion.listas',
                     'identificaRuta'    => 'facturacion.listas',
                     'name'              => 'Listas Precio',
-                    'icono'             => 'fa-solid fa-building',
+                    'icono'             => 'fa-solid fa-money-bill',
                     'menu_id'           => $m4->id
                 ]);
 
@@ -109,7 +109,7 @@ class MenuSeeder extends Seeder
                     'ruta'              => 'facturacion.productos',
                     'identificaRuta'    => 'facturacion.productos',
                     'name'              => 'Productos',
-                    'icono'             => 'fa-solid fa-building',
+                    'icono'             => 'fa-solid fa-handshake',
                     'menu_id'           => $m4->id
                 ]);
 

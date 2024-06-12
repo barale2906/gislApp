@@ -56,7 +56,7 @@
                 <tbody>
                     @foreach ($productos as $item)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <th scope="row" class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
                                 <div class="inline-flex rounded-md shadow-sm" role="group">
 
@@ -78,11 +78,11 @@
                                     @endif
                                 </div>
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white uppercase">
+                            <th scope="row" class="px-2 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                 {{$item->name}}
                             </th>
 
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white capitalize">
+                            <th scope="row" class="px-2 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                 @switch($item->tipo)
                                     @case(1)
                                         Entrega por evento
@@ -92,7 +92,7 @@
                                         @break
                                 @endswitch
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
+                            <th scope="row" class="px-2 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                 {{$item->descripcion}}
                             </th>
                         </tr>

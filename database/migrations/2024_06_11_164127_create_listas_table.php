@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('inicia')->comment('Inicia la vigencia de esta lista');
             $table->date('finaliza')->comment('Finaliza la vigencia');
             $table->longText('descripcion')->comment('Datos importantes de la lista');
-            $table->boolean('status')->default(true)->comment('false Inactivo, true Activo');
+            $table->integer('status')->default(1)->comment('1 proceso, 2 aprobada, 3 vigente, 4 obsoleta');
             $table->timestamps();
         });
     }
