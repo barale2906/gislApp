@@ -75,6 +75,7 @@ class Productos extends Component
     public function updatedIsCreating(){
         $this->is_modify = !$this->is_modify;
         $this->is_creating = !$this->is_creating;
+        $this->tipo=0;
     }
 
     #[On('limpiando')]
