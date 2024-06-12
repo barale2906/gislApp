@@ -98,7 +98,7 @@
                         <tbody>
                             @foreach ($cargados as $item)
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <th scope="row" class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
                                         <div class="inline-flex rounded-md shadow-sm" role="group">
                                             @can('fa_listamodify')
@@ -108,10 +108,10 @@
                                             @endcan
                                         </div>
                                     </th>
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white uppercase">
+                                    <th scope="row" class="px-2 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                         {{$item->producto->name}}
                                     </th>
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white capitalize">
+                                    <th scope="row" class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white capitalize">
                                         $ {{number_format($item->precio, 0, '.', ' ')}}
                                     </th>
                                 </tr>
@@ -122,48 +122,92 @@
             </div>
 
             <div class=" ring-neutral-500 rounded-lg ring-2 p-2 mt-2 mb-2 mr-2">
-                <h1 class=" text-center font-semibold">Clientes Asignados</h1>
-                @if ($is_modifica)
-                    <livewire:facturacion.producto.producto-cargar :actual="$detalle"/>
-                @else
-                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">
+                <h1 class=" text-center font-semibold">
+                    Clientes Asignados
+                    <button wire:click.prevent="show(0,2)" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-green-900 bg-gradient-to-r from-green-300 via-green-400 to-green-500 border border-green-900 rounded-lg hover:bg-green-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-green-500 focus:bg-green-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-green-700 dark:focus:bg-green-700">
+                        <i class="fa-solid fa-upload"></i>
+                    </button>
+                </h1>
+                @switch($is_empresas)
+                    @case(1)
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
 
-                                </th>
-                                <th scope="col" class="px-6 py-3" >
-                                    CLIENTE
-                                </th>
-                                <th scope="col" class="px-6 py-3" >
-                                    DESCUENTO
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($empresas as $item)
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-
-                                        <div class="inline-flex rounded-md shadow-sm" role="group">
-                                            @can('fa_listamodify')
-                                                <button wire:click.prevent="show({{$item->id}},{{1}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 border border-blue-900 rounded-lg hover:bg-blue-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-blue-700 dark:focus:bg-blue-700">
-                                                    <i class="fa-solid fa-marker"></i>
-                                                </button>
-                                            @endcan
-                                        </div>
                                     </th>
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white uppercase">
-                                        {{$item->empresa}}
+                                    <th scope="col" class="px-6 py-3" >
+                                        CLIENTE
                                     </th>
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white capitalize">
-                                        {{number_format($item->precio, 0, '.', ' ')}} %
+                                    <th scope="col" class="px-6 py-3" >
+                                        DESCUENTO
                                     </th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                @endif
+                            </thead>
+                            <tbody>
+                                @foreach ($empresas as $item)
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200">
+                                        <th scope="row" class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+
+                                            <div class="inline-flex rounded-md shadow-sm" role="group">
+                                                @can('fa_listamodify')
+                                                    <button wire:click.prevent="show({{$item->id}},{{1}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 border border-blue-900 rounded-lg hover:bg-blue-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-blue-700 dark:focus:bg-blue-700">
+                                                        <i class="fa-solid fa-marker"></i>
+                                                    </button>
+                                                @endcan
+                                            </div>
+                                        </th>
+                                        <th scope="row" class="px-2 py-4 font-medium text-gray-900  dark:text-white capitalize">
+                                            {{$item->empresa}}
+                                        </th>
+                                        <th scope="row" class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white capitalize">
+                                            {{number_format($item->descuento, 0, '.', ' ')}} %
+                                        </th>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @break
+                    @case(2)
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+
+                                    </th>
+                                    <th scope="col" class="px-6 py-3" >
+                                        CLIENTE
+                                        <button wire:click.prevent="$dispatch('volviendo')" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-green-900 bg-gradient-to-r from-green-300 via-green-400 to-green-500 border border-green-900 rounded-lg hover:bg-green-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-green-500 focus:bg-green-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-green-700 dark:focus:bg-green-700">
+                                            <i class="fa-solid fa-left-long"></i>
+                                        </button>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($remitentes as $item)
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200">
+                                        <th scope="row" class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+
+                                            <div class="inline-flex rounded-md shadow-sm" role="group">
+                                                @can('fa_listamodify')
+                                                    <button wire:click.prevent="show({{$item->id}},{{3}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-green-900 bg-gradient-to-r from-green-300 via-green-400 to-green-500 border border-green-900 rounded-lg hover:bg-green-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-green-500 focus:bg-green-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-green-700 dark:focus:bg-green-700">
+                                                        <i class="fa-solid fa-upload"></i>
+                                                    </button>
+                                                @endcan
+                                            </div>
+                                        </th>
+                                        <th scope="row" class="px-2 py-4 font-medium text-gray-900  dark:text-white capitalize">
+                                            {{$item->name}}
+                                        </th>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @break
+                    @case(3)
+                        <livewire:facturacion.empresa.empresa-precio :lista="$lista" :empresa="$remit"/>
+                        @break
+                @endswitch
             </div>
         </div>
 

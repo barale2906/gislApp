@@ -24,9 +24,11 @@ class ListaModificar extends Component
     public $detalle;
     public $cargados;
     public $empresas;
+    public $remit;
     public $tipo;
 
     public $is_modifica=false;
+    public $is_empresas=1;
 
     protected $listeners = ['refresh' => '$refresh'];
 
@@ -150,10 +152,20 @@ class ListaModificar extends Component
     }
 
     public function show($id,$est){
+
         switch ($est) {
             case '1':
                 $this->detalle=$id;
                 $this->is_modifica=!$this->is_modifica;
+                break;
+
+            case '2':
+                $this->is_empresas=2;
+                break;
+
+            case '3':
+                $this->is_empresas=3;
+                $this->remit=$id;
                 break;
         }
 
@@ -163,9 +175,19 @@ class ListaModificar extends Component
     public function volver(){
         $this->reset(
             'is_modifica',
-            'detalle'
+            'detalle',
+            'remit',
+            'is_empresas'
         );
         $this->valores();
+    }
+
+    #[On('remitiendo')]
+    public function remitir(){
+        $this->reset(
+            'remit'
+        );
+        $this->is_empresas=2;
     }
 
     public function detalles(){

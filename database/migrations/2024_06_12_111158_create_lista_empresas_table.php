@@ -24,7 +24,7 @@ return new class extends Migration
 
             $table->double('descuento')->default(0)->comment('descuento aplicable al cliente');
 
-            $table->integer('status')->default(1)->comment('1 proceso, 2 aprobada, 3 vigente, 4 obsoleta');
+            $table->integer('status')->default(1)->comment('0 obsoleta, 1 proceso, 2 aprobada, 3 vigente');
 
             $table->timestamps();
         });
