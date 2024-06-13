@@ -151,8 +151,9 @@
 
                                             <div class="inline-flex rounded-md shadow-sm" role="group">
                                                 @can('fa_listamodify')
-                                                    <button wire:click.prevent="show({{$item->id}},{{1}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 border border-blue-900 rounded-lg hover:bg-blue-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-blue-700 dark:focus:bg-blue-700">
-                                                        <i class="fa-solid fa-marker"></i>
+
+                                                    <button wire:click.prevent="elimremi({{$item->id}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-red-900 bg-gradient-to-r from-red-300 via-red-400 to-red-500 border border-red-900 rounded-lg hover:bg-red-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-red-500 focus:bg-red-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-red-700 dark:focus:bg-red-700">
+                                                        <i class="fa-solid fa-trash-can"></i>
                                                     </button>
                                                 @endcan
                                             </div>
@@ -160,7 +161,7 @@
                                         <th scope="row" class="px-2 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                             {{$item->empresa}}
                                         </th>
-                                        <th scope="row" class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white capitalize">
+                                        <th scope="row" class="px-2 py-4 font-medium text-gray-900 text-center whitespace-nowrap dark:text-white capitalize">
                                             {{number_format($item->descuento, 0, '.', ' ')}} %
                                         </th>
                                     </tr>
@@ -190,7 +191,7 @@
 
                                             <div class="inline-flex rounded-md shadow-sm" role="group">
                                                 @can('fa_listamodify')
-                                                    <button wire:click.prevent="show({{$item->id}},{{3}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-green-900 bg-gradient-to-r from-green-300 via-green-400 to-green-500 border border-green-900 rounded-lg hover:bg-green-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-green-500 focus:bg-green-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-green-700 dark:focus:bg-green-700">
+                                                    <button wire:click.prevent="show({{$item->id}},{{4}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-green-900 bg-gradient-to-r from-green-300 via-green-400 to-green-500 border border-green-900 rounded-lg hover:bg-green-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-green-500 focus:bg-green-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-green-700 dark:focus:bg-green-700">
                                                         <i class="fa-solid fa-upload"></i>
                                                     </button>
                                                 @endcan
@@ -200,12 +201,30 @@
                                             {{$item->name}}
                                         </th>
                                     </tr>
+                                    @if ($item->id===$remit)
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200">
+                                            <th scope="row" class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                <div class="relative z-0 w-full mb-5 group">
+                                                    <input wire:model="descuento" name="descuento" id="descuento" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                                    <label for="descuento" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Descuento ( % )</label>
+                                                </div>
+                                            </th>
+                                            <th scope="row" class="px-2 py-4 font-medium text-gray-900  dark:text-white capitalize">
+                                                <div class="inline-flex rounded-md shadow-sm" role="group">
+                                                    <button wire:click.prevent="show({{$item->id}},{{3}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-green-900 bg-gradient-to-r from-green-300 via-green-400 to-green-500 border border-green-900 rounded-lg hover:bg-green-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-green-500 focus:bg-green-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-green-700 dark:focus:bg-green-700">
+                                                        <i class="fa-solid fa-upload"></i>
+                                                    </button>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    @endif
+
                                 @endforeach
                             </tbody>
                         </table>
                         @break
                     @case(3)
-                        <livewire:facturacion.empresa.empresa-precio :lista="$lista" :empresa="$remit"/>
+                        <livewire:facturacion.lista.lista-cliente :lista="$lista" :empresa="$remit" :descuento="$descuento"/>
                         @break
                 @endswitch
             </div>

@@ -25,6 +25,7 @@ class ListaModificar extends Component
     public $cargados;
     public $empresas;
     public $remit;
+    public $descuento;
     public $tipo;
 
     public $is_modifica=false;
@@ -165,6 +166,9 @@ class ListaModificar extends Component
 
             case '3':
                 $this->is_empresas=3;
+                break;
+
+            case '4':
                 $this->remit=$id;
                 break;
         }
@@ -185,7 +189,8 @@ class ListaModificar extends Component
     #[On('remitiendo')]
     public function remitir(){
         $this->reset(
-            'remit'
+            'remit',
+            'descuento'
         );
         $this->is_empresas=2;
     }
@@ -201,6 +206,14 @@ class ListaModificar extends Component
         $this->empresas=ListaEmpresa::where('lista_id', $this->actual->id)
                                         ->orderBy('empresa', 'ASC')
                                         ->get();
+    }
+
+    public function elimremi($id){
+        $rec=ListaEmpresa::where('id',$id)
+                    ->delete();
+
+        $this->dispatch('alerta', name:'Se elimino del listado');
+        $this->volver();
     }
 
     private function remitentes(){
