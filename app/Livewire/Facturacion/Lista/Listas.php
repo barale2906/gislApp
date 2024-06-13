@@ -25,8 +25,8 @@ class Listas extends Component
     public $filtroTerminahas;
     public $filtroTermina=[];
 
-    public $ordena='id';
-    public $ordenado='ASC';
+    public $ordena='inicia';
+    public $ordenado='DESC';
     public $pages = 15;
 
     public $is_modify = true;

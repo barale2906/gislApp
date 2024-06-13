@@ -209,11 +209,30 @@ class ListaModificar extends Component
     }
 
     public function elimremi($id){
-        $rec=ListaEmpresa::where('id',$id)
+        ListaEmpresa::where('id',$id)
                     ->delete();
 
         $this->dispatch('alerta', name:'Se elimino del listado');
         $this->volver();
+    }
+
+    public function aprobar($id){
+
+        $this->actual->update([
+            'status'=>$id
+        ]);
+
+        ListaEmpresa::where('lista_id',$this->lista)->update([
+            'status'=>$id
+        ]);
+
+        if($id===0){
+            $this->dispatch('alerta', name:'Se actualizo la lista');
+            $this->dispatch('cancelando');
+        }else{
+            $this->dispatch('alerta', name:'Se actualizo la lista');
+            $this->valores();
+        }
     }
 
     private function remitentes(){
