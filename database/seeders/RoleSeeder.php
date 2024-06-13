@@ -188,6 +188,12 @@ class RoleSeeder extends Seeder
                     'modulo'=>'Facturacion'
                     ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
 
+        Permission::create([
+                        'name'=>'fa_facturamodify',
+                        'descripcion'=>'modificar facturas.',
+                        'modulo'=>'Facturacion'
+                    ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+
 
         Permission::create([
             'name'=>'PESV',

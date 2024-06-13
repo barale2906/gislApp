@@ -9,9 +9,9 @@
                         <th scope="col" class="px-6 py-3">
 
                         </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('id')">
-                            ID
-                            @if ($ordena != 'id')
+                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('numero')">
+                            NÚMERO
+                            @if ($ordena != 'numero')
                                 <i class="fas fa-sort"></i>
                             @else
                                 @if ($ordenado=='ASC')
@@ -21,21 +21,9 @@
                                 @endif
                             @endif
                         </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('nit')">
-                            NIT
-                            @if ($ordena != 'nit')
-                                <i class="fas fa-sort"></i>
-                            @else
-                                @if ($ordenado=='ASC')
-                                    <i class="fas fa-sort-up"></i>
-                                @else
-                                    <i class="fas fa-sort-down"></i>
-                                @endif
-                            @endif
-                        </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('name')">
+                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('empresa')">
                             EMPRESA
-                            @if ($ordena != 'name')
+                            @if ($ordena != 'empresa')
                                 <i class="fas fa-sort"></i>
                             @else
                                 @if ($ordenado=='ASC')
@@ -45,9 +33,9 @@
                                 @endif
                             @endif
                         </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('telefono')">
-                            TELÉFONO
-                            @if ($ordena != 'telefono')
+                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('total')">
+                            TOTAL
+                            @if ($ordena != 'total')
                                 <i class="fas fa-sort"></i>
                             @else
                                 @if ($ordenado=='ASC')
@@ -57,9 +45,9 @@
                                 @endif
                             @endif
                         </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('direccion')">
-                            DIRECCIÓN
-                            @if ($ordena != 'direccion')
+                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('descuento')">
+                            DESCUENTO
+                            @if ($ordena != 'descuento')
                                 <i class="fas fa-sort"></i>
                             @else
                                 @if ($ordenado=='ASC')
@@ -69,33 +57,9 @@
                                 @endif
                             @endif
                         </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('contacto')">
-                            CONTACTO
-                            @if ($ordena != 'contacto')
-                                <i class="fas fa-sort"></i>
-                            @else
-                                @if ($ordenado=='ASC')
-                                    <i class="fas fa-sort-up"></i>
-                                @else
-                                    <i class="fas fa-sort-down"></i>
-                                @endif
-                            @endif
-                        </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('email')">
-                            CORREO ELECTRÓNICO
-                            @if ($ordena != 'email')
-                                <i class="fas fa-sort"></i>
-                            @else
-                                @if ($ordenado=='ASC')
-                                    <i class="fas fa-sort-up"></i>
-                                @else
-                                    <i class="fas fa-sort-down"></i>
-                                @endif
-                            @endif
-                        </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('email_facturacion')">
-                            CORREO ELECTRÓNICO FACTURACIÓN
-                            @if ($ordena != 'email_facturacion')
+                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('observaciones')">
+                            OBSERVACIONES
+                            @if ($ordena != 'observaciones')
                                 <i class="fas fa-sort"></i>
                             @else
                                 @if ($ordenado=='ASC')
@@ -108,12 +72,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($empresas as $item)
+                    @foreach ($facturas as $item)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
                                 <div class="inline-flex rounded-md shadow-sm" role="group">
-                                    @can('fa_empresamodify')
+                                    @can('fa_facturamodify')
                                         @if ($item->status===1)
                                             <button wire:click.prevent="show({{$item->id}},{{1}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 border border-blue-900 rounded-s-lg hover:bg-blue-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-blue-700 dark:focus:bg-blue-700">
                                                 <i class="fa-solid fa-marker"></i>
@@ -126,29 +90,20 @@
                                 </div>
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$item->id}}
+                                {{$item->numero}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white capitalize">
-                                {{$item->nit}}
+                                {{$item->empresa}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white uppercase">
-                                {{$item->name}}
+                                {{$item->total}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                {{$item->telefono}}
+                                {{$item->descuento}}
                             </th>
 
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white capitalize">
-                                {{$item->direccion}}
-                            </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                {{$item->contacto}}
-                            </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                {{$item->email}}
-                            </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                {{$item->email_facturacion}}
+                                {{$item->observaciones}}
                             </th>
                         </tr>
                     @endforeach
@@ -168,7 +123,7 @@
                     </label>
                 </div>
                 <div>
-                    {{ $empresas->links() }}
+                    {{ $facturas->links() }}
                 </div>
             </div>
         </div>

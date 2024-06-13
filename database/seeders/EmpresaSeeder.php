@@ -89,5 +89,116 @@ class EmpresaSeeder extends Seeder
             'created_at'    =>now(),
             'updated_at'    =>now()
             ]);
+
+            $empr1=Empresa::create([
+                'nit'               => '900800698',
+                'name'              => 'Innovate Medical Devices S.A.S.',
+                'direccion'         => 'Carrera 7 B Bis # 126 - 36',
+                'telefono'          => '3003477199',
+                'contacto'          => 'Juan Colmenares',
+                'email'             => 'imd.colombia@yahoo.com',
+                'email_facturacion' => 'imd.colombia@yahoo.com',
+                'seguimiento'       =>true
+            ]);
+
+                //Asigna ciudad
+                DB::table('ciudad_empresa')->insert([
+                'ciudad_id'     =>1,
+                'empresa_id'    =>$empr1->id,
+                'created_at'    =>now(),
+                'updated_at'    =>now()
+                ]);
+
+                //Crear Sucursal
+                $sucu=Sucursal::create([
+                'name'      =>'principal',
+                'direccion' =>'Carrera 7 B Bis # 126 - 36',
+                'empresa_id'=>$empr1->id,
+                'ciudad_id' =>1
+                ]);
+
+                //Crear primer área de la sucursal
+                $area=Area::where('name', 'gerencia')->first();
+
+                DB::table('area_sucursal')->insert([
+                'area_id'       =>$area->id,
+                'sucursal_id'   =>$sucu->id,
+                'created_at'    =>now(),
+                'updated_at'    =>now()
+                ]);
+
+                $empr1=Empresa::create([
+                    'nit'               => '900346539',
+                    'name'              => 'Alear Colombia S.A.S.',
+                    'direccion'         => 'Av Calle 80 69-70 Bodega 36',
+                    'telefono'          => '601 7561643',
+                    'contacto'          => 'Lorena',
+                    'email'             => 'facturacion@alear.co',
+                    'email_facturacion' => 'facturacion@alear.co',
+                    'seguimiento'       =>true
+                ]);
+
+                    //Asigna ciudad
+                    DB::table('ciudad_empresa')->insert([
+                    'ciudad_id'     =>1,
+                    'empresa_id'    =>$empr1->id,
+                    'created_at'    =>now(),
+                    'updated_at'    =>now()
+                    ]);
+
+                    //Crear Sucursal
+                    $sucu=Sucursal::create([
+                    'name'      =>'principal',
+                    'direccion' =>'Av Calle 80 69-70 Bodega 36',
+                    'empresa_id'=>$empr1->id,
+                    'ciudad_id' =>1
+                    ]);
+
+                    //Crear primer área de la sucursal
+                    $area=Area::where('name', 'gerencia')->first();
+
+                    DB::table('area_sucursal')->insert([
+                    'area_id'       =>$area->id,
+                    'sucursal_id'   =>$sucu->id,
+                    'created_at'    =>now(),
+                    'updated_at'    =>now()
+                    ]);
+
+                    $empr1=Empresa::create([
+                        'nit'               => '900277244',
+                        'name'              => 'Helpharma S.A.S.',
+                        'direccion'         => 'Calle 31 13 A 51 Of 319',
+                        'telefono'          => '601 6052555',
+                        'contacto'          => 'dra. Tania Figueroa',
+                        'email'             => 'recepciontecnica@helpharma.com',
+                        'email_facturacion' => 'recepciontecnica@helpharma.com',
+                        'seguimiento'       =>true
+                    ]);
+
+                        //Asigna ciudad
+                        DB::table('ciudad_empresa')->insert([
+                        'ciudad_id'     =>1,
+                        'empresa_id'    =>$empr1->id,
+                        'created_at'    =>now(),
+                        'updated_at'    =>now()
+                        ]);
+
+                        //Crear Sucursal
+                        $sucu=Sucursal::create([
+                        'name'      =>'principal',
+                        'direccion' =>'Calle 31 13 A 51 Of 319',
+                        'empresa_id'=>$empr1->id,
+                        'ciudad_id' =>1
+                        ]);
+
+                        //Crear primer área de la sucursal
+                        $area=Area::where('name', 'gerencia')->first();
+
+                        DB::table('area_sucursal')->insert([
+                        'area_id'       =>$area->id,
+                        'sucursal_id'   =>$sucu->id,
+                        'created_at'    =>now(),
+                        'updated_at'    =>now()
+                        ]);
     }
 }

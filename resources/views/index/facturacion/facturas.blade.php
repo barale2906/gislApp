@@ -2,6 +2,6 @@
     @push('title')
         Gestión de Facturas
     @endpush
-    <livewire:facturacion.empresa.empresas />
+    <livewire:facturacion.factura.facturas />
 
 </x-registrado-layout>

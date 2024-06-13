@@ -39,6 +39,12 @@ trait FiltroTrait
             case 4:
                     $this->text='Buscar producto por nombre';
                     break;
+
+            case 5:
+                $this->text='Buscar por nombre, NIT, numero de factura, nombre de la lista de precios';
+                $this->is_inicia=!$this->is_inicia;
+                $this->is_termina=!$this->is_termina;
+                break;
         }
     }
 }

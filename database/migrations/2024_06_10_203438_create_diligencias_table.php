@@ -19,6 +19,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('empresa_id');
             $table->foreign('empresa_id')->references('id')->on('empresas');
+            $table->boolean('seguimiento')->default(false)->comment('false No se controlan las diligencias por Gisla, true se controlan las diligencias por Gisla, esta dado por el cliente');
 
             $table->integer('tipo')->default(1)->comment('1 interna, 2 externa, 3 A otras ciudades');
             $table->integer('dest_id')->nullable()->comment('id del usuario de destino interno');
@@ -40,7 +41,9 @@ return new class extends Migration
             $table->double('cobro')->nullable()->comment('Se registra el valor recibido del destinatario');
             $table->integer('guias')->nullable()->comment('Cantidad de vueltas registradas para su ejecución');
 
-            $table->integer('status')->default(1)->comment('1 creado, 2 asignado, 3 en proceso, 4 entregada destinatario, 5 ejecutada(cierro yo), 6 cerrada(cierra cliente), 7 legalizada mensajero, 8 facturada-prepagada, 9 Diligencia Cancelada, 10 Devolución, 11 Frecuente');
+            $table->integer('status')->default(1)->comment('1 creado, 2 asignado, 3 en proceso, 4 entregada destinatario, 5 ejecutada(cierro yo), 6 cerrada(cierra cliente), 7 legalizada mensajero, 8 Diligencia Cancelada, 9 Devolución, 10 Frecuente');
+            $table->integer('status_factura')->default(1)->comment('1 Sin facturar, 2 asignada a factura, 3 facturada, 4 prepagada');
+            $table->integer('numero_fac')->nullable()->comment('Numero de factura al que se le asigno');
 
 
             $table->timestamps();

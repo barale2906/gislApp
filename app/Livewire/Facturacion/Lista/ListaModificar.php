@@ -121,6 +121,7 @@ class ListaModificar extends Component
             ]);
 
             $this->actual=$nueva;
+            $this->tipo=1;
 
 
             $this->dispatch('alerta', name:'Se ha creado correctamente la lista: '.$this->name);
