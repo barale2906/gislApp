@@ -6,6 +6,7 @@ use App\Models\Configuracion\Area;
 use App\Models\Configuracion\Ciudad;
 use App\Models\Configuracion\Ubica;
 use App\Models\Diligencias\Diligencia;
+use App\Models\Facturacion\Empresa;
 use App\Models\Facturacion\Sucursal;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,7 @@ class DiligenciaModificar extends Component
     public $is_recibir=false;
 
     public $empresa_id;
+    public $seguimiento;
     public $sucursal_id;
     public $sucursal_dest;
     public $area_dest;
@@ -65,6 +67,7 @@ class DiligenciaModificar extends Component
         if($ubica){
             $this->ubicactual=$ubica;
             $this->ubica_id=$ubica->id;
+            $this->seguimiento=$ubica->seguimiento;
             $this->empresa_id=$ubica->empresa_id;
             $this->updatedEmpresaId();
         }
@@ -112,6 +115,9 @@ class DiligenciaModificar extends Component
     public function generaUbi(){
 
         $empuse=User::find(Auth::user()->id);
+        $seguimiento=Empresa::where('id',$this->empresa_id)
+                                ->select('seguimiento')
+                                ->first();
 
         //inactivar ubicaciones anteriores
         Ubica::where('user_id', Auth::user()->id)
@@ -128,6 +134,7 @@ class DiligenciaModificar extends Component
         if($existe){
             $this->ubica_id=$existe->id;
             $this->empresa_id=$existe->empresa_id;
+            $this->seguimiento=$existe->seguimiento;
             $existe->update([
                 'status'=>true
             ]);
@@ -140,7 +147,8 @@ class DiligenciaModificar extends Component
                 'empresa_id'=>      $this->empresa_id,
                 'sucursal_id'=>     $this->sucursal_id,
                 'area_id'=>         $this->area_id,
-                'user_id'=>         Auth::user()->id
+                'user_id'=>         Auth::user()->id,
+                'seguimiento'=>     $seguimiento->seguimiento
             ]);
 
             $empuse->update([
@@ -149,6 +157,7 @@ class DiligenciaModificar extends Component
 
             $this->ubica_id=$nueva->id;
             $this->empresa_id=$nueva->empresa_id;
+            $this->seguimiento=$nueva->seguimiento;
             $this->updatedEmpresaId();
         }
 
@@ -279,6 +288,7 @@ class DiligenciaModificar extends Component
                             'ciudad_id'         =>$this->ciudad_id,
                             'descripcion'       =>strtolower($this->descripcion),
                             'detalle'           =>strtolower($this->detalle),
+                            'seguimiento'       =>$this->seguimiento
                         ]);
 
 

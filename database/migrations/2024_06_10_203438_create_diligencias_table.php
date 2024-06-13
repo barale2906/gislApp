@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('empresa_id');
             $table->foreign('empresa_id')->references('id')->on('empresas');
-            $table->boolean('seguimiento')->default(false)->comment('false No se controlan las diligencias por Gisla, true se controlan las diligencias por Gisla, esta dado por el cliente');
+            $table->boolean('seguimiento')->default(true)->comment('false No se controlan las diligencias por Gisla, true se controlan las diligencias por Gisla, esta dado por el cliente');
 
             $table->integer('tipo')->default(1)->comment('1 interna, 2 externa, 3 A otras ciudades');
             $table->integer('dest_id')->nullable()->comment('id del usuario de destino interno');

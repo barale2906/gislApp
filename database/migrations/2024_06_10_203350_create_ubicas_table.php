@@ -27,7 +27,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->boolean('status')->default(true)->comment('false Inactivo, true Activo');
-            $table->boolean('seguimiento')->default(false)->comment('false No se controlan las diligencias por Gisla, true se controlan las diligencias por Gisla');
+            $table->boolean('seguimiento')->default(true)->comment('false No se controlan las diligencias por Gisla, true se controlan las diligencias por Gisla');
 
             $table->timestamps();
         });
