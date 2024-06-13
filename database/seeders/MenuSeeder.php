@@ -113,6 +113,15 @@ class MenuSeeder extends Seeder
                     'menu_id'           => $m4->id
                 ]);
 
+        Menu::create([
+                    'permiso'           => 'fa_facturas',
+                    'ruta'              => 'facturacion.facturas',
+                    'identificaRuta'    => 'facturacion.facturas',
+                    'name'              => 'Facturas',
+                    'icono'             => 'fa-solid fa-file-invoice-dollar',
+                    'menu_id'           => $m4->id
+                ]);
+
         $m5=Menu::create([
                     'name'              => 'FINANCIERA',
                     'identificaRuta'    => 'financiera.*',

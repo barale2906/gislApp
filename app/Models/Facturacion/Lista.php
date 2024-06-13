@@ -31,6 +31,15 @@ class Lista extends Model
         return $this->hasMany(ListaEmpresa::class);
     }
 
+    /**
+     * Relación uno a muchos.
+     * clientes con esta lista
+     */
+    public function facturas() : HasMany
+    {
+        return $this->hasMany(Factura::class);
+    }
+
 
     //Buscar
     public function scopeBuscar($query, $item){

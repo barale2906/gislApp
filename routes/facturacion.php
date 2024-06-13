@@ -12,5 +12,9 @@ Route::get('/listas', function () {
 
 Route::get('/productos', function () {
             return view('index.facturacion.productos');
-        })->middleware('can:fa_listas')->name('productos');
+        })->middleware('can:fa_productos')->name('productos');
+
+Route::get('/facturas', function () {
+            return view('index.facturacion.facturas');
+        })->middleware('can:fa_facturas')->name('facturas');
 

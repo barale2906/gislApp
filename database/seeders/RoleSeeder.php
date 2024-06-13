@@ -126,6 +126,7 @@ class RoleSeeder extends Seeder
                     'modulo'=>'financiera'
                     ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
 
+
         Permission::create([
                     'name'=>'Facturacion',
                     'descripcion'=>'ingreso al menú Facturacion',
@@ -182,7 +183,7 @@ class RoleSeeder extends Seeder
                     ])->syncRoles([$Superusuario,$Financiero]);
 
         Permission::create([
-                    'name'=>'fi_facturas',
+                    'name'=>'fa_facturas',
                     'descripcion'=>'listado de facturas.',
                     'modulo'=>'Facturacion'
                     ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
