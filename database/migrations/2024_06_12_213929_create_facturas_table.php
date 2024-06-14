@@ -20,7 +20,12 @@ return new class extends Migration
             $table->unsignedBigInteger('empresa_id');
             $table->foreign('empresa_id')->references('id')->on('empresas');
 
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->integer('numero')->nullable()->comment('numero de factura según la DIAN');
+            $table->date('fecha')->comment('Fecha de facturación');
+            $table->date('vencimiento')->comment('Fecha de vencimiento');
             $table->string('empresa')->comment('nombre de la empresa a quien se le factura');
             $table->double('total')->comments('total de la factura');
             $table->double('descuento')->comment('total descuento aplicado');

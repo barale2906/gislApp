@@ -66,12 +66,27 @@
 
                                 <div class="inline-flex rounded-md shadow-sm" role="group">
                                     @can('fa_listamodify')
+
                                         @if ($item->status>0)
                                             <button wire:click.prevent="show({{$item->id}},{{1}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 border border-blue-900 rounded-lg hover:bg-blue-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-blue-700 dark:focus:bg-blue-700">
                                                 <i class="fa-solid fa-marker"></i>
                                             </button>
+                                            @switch($item->status)
+                                                @case(1)
+                                                    <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">En proceso</span>
+                                                    @break
+                                                @case(2)
+                                                    <span class="bg-orange-100 text-orange-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-blue-300">Aprobada</span>
+
+                                                    @break
+
+                                                @case(3)
+                                                    <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Vigente</span>
+
+                                                    @break
+                                            @endswitch
                                         @else
-                                            Vencida
+                                            <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Vencida</span>
                                         @endif
                                     @endcan
                                 </div>

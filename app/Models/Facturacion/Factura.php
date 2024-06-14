@@ -2,6 +2,7 @@
 
 namespace App\Models\Facturacion;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -39,6 +40,15 @@ class Factura extends Model
     public function empresa() : BelongsTo
     {
         return $this->belongsTo(Empresa::class);
+    }
+
+    /**
+     * Relación uno a muchos inversa.
+     * Usuario creador de la factura
+     */
+    public function user() : BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     //Buscar

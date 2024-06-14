@@ -104,7 +104,8 @@ class ListaCliente extends Component
             'empresa_id'    => $this->seleccionado->id,
             'lista_id'      => $this->lista,
             'empresa'       => $this->seleccionado->name,
-            'descuento'     => $this->descuento
+            'descuento'     => $this->descuento,
+            'status'        => $this->actual->status
         ]);
 
         $this->dispatch('alerta', name:'Se asigno correctamente la empresa a esta lista');

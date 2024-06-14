@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Models\Configuracion\Ubica;
 use App\Models\Diligencias\Diligencia;
 use App\Models\Facturacion\Empresa;
+use App\Models\Facturacion\Factura;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -72,21 +73,30 @@ class User extends Authenticatable
     ];
 
     /**
-     * Relación muchos a muchos.
-     * Usuarios con empresas
-     */
-    public function empresas() : BelongsToMany
-    {
-        return $this->BelongsToMany(Empresa::class);
-    }
-
-    /**
      * Relación uno a muchos.
      * Usuarios con ubicaciones
      */
     public function ubicaciones() : HasMany
     {
         return $this->hasMany(Ubica::class);
+    }
+
+    /**
+     * Relación uno a muchos.
+     * Usuarios crea factura
+     */
+    public function facturas() : HasMany
+    {
+        return $this->hasMany(Factura::class);
+    }
+
+    /**
+     * Relación muchos a muchos.
+     * Usuarios con empresas
+     */
+    public function empresas() : BelongsToMany
+    {
+        return $this->BelongsToMany(Empresa::class);
     }
 
     /**

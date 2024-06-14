@@ -31,6 +31,7 @@ class Facturas extends Component
 
     public $is_modify = true;
     public $is_creating = false;
+    public $is_modificar = false;
 
     public $tipo;
     public $elegido;
@@ -70,6 +71,7 @@ class Facturas extends Component
         $this->reset(
                         'is_modify',
                         'is_creating',
+                        'is_modificar',
                         'tipo',
                         'elegido'
                     );
