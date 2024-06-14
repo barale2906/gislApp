@@ -33,6 +33,30 @@
                                 @endif
                             @endif
                         </th>
+                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('fecha')">
+                            FECHA
+                            @if ($ordena != 'fecha')
+                                <i class="fas fa-sort"></i>
+                            @else
+                                @if ($ordenado=='ASC')
+                                    <i class="fas fa-sort-up"></i>
+                                @else
+                                    <i class="fas fa-sort-down"></i>
+                                @endif
+                            @endif
+                        </th>
+                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('vencimiento')">
+                            VENCE
+                            @if ($ordena != 'vencimiento')
+                                <i class="fas fa-sort"></i>
+                            @else
+                                @if ($ordenado=='ASC')
+                                    <i class="fas fa-sort-up"></i>
+                                @else
+                                    <i class="fas fa-sort-down"></i>
+                                @endif
+                            @endif
+                        </th>
                         <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('total')">
                             TOTAL
                             @if ($ordena != 'total')
@@ -111,10 +135,16 @@
                                 {{$item->empresa}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white uppercase">
-                                {{$item->total}}
+                                {{$item->fecha}}
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                {{$item->descuento}}
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white uppercase">
+                                {{$item->vencimiento}}
+                            </th>
+                            <th scope="row" class="px-6 py-4 font-medium text-right text-gray-900  dark:text-white uppercase">
+                                $ {{number_format($item->total, 0, '.', ' ')}}
+                            </th>
+                            <th scope="row" class="px-6 py-4 text-right font-medium text-gray-900  dark:text-white capitalize">
+                                $ {{number_format($item->descuento, 0, '.', ' ')}}
                             </th>
 
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white capitalize">

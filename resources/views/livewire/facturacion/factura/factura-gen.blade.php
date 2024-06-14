@@ -19,6 +19,6 @@
         <livewire:facturacion.factura.factura-diligencia/>
     @endif
     @if ($is_items)
-        <livewire:facturacion.empresa.empresas-modificar :elegido="$elegido" :tipo="$tipo"/>
+        <livewire:facturacion.factura.factura-item/>
     @endif
 </div>
