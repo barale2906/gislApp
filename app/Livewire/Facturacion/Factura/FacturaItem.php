@@ -4,6 +4,7 @@ namespace App\Livewire\Facturacion\Factura;
 
 use App\Models\Diligencias\Diligencia;
 use App\Models\Facturacion\Empresa;
+use App\Models\Facturacion\Factura;
 use App\Models\Facturacion\ListaEmpresa;
 use App\Models\Facturacion\Producto;
 use Livewire\Component;
@@ -15,30 +16,55 @@ class FacturaItem extends Component
     public $productos;
     public $producto;
     public $cantidad;
+    public $factura;
 
     public function updatedCliente(){
 
-        $this->lista=ListaEmpresa::where('status', 3)
-                            ->where('empresa_id',$this->cliente)
-                            ->first();
+        $this->factura=Factura::where('empresa_id',$this->cliente)
+                                ->where('status', 2)
+                                ->first();
+
+        if($this->factura){
+            $this->fijas();
+        }else{
+
+        }
+
+
 
         if($this->lista){
             $this->productos=Producto::join('lista_detalles', 'productos.id', '=', 'lista_detalles.producto_id')
                                         ->where('lista_detalles.lista_id',$this->lista->lista_id)
                                         ->orderBy('productos.name', 'ASC')
                                         ->get();
+
+
         }else{
             $this->dispatch('alerta', name:'No tiene lista de precios.');
             $this->clean();
         }
+    }
 
+    public function fijas(){
+
+        $this->lista=ListaEmpresa::where('status', 3)
+                                    ->where('empresa_id',$this->cliente)
+                                    ->first();
+
+        $this->productos=Producto::join('lista_detalles', 'productos.id', '=', 'lista_detalles.producto_id')
+                                    ->where('lista_detalles.lista_id',$this->lista->lista_id)
+                                    ->orderBy('productos.name', 'ASC')
+                                    ->get();
+
+    }
+
+    public function new(){
 
     }
 
     public function clean(){
         $this->reset(
             'cliente',
-            'lista',
             'productos',
             'producto',
             'cantidad'
