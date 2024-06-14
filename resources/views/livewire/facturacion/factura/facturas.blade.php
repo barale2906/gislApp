@@ -78,15 +78,30 @@
 
                                 <div class="inline-flex rounded-md shadow-sm" role="group">
                                     @can('fa_facturamodify')
-                                        @if ($item->status===1)
+                                        @if ($item->status>2)
                                             <button wire:click.prevent="show({{$item->id}},{{1}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 border border-blue-900 rounded-s-lg hover:bg-blue-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-blue-700 dark:focus:bg-blue-700">
                                                 <i class="fa-solid fa-marker"></i>
                                             </button>
                                         @endif
-                                        <button wire:click.prevent="show({{$item->id}},{{2}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-yellow-900 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 border border-yellow-900 rounded-e-lg hover:bg-yellow-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-yellow-500 focus:bg-yellow-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-yellow-700">
-                                            <i class="fa-brands fa-creative-commons-sa"></i>
-                                        </button>
                                     @endcan
+
+                                    @switch($item->status)
+
+                                        @case(1)
+                                            <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Anulada</span>
+                                            @break
+                                        @case(2)
+                                            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Pagada</span>
+                                            @break
+                                        @case(3)
+                                            <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">En Proceso</span>
+                                            @break
+                                        @case(4)
+                                            <span class="bg-orange-100 text-orange-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-blue-300">Enviada</span>
+
+                                            @break
+                                    @endswitch
+
                                 </div>
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">

@@ -29,10 +29,10 @@
 
                         <div class="inline-flex rounded-md shadow-sm" role="group">
                             <button wire:click.prevent="cargar({{$item->id}},{{$item->empresa_id}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 border border-blue-900 rounded-s-lg hover:bg-blue-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-blue-700 dark:focus:bg-blue-700">
-                                <i class="fa-solid fa-marker"></i>
+                                <i class="fa-solid fa-check"></i>
                             </button>
-                            <button wire:click.prevent="show({{$item->id}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-yellow-900 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 border border-yellow-900 rounded-e-lg hover:bg-yellow-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-yellow-500 focus:bg-yellow-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-yellow-700">
-                                <i class="fa-brands fa-creative-commons-sa"></i>
+                            <button wire:click.prevent="desiste({{$item->id}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-red-900 bg-gradient-to-r from-red-300 via-red-400 to-red-500 border border-red-900 rounded-e-lg hover:bg-red-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-red-500 focus:bg-red-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-red-700">
+                                <i class="fa-solid fa-trash-can"></i>
                             </button>
                             <form class="max-w-3xl mx-auto">
                                 <div class="relative z-0 w-full mb-5 group">

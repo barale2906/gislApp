@@ -110,9 +110,15 @@ class FacturaDiligencia extends Component
         $this->clean();
     }
 
+    public function desiste($id){
+        Diligencia::where('id',$id)->update([
+            'status_factura'    =>5
+        ]);
+        $this->clean();
+    }
+
     public function clean(){
         $this->reset(
-            'produ',
             'dili',
             'listadetalle',
             'empr',
@@ -122,7 +128,7 @@ class FacturaDiligencia extends Component
 
     private function diligencias(){
 
-        return Diligencia::whereBetween('status', [1,8])
+        return Diligencia::whereBetween('status', [4,8])
                             ->where('status_factura', 1)
                             ->where('numero_fac', null)
                             ->where('seguimiento', true)
