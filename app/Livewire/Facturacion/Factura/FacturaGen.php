@@ -2,8 +2,6 @@
 
 namespace App\Livewire\Facturacion\Factura;
 
-use App\Models\Diligencias\Diligencia;
-use App\Models\Facturacion\Producto;
 use Livewire\Component;
 use Livewire\WithPagination;
 

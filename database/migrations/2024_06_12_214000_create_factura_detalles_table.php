@@ -24,7 +24,6 @@ return new class extends Migration
             $table->double('total')->comment('total por item');
             $table->double('descuento')->default(0)->comment('descuento unitario');
             $table->double('descuento_total')->default(0)->comment('descuento total');
-            $table->longText('observaciones')->nullable()->comment('anotaciones importantes');
 
             $table->timestamps();
         });

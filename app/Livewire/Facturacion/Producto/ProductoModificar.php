@@ -16,6 +16,8 @@ class ProductoModificar extends Component
     public $actual;
     public $tipo;
 
+    protected $listeners = ['refresh' => '$refresh'];
+
     public function mount($elegido=null, $tipo=null){
         if($elegido){
             $this->actual=Producto::find($elegido);

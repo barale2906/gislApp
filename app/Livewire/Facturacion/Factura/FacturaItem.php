@@ -5,18 +5,40 @@ namespace App\Livewire\Facturacion\Factura;
 use App\Models\Diligencias\Diligencia;
 use App\Models\Facturacion\Empresa;
 use App\Models\Facturacion\Factura;
+use App\Models\Facturacion\FacturaDetalle;
 use App\Models\Facturacion\ListaEmpresa;
 use App\Models\Facturacion\Producto;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class FacturaItem extends Component
 {
+    use WithFileUploads;
+
     public $cliente;
     public $lista;
-    public $productos;
-    public $producto;
-    public $cantidad;
+    public $elementos;
+    public $elepro;
+    public $unidades;
+    public $precio;
+    public $nombre_producto;
     public $factura;
+    public $detinf;
+    public $zip;
+    public $numerofactura;
+    public $status=3;
+
+    public $is_factura=false;
+    public $is_detalles=true;
+
+    public function mount($factura=null){
+        if($factura){
+            $this->factura=Factura::find($factura);
+            $this->status=$this->factura->status;
+        }
+    }
 
     public function updatedCliente(){
 
@@ -27,14 +49,20 @@ class FacturaItem extends Component
         if($this->factura){
             $this->fijas();
         }else{
-
+            $this->valida();
         }
+    }
 
+    public function valida(){
 
+        $this->lista=ListaEmpresa::where('status', 3)
+                                    ->where('empresa_id',$this->cliente)
+                                    ->first();
 
         if($this->lista){
-            $this->productos=Producto::join('lista_detalles', 'productos.id', '=', 'lista_detalles.producto_id')
+            $this->elementos=Producto::join('lista_detalles', 'productos.id', '=', 'lista_detalles.producto_id')
                                         ->where('lista_detalles.lista_id',$this->lista->lista_id)
+                                        ->select('productos.name', 'lista_detalles.producto_id', 'lista_detalles.precio')
                                         ->orderBy('productos.name', 'ASC')
                                         ->get();
 
@@ -49,27 +77,121 @@ class FacturaItem extends Component
 
         $this->lista=ListaEmpresa::where('status', 3)
                                     ->where('empresa_id',$this->cliente)
+                                    ->where('lista_id', $this->factura->lista_id)
                                     ->first();
 
-        $this->productos=Producto::join('lista_detalles', 'productos.id', '=', 'lista_detalles.producto_id')
+        $this->elementos=Producto::join('lista_detalles', 'productos.id', '=', 'lista_detalles.producto_id')
                                     ->where('lista_detalles.lista_id',$this->lista->lista_id)
+                                    ->select('productos.name', 'lista_detalles.producto_id', 'lista_detalles.precio')
                                     ->orderBy('productos.name', 'ASC')
                                     ->get();
 
+        $this->infodeta();
+
     }
 
-    public function new(){
+    public function infodeta(){
 
+        $this->detinf=DB::table('factura_detalles')
+                        ->where('factura_id', $this->factura->id)
+                        ->selectRaw('concepto, unitario, sum(cantidad) as cantidad, sum(total) as total, sum(descuento_total) as descuento_total')
+                        ->groupBy('concepto', 'unitario')
+                        ->orderBy('concepto', 'ASC')
+                        ->get();
+
+        $this->is_factura=!$this->is_factura;
+    }
+
+    /**
+     * Reglas de validación
+     */
+    protected $rules = [
+        'cliente'   => 'required',
+        'elepro'  => 'required',
+        'unidades'  => 'required'
+    ];
+
+    public function generar(){
+        // validate
+        $this->validate();
+
+        if($this->elementos->count()===0){
+            $this->elementos=Producto::join('lista_detalles', 'productos.id', '=', 'lista_detalles.producto_id')
+                                        ->where('lista_detalles.lista_id',$this->lista->lista_id)
+                                        ->select('productos.name', 'lista_detalles.producto_id', 'lista_detalles.precio')
+                                        ->orderBy('productos.name', 'ASC')
+                                        ->get();
+        }
+
+
+
+        foreach ($this->elementos as $value) {
+            if($value->producto_id===intval($this->elepro)){
+                $this->precio=$value->precio;
+                $this->nombre_producto=$value->name;
+            }
+        }
+
+        $total=$this->unidades*$this->precio;
+        $descuento=$this->precio*$this->lista->descuento/100;
+        $descuentoTotal=$descuento*$this->unidades;
+
+
+
+        $this->factura=Factura::create([
+            'lista_id'      => $this->lista->lista_id,
+            'empresa_id'    => $this->lista->empresa_id,
+            'empresa'       => $this->lista->empresa,
+            'total'         => $total,
+            'descuento'     => $descuentoTotal,
+            'user_id'       => Auth::user()->id,
+            'fecha'         => now(),
+            'vencimiento'   => now()
+        ]);
+
+        FacturaDetalle::create([
+            'factura_id'        =>$this->factura->id,
+            'concepto'          =>$this->nombre_producto,
+            'cantidad'          =>$this->unidades,
+            'unitario'          =>$this->precio,
+            'total'             =>$total,
+            'descuento'         =>$descuento,
+            'descuento_total'   =>$descuentoTotal,
+        ]);
+
+        $this->reset(
+            'elepro',
+            'unidades',
+            'precio',
+            'nombre_producto'
+        );
+        $this->infodeta();
+        $this->is_factura=!$this->is_factura;
     }
 
     public function clean(){
         $this->reset(
             'cliente',
-            'productos',
-            'producto',
-            'cantidad'
+            'elementos',
+            'elepro',
+            'unidades'
         );
     }
+
+    public function cargarzip(){
+
+        $nombre='public/facturas/'.$this->factura->id."-".uniqid().".".$this->zip->extension();
+        $this->zip->storeAs($nombre);
+
+            $this->factura->update([
+                'ruta'         => $nombre
+            ]);
+    }
+
+    public function numerGuarda(){
+
+    }
+
     private function clientes(){
         return Empresa::where('status', true)
                         ->get();
