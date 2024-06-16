@@ -32,8 +32,13 @@ class FacturaItem extends Component
     public $numerofactura;
     public $status=3;
 
-    public $is_factura=false;
     public $is_detalles=true;
+    public $is_factura=false;
+    public $is_aprobar=false;
+    public $is_eliminar=false;
+    public $is_cargazip=false;
+
+    protected $listeners = ['refresh' => '$refresh'];
 
     public function mount($factura=null){
         if($factura){
@@ -242,13 +247,91 @@ class FacturaItem extends Component
 
     }
 
+    public function aprobar(){
+        $this->is_aprobar=true;
+    }
+
+    public function cierrafactura(){
+
+        if($this->observaciones && $this->numerofactura){
+            //Actualizar factura
+
+            $this->factura->update([
+                'numero'        =>$this->numerofactura,
+                'status'        =>4,
+                'observaciones' =>$this->observaciones
+            ]);
+
+            //Actualizar diligencia sin requerimiento
+            Diligencia::where('seguimiento', false)
+                        ->where('empresa_id', $this->factura->empresa_id)
+                        ->where('status_factura',1)
+                        ->update([
+                            'status_factura'    =>3,
+                            'numero_fac'        =>$this->factura->id
+                        ]);
+
+            //Actualizar diligencias cargadas
+            Diligencia::where('numero_fac', $this->factura->id)
+                        ->update([
+                            'status_factura'    =>3
+                        ]);
+
+            $this->reset('observaciones','numerofactura');
+            $this->dispatch('alerta', name:'Se aprobo la factura, cargue el archivo de soporte.');
+            $this->infodeta();
+
+            $this->is_cargazip=true;
+        }else{
+            $this->dispatch('alerta', name:'El campo de observaciones y numero de factura son obligatorios');
+        }
+
+    }
+
+    public function activaelim(){
+        $this->is_eliminar=!$this->is_eliminar;
+    }
+
+    public function eliminafactura(){
+
+        //Liberar diligencias
+        Diligencia::where('numero_fac', $this->factura->id)
+                        ->update([
+                            'status_factura'    =>1,
+                            'numero_fac'        =>null
+                        ]);
+
+        //Eliminar detalles
+        FacturaDetalle::where('factura_id', $this->factura->id)
+                        ->delete();
+
+        //Eliminar factura
+        $this->factura->delete();
+
+        $this->dispatch('alerta', name:'Se elimino correctamente la factura.');
+        $this->dispatch('cancelando');
+    }
+
     public function delete($item){
+
         $this->factura->update([
             'total'         =>$this->factura->total-$item['total'],
             'descuento'     =>$this->factura->descuento-$item['descuento_total']
         ]);
 
-        FacturaDetalle::where('id',$item['id'])->delete();
+        $dato=FacturaDetalle::where('id',$item['id'])->first();
+
+        //Actualiza diligencias
+        if($dato->diligencia>0){
+            Diligencia::where('id', $dato->diligencia)->update([
+                'status_factura'    =>1,
+                'numero_fac'        =>null
+            ]);
+        }
+
+        //Eliminar
+        $dato->delete();
+
 
         if($this->elementos->count()===0){
             $this->elementos=Producto::join('lista_detalles', 'productos.id', '=', 'lista_detalles.producto_id')
@@ -328,6 +411,10 @@ class FacturaItem extends Component
         );
     }
 
+    public function muestrazip(){
+        $this->is_cargazip=!$this->is_cargazip;
+    }
+
     public function cargarzip(){
 
         $nombre='public/facturas/'.$this->factura->id."-".uniqid().".".$this->zip->extension();
@@ -336,10 +423,33 @@ class FacturaItem extends Component
             $this->factura->update([
                 'ruta'         => $nombre
             ]);
+
+            $this->dispatch('alerta', name:'Archvo cargado correctamente.');
+            $this->infodeta();
+
+        $this->is_cargazip=!$this->is_cargazip;
     }
 
-    public function numerGuarda(){
+    public function anulafactura(){
+        if($this->observaciones){
+            //Liberar diligencias
+            Diligencia::where('numero_fac', $this->factura->id)
+            ->update([
+                'status_factura'    =>1,
+                'numero_fac'        =>null
+            ]);
 
+            $this->factura->update([
+                'status'        =>4,
+                'observaciones' =>Auth::user()->name.' Anulo con: '.$this->observaciones.' ----- '.$this->factura->observaciones,
+            ]);
+
+
+            $this->dispatch('alerta', name:'Se anulo correctamente la factura.');
+            $this->dispatch('cancelando');
+        }else{
+            $this->dispatch('alerta', name:'Es necesario registrar observaciones');
+        }
     }
 
     private function clientes(){

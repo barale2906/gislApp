@@ -7,9 +7,6 @@
         <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full capitalize dark:bg-blue-900 dark:text-blue-300">{{$item->name}}</span>
     @endforeach
 
-    @if ($status===3)
-
-    @endif
     <div class="grid sm:grid-cols-1 md:grid-cols-4 gap-4 ring mt-5 mb-5 bg-orange-100 rounded-lg p-5">
 
         @if (!$is_factura)
@@ -32,7 +29,6 @@
 
         @if ($elementos)
             <div class="relative z-0 w-full mb-5 group">
-                {{$elepro}}
                 <select wire:model="elepro" id="elepro" class="block py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize">
                     <option>Elegir...</option>
                     @foreach ($elementos as $item)
@@ -66,7 +62,7 @@
                 @enderror
             </div>
         @endif
-        @if ($is_factura)
+        @if ($is_factura && $factura->status===3)
             <button type="button" wire:click.prevent="anexar()" class="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800">
                 Cargar
             </button>
@@ -94,6 +90,7 @@
 
     </div>
 
+
     @if ($is_factura)
 
         <div class="w-full p-4 text-center bg-green-50 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
@@ -102,9 +99,28 @@
             <div class="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="stats" role="tabpanel" aria-labelledby="stats-tab">
                 <dl class="grid max-w-screen-xl grid-cols-2 gap-6 p-4 mx-auto text-gray-900 sm:grid-cols-3 xl:grid-cols-6 dark:text-white sm:p-8">
                     <div class="flex flex-col items-center justify-center">
-                        <dt class="mb-2 md:text-2xl text-sm  font-extrabold">{{number_format($factura->numero, 0, '.', ' ')}} - <i class="fa-solid fa-download"></i></dt>
+                        <dt class="mb-2 md:text-2xl text-sm  font-extrabold">
+                            {{number_format($factura->numero, 0, '.', ' ')}} -
+                            @if (!$factura->ruta && $factura->status===4)
+                                <i class="fa-solid fa-upload " wire:click.prevent="muestrazip()" style="cursor: pointer;"></i>
+                            @endif
+                            @if ($factura->ruta && $factura->status===4)
+                                <a href="{{Storage::url($factura->ruta)}}" target="_blank">
+                                    <i class="fa-solid fa-download "></i>
+                                </a>
+                            @endif
+                        </dt>
                         <dd class="text-gray-500 dark:text-gray-400">Número</dd>
                     </div>
+                    @if ($is_cargazip)
+                        <div class="relative z-0 w-full mb-5 group">
+                            <input wire:model="zip" name="zip" id="zip" type="file" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                            <label for="zip" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Cargar archivo</label>
+                        </div>
+                        @if ($zip)
+                            <i class="fa-solid fa-upload " wire:click.prevent="cargarzip" style="cursor: pointer;"></i>
+                        @endif
+                    @endif
 
                     <div class="flex flex-col items-center justify-center">
                         <dt class="mb-2 md:text-2xl text-sm  font-extrabold">$ {{number_format($factura->total, 0, '.', ' ')}}</dt>
@@ -129,8 +145,8 @@
 
                 </dl>
             </div>
-            <p class="mb-5 text-base text-gray-500 sm:text-lg dark:text-gray-400">
-                {{$factura->observaciones}}
+            <p class="mb-5 text-base text-justify text-gray-500 sm:text-lg dark:text-gray-400 bg-white rounded-lg">
+                Observaciones: {{$factura->observaciones}}
             </p>
             <div class="w-full p-4 text-center bg-green-50 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
 
@@ -192,39 +208,66 @@
                 </table>
             </div>
             <div class="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
-                <a href="#" class="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
-                    <svg class="me-3 w-7 h-7" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="apple" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"></path></svg>
-                    <div class="text-left rtl:text-right">
-                        <div class="mb-1 text-xs">Download on the</div>
-                        <div class="-mt-1 font-sans text-sm font-semibold">Mac App Store</div>
-                    </div>
-                </a>
-                <a href="#" class="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
-                    <svg class="me-3 w-7 h-7" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google-play" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"></path></svg>
-                    <div class="text-left rtl:text-right">
-                        <div class="mb-1 text-xs">Get in on</div>
-                        <div class="-mt-1 font-sans text-sm font-semibold">Google Play</div>
-                    </div>
-                </a>
-                @if (!$factura->ruta)
-                    <div  class="w-full sm:w-auto bg-gray-600 hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-gray-100 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-gray-500 dark:hover:bg-gray-400 dark:focus:ring-gray-500">
-
+                @if ($factura->status===3)
+                    <a href="#" wire:click.prevent="aprobar()" class="w-full sm:w-auto bg-cyan-800 hover:bg-cyan-700 focus:ring-4 focus:outline-none focus:ring-cyan-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-cyan-700 dark:hover:bg-cyan-600 dark:focus:ring-cyan-700">
+                        <i class="fa-solid fa-file-circle-check"></i>
                         <div class="text-left rtl:text-right">
-                            <div class="relative z-0 w-full mb-5 group">
-                                <input wire:model="zip" type="file" name="zips" id="zip" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                                <label for="zip" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Cargar soporte</label>
-                                @error('zip')
-                                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                                        <span class="font-medium">¡IMPORTANTE!</span>  {{ $message }} .
-                                    </div>
-                                @enderror
-                            </div>
+                            <div class="mb-1 text-xs">¿Terminaste?</div>
+                            <div class="-mt-1 font-sans text-sm font-semibold">Aprobar Factura</div>
                         </div>
-                        @if ($zip)
-                            <i class="fa-solid fa-upload " wire:click.prevent="cargarzip" style="cursor: pointer;"></i>
-                        @endif
+                    </a>
+                    @if ($is_aprobar)
+                        <div class="relative z-0 w-full mb-5 group">
+                            <textarea wire:model="observaciones" name="observaciones" id="observaciones" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required></textarea>
+                            <label for="observaciones" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Observaciones de cierre</label>
+                        </div>
+                        <div class="relative z-0 w-full mb-5 group">
+                            <input wire:model="numerofactura" name="numerofactura" type="number" id="numerofactura" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                            <label for="numerofactura" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Número de Factura</label>
+                        </div>
+                        <a href="" wire:click.prevent="cierrafactura()">
+                            <button type="button"  class="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800">
+                                Aprobar
+                            </button>
+                        </a>
+                    @endif
+                @endif
+                @if ($factura->status===3)
+                    <a href="#" wire:click.prevent="activaelim()" class="w-full sm:w-auto bg-red-800 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-red-700 dark:hover:bg-red-600 dark:focus:ring-red-700">
+                        <i class="fa-solid fa-trash-can"></i>
+                        <div class="text-left rtl:text-right">
+                            <div class="mb-1 text-xs">Si no es lo que necesitas</div>
+                            <div class="-mt-1 font-sans text-sm font-semibold">Eliminar esta factura</div>
+                        </div>
+                    </a>
+                    @if ($is_eliminar)
+                        <a href="" wire:click.prevent="eliminafactura()">
 
-                    </div>
+                            <button type="button"  class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                                Eliminar
+                            </button>
+                        </a>
+                    @endif
+                @endif
+                @if ($factura->status===4)
+                    <a href="#" wire:click.prevent="activaelim()" class="w-full sm:w-auto bg-red-800 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-red-700 dark:hover:bg-red-600 dark:focus:ring-red-700">
+                        <i class="fa-solid fa-trash-can"></i>
+                        <div class="text-left rtl:text-right">
+                            <div class="mb-1 text-xs">No se facturo lo indicado</div>
+                            <div class="-mt-1 font-sans text-sm font-semibold">Anular esta factura</div>
+                        </div>
+                    </a>
+                    @if ($is_eliminar)
+                        <div class="relative z-0 w-full mb-5 group">
+                            <textarea wire:model="observaciones" name="observaciones" id="observaciones" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required></textarea>
+                            <label for="observaciones" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Observaciones de anulación</label>
+                        </div>
+                        <a href="" wire:click.prevent="anulafactura()">
+                            <button type="button"  class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                                Anular
+                            </button>
+                        </a>
+                    @endif
                 @endif
 
             </div>

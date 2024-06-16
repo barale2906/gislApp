@@ -25,8 +25,8 @@ class Facturas extends Component
     public $filtroTerminahas;
     public $filtroTermina=[];
 
-    public $ordena='numero';
-    public $ordenado='DESC';
+    public $ordena='status';
+    public $ordenado='ASC';
     public $pages = 15;
 
     public $is_modify = true;

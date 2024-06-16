@@ -26,7 +26,7 @@ class FacturaDiligencia extends Component
 
         $this->dili=Diligencia::find($item);
         $this->factura=Factura::where('empresa_id', $empresa)
-                                ->where('status', 2)
+                                ->where('status', 3)
                                 ->first();
 
         $this->empr=ListaEmpresa::where('empresa_id',$empresa)
@@ -70,6 +70,8 @@ class FacturaDiligencia extends Component
             'fecha'         =>now(),
             'vencimiento'   =>now()
         ]);
+
+        $this->cargadili();
     }
 
     public function cargadili(){
@@ -83,12 +85,14 @@ class FacturaDiligencia extends Component
             FacturaDetalle::create([
                 'factura_id'        =>$this->factura->id,
                 'diligencia'        =>$this->dili->id,
+                'producto_id'       =>$this->produ,
                 'concepto'          =>$this->listadetalle->producto->name,
                 'cantidad'          =>$this->dili->guias,
                 'unitario'          =>$this->listadetalle->precio,
                 'total'             =>$total,
                 'descuento'         =>$descuento,
                 'descuento_total'   =>$descuentoTotal,
+                'observaciones'     =>'Diligencia N°: '.$this->dili->id
             ]);
 
             //Actualiza datos de factura
