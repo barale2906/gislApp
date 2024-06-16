@@ -8,6 +8,7 @@ use App\Models\Facturacion\FacturaDetalle;
 use App\Models\Facturacion\ListaDetalle;
 use App\Models\Facturacion\ListaEmpresa;
 use App\Models\Facturacion\Producto;
+use App\Traits\DiligenciasTrait;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -15,6 +16,7 @@ use Livewire\WithPagination;
 class FacturaDiligencia extends Component
 {
     use WithPagination;
+    use DiligenciasTrait;
 
     public $produ;
     public $dili;
@@ -130,7 +132,7 @@ class FacturaDiligencia extends Component
         );
     }
 
-    private function diligencias(){
+    /* private function diligencias(){
 
         return Diligencia::whereBetween('status', [4,8])
                             ->where('status_factura', 1)
@@ -140,7 +142,7 @@ class FacturaDiligencia extends Component
                             ->orderBy('id', 'ASC')
                             ->paginate(15);
 
-    }
+    } */
 
     private function productos(){
 
@@ -152,8 +154,8 @@ class FacturaDiligencia extends Component
     public function render()
     {
         return view('livewire.facturacion.factura.factura-diligencia',[
-            'diligencias'   => $this->diligencias(),
-        'productos'         => $this->productos()
+            'diligencias'   => $this->gestionar(),
+            'productos'     => $this->productos()
         ]);
     }
 }
