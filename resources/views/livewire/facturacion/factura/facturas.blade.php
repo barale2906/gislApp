@@ -178,7 +178,7 @@
     @endif
 
     @if ($is_modificar)
-    <livewire:diligencia.diligencia.diligencia-modificar :elegido="$elegido" :tipo="$tipo"/>
+        <livewire:facturacion.factura.factura-item :factura="$factura"/>
     @endif
 
     @push('js')

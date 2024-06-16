@@ -32,7 +32,7 @@
 
         @if ($elementos)
             <div class="relative z-0 w-full mb-5 group">
-
+                {{$elepro}}
                 <select wire:model="elepro" id="elepro" class="block py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize">
                     <option>Elegir...</option>
                     @foreach ($elementos as $item)
@@ -47,7 +47,7 @@
                 @enderror
             </div>
             <div class="relative z-0 w-full mb-5 group">
-                <input wire:model="unidades" name="unidades" id="unidades" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                <input wire:model="unidades" name="unidades" type="number" id="unidades" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                 <label for="unidades" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Cantidad</label>
                 @error('unidades')
                     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
@@ -55,18 +55,38 @@
                     </div>
                 @enderror
             </div>
+
+            <div class="relative z-0 w-full mb-5 group">
+                <textarea wire:model="observaciones" name="observaciones" id="observaciones" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required></textarea>
+                <label for="observaciones" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Observaciones</label>
+                @error('observaciones')
+                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                        <span class="font-medium">¡IMPORTANTE!</span>  {{ $message }} .
+                    </div>
+                @enderror
+            </div>
         @endif
         @if ($is_factura)
-            <button type="button" wire:click.prevent="" class="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800">
+            <button type="button" wire:click.prevent="anexar()" class="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800">
                 Cargar
             </button>
-        @else
-            <a href="" wire:click.prevent="generar()">
+        @endif
+
+        @if ($idetalle)
+            <a href="" wire:click.prevent="modificar()">
                 <button type="button"  class="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800">
-                    Generar Si falso
+                    Modificar
                 </button>
             </a>
         @endif
+        @if(!$idetalle && !$is_factura)
+            <a href="" wire:click.prevent="generar()">
+                <button type="button"  class="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800">
+                    Generar
+                </button>
+            </a>
+        @endif
+
 
         <button type="button" wire:click.prevent="$dispatch('cancelando')" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
             Cancelar
@@ -210,85 +230,88 @@
             </div>
         </div>
 
-        @if ($is_detalles && $status===2)
-            <div class="w-full p-4 text-center bg-green-50 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <div class="w-full p-4 text-center bg-green-50 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
 
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
 
+                        </th>
+                        <th scope="col" class="px-6 py-3" >
+                            CONCEPTO
+                        </th>
+                        <th scope="col" class="px-6 py-3" >
+                            CANTIDAD
+                        </th>
+                        <th scope="col" class="px-6 py-3" >
+                            UNITARIO
+                        </th>
+                        <th scope="col" class="px-6 py-3" >
+                            SUB - TOTAL
+                        </th>
+                        <th scope="col" class="px-6 py-3" >
+                            DESCUENTO UNITARIO
+                        </th>
+                        <th scope="col" class="px-6 py-3" >
+                            DESCUENTO TOTAL
+                        </th>
+                        <th scope="col" class="px-6 py-3" >
+                            TOTAL NETO
+                        </th>
+                        <th scope="col" class="px-6 py-3" >
+                            OBSERVACIONES
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($factura->detalles as $item)
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200">
+                            <th scope="row" class="px-1 py-2 text-sm text-gray-900 dark:text-white">
+
+                                <div class="inline-flex rounded-md shadow-sm" role="group">
+                                    @can('fa_facturamodify')
+                                        @if ($factura->status===3)
+                                            <button wire:click.prevent="show({{$item->id}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 border border-blue-900 rounded-s-lg hover:bg-blue-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-blue-700 dark:focus:bg-blue-700">
+                                                <i class="fa-solid fa-marker"></i>
+                                            </button>
+                                            <button wire:click.prevent="delete({{$item}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-red-900 bg-gradient-to-r from-red-300 via-red-400 to-red-500 border border-red-900 rounded-e-lg hover:bg-red-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-red-500 focus:bg-red-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-red-700 dark:focus:bg-red-700">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        @endif
+                                    @endcan
+
+                                </div>
                             </th>
-                            <th scope="col" class="px-6 py-3" >
-                                CONCEPTO
+                            <th scope="row" class="px-1 py-2 text-sm text-gray-900 dark:text-white">
+                                {{$item->concepto}}
                             </th>
-                            <th scope="col" class="px-6 py-3" >
-                                CANTIDAD
+                            <th scope="row" class="px-1 py-2 text-sm text-center text-gray-900  dark:text-white uppercase">
+                                {{number_format($item->cantidad, 0, '.', ' ')}}
                             </th>
-                            <th scope="col" class="px-6 py-3" >
-                                UNITARIO
+                            <th scope="row" class="px-1 py-2 text-right text-sm text-gray-900  dark:text-white capitalize">
+                                $ {{number_format($item->unitario, 0, '.', ' ')}}
                             </th>
-                            <th scope="col" class="px-6 py-3" >
-                                SUB - TOTAL
+                            <th scope="row" class="px-1 py-2 text-right text-sm text-gray-900  dark:text-white capitalize">
+                                $ {{number_format($item->total, 0, '.', ' ')}}
                             </th>
-                            <th scope="col" class="px-6 py-3" >
-                                DESCUENTO UNITARIO
+                            <th scope="row" class="px-1 py-2 text-right text-sm text-gray-900  dark:text-white capitalize">
+                                $ {{number_format($item->descuento, 0, '.', ' ')}}
                             </th>
-                            <th scope="col" class="px-6 py-3" >
-                                DESCUENTO TOTAL
+                            <th scope="row" class="px-1 py-2 text-right text-sm text-gray-900  dark:text-white capitalize">
+                                $ {{number_format($item->descuento_total, 0, '.', ' ')}}
                             </th>
-                            <th scope="col" class="px-6 py-3" >
-                                TOTAL NETO
+                            <th scope="row" class="px-1 py-2 text-right text-sm text-gray-900  dark:text-white capitalize">
+                                $ {{number_format($item->total-$item->descuento_total, 0, '.', ' ')}}
                             </th>
-                            <th scope="col" class="px-6 py-3" >
-                                OBSERVACIONES
+                            <th scope="row" class="px-1 py-2 text-justify text-xs text-gray-900  dark:text-white capitalize">
+                                {{$item->observaciones}}
                             </th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($factura->detalles as $item)
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-
-                                    <div class="inline-flex rounded-md shadow-sm" role="group">
-                                        @can('fa_facturamodify')
-                                            @if ($item->status>2)
-                                                <button wire:click.prevent="show({{$item->id}},{{1}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 border border-blue-900 rounded-s-lg hover:bg-blue-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-blue-700 dark:focus:bg-blue-700">
-                                                    <i class="fa-solid fa-marker"></i>
-                                                </button>
-                                            @endif
-                                        @endcan
-
-                                    </div>
-                                </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{$item->concepto}}
-                                </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-center text-gray-900  dark:text-white uppercase">
-                                    {{number_format($item->cantidad, 0, '.', ' ')}}
-                                </th>
-                                <th scope="row" class="px-6 py-4 text-right font-medium text-gray-900  dark:text-white capitalize">
-                                    $ {{number_format($item->unitario, 0, '.', ' ')}}
-                                </th>
-                                <th scope="row" class="px-6 py-4 text-right font-medium text-gray-900  dark:text-white capitalize">
-                                    $ {{number_format($item->total, 0, '.', ' ')}}
-                                </th>
-                                <th scope="row" class="px-6 py-4 text-right font-medium text-gray-900  dark:text-white capitalize">
-                                    $ {{number_format($item->descuento, 0, '.', ' ')}}
-                                </th>
-                                <th scope="row" class="px-6 py-4 text-right font-medium text-gray-900  dark:text-white capitalize">
-                                    $ {{number_format($item->descuento_total, 0, '.', ' ')}}
-                                </th>
-                                <th scope="row" class="px-6 py-4 text-right font-medium text-gray-900  dark:text-white capitalize">
-                                    $ {{number_format($item->total-$item->descuento_total, 0, '.', ' ')}}
-                                </th>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @endif
-
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
     @endif
 </div>

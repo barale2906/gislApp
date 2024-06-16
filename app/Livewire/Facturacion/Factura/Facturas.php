@@ -34,7 +34,7 @@ class Facturas extends Component
     public $is_modificar = false;
 
     public $tipo;
-    public $elegido;
+    public $factura;
 
     protected $listeners = ['refresh' => '$refresh'];
 
@@ -73,7 +73,7 @@ class Facturas extends Component
                         'is_creating',
                         'is_modificar',
                         'tipo',
-                        'elegido'
+                        'factura'
                     );
     }
 
@@ -116,10 +116,10 @@ class Facturas extends Component
     //Modificar registro
     public function show($id, $est){
         $this->cancela();
-        $this->elegido=$id;
+        $this->factura=$id;
         $this->tipo=$est;
         $this->is_modify = !$this->is_modify;
-        $this->is_creating = !$this->is_creating;
+        $this->is_modificar = !$this->is_modificar;
     }
 
     private function facturas(){

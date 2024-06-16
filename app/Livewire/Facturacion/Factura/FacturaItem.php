@@ -22,8 +22,10 @@ class FacturaItem extends Component
     public $elementos;
     public $elepro;
     public $unidades;
+    public $observaciones;
     public $precio;
     public $nombre_producto;
+    public $idetalle;
     public $factura;
     public $detinf;
     public $zip;
@@ -37,14 +39,16 @@ class FacturaItem extends Component
         if($factura){
             $this->factura=Factura::find($factura);
             $this->status=$this->factura->status;
+            $this->fijas();
         }
     }
 
     public function updatedCliente(){
 
         $this->factura=Factura::where('empresa_id',$this->cliente)
-                                ->where('status', 2)
+                                ->where('status', 3)
                                 ->first();
+
 
         if($this->factura){
             $this->fijas();
@@ -76,7 +80,7 @@ class FacturaItem extends Component
     public function fijas(){
 
         $this->lista=ListaEmpresa::where('status', 3)
-                                    ->where('empresa_id',$this->cliente)
+                                    ->where('empresa_id',$this->factura->empresa_id)
                                     ->where('lista_id', $this->factura->lista_id)
                                     ->first();
 
@@ -86,6 +90,7 @@ class FacturaItem extends Component
                                     ->orderBy('productos.name', 'ASC')
                                     ->get();
 
+        $this->cliente=$this->factura->empresa_id;
         $this->infodeta();
 
     }
@@ -99,7 +104,8 @@ class FacturaItem extends Component
                         ->orderBy('concepto', 'ASC')
                         ->get();
 
-        $this->is_factura=!$this->is_factura;
+
+        $this->is_factura=true;
     }
 
     /**
@@ -123,8 +129,6 @@ class FacturaItem extends Component
                                         ->get();
         }
 
-
-
         foreach ($this->elementos as $value) {
             if($value->producto_id===intval($this->elepro)){
                 $this->precio=$value->precio;
@@ -135,8 +139,6 @@ class FacturaItem extends Component
         $total=$this->unidades*$this->precio;
         $descuento=$this->precio*$this->lista->descuento/100;
         $descuentoTotal=$descuento*$this->unidades;
-
-
 
         $this->factura=Factura::create([
             'lista_id'      => $this->lista->lista_id,
@@ -151,22 +153,161 @@ class FacturaItem extends Component
 
         FacturaDetalle::create([
             'factura_id'        =>$this->factura->id,
+            'producto_id'       =>$this->elepro,
             'concepto'          =>$this->nombre_producto,
             'cantidad'          =>$this->unidades,
             'unitario'          =>$this->precio,
             'total'             =>$total,
             'descuento'         =>$descuento,
             'descuento_total'   =>$descuentoTotal,
+            'observaciones'     =>$this->observaciones
         ]);
 
         $this->reset(
             'elepro',
             'unidades',
             'precio',
-            'nombre_producto'
+            'nombre_producto',
+            'observaciones'
         );
         $this->infodeta();
-        $this->is_factura=!$this->is_factura;
+    }
+
+    public function anexar(){
+
+        if($this->elementos->count()===0){
+            $this->elementos=Producto::join('lista_detalles', 'productos.id', '=', 'lista_detalles.producto_id')
+                                        ->where('lista_detalles.lista_id',$this->lista->lista_id)
+                                        ->select('productos.name', 'lista_detalles.producto_id', 'lista_detalles.precio')
+                                        ->orderBy('productos.name', 'ASC')
+                                        ->get();
+        }
+
+        foreach ($this->elementos as $value) {
+            if($value->producto_id===intval($this->elepro)){
+                $this->precio=$value->precio;
+                $this->nombre_producto=$value->name;
+            }
+        }
+
+        $total=$this->unidades*$this->precio;
+        $descuento=$this->precio*$this->lista->descuento/100;
+        $descuentoTotal=$descuento*$this->unidades;
+
+
+        FacturaDetalle::create([
+            'factura_id'        =>$this->factura->id,
+            'producto_id'       =>$this->elepro,
+            'concepto'          =>$this->nombre_producto,
+            'cantidad'          =>$this->unidades,
+            'unitario'          =>$this->precio,
+            'total'             =>$total,
+            'descuento'         =>$descuento,
+            'descuento_total'   =>$descuentoTotal,
+            'observaciones'     =>$this->observaciones
+        ]);
+
+
+        $this->factura->update([
+            'total'     =>$this->factura->total+$total,
+            'descuento' =>$this->factura->descuento+$descuentoTotal,
+        ]);
+
+        $this->reset(
+            'elepro',
+            'unidades',
+            'precio',
+            'nombre_producto',
+            'observaciones'
+        );
+        $this->infodeta();
+    }
+
+    public function show($item){
+
+        $this->idetalle         =FacturaDetalle::find($item);
+        $this->elepro           =$this->idetalle->producto_id;
+        $this->unidades         =$this->idetalle->cantidad;
+        $this->observaciones    =$this->idetalle->observaciones;
+
+        if($this->elementos->count()===0){
+            $this->elementos=Producto::join('lista_detalles', 'productos.id', '=', 'lista_detalles.producto_id')
+                                        ->where('lista_detalles.lista_id',$this->lista->lista_id)
+                                        ->select('productos.name', 'lista_detalles.producto_id', 'lista_detalles.precio')
+                                        ->orderBy('productos.name', 'ASC')
+                                        ->get();
+        }
+
+        $this->is_factura=false;
+
+    }
+
+    public function delete($item){
+        $this->factura->update([
+            'total'         =>$this->factura->total-$item['total'],
+            'descuento'     =>$this->factura->descuento-$item['descuento_total']
+        ]);
+
+        FacturaDetalle::where('id',$item['id'])->delete();
+        $this->infodeta();
+    }
+
+    public function modificar(){
+
+        $observaciones=Auth::user()->name.': '.$this->observaciones." ----- ".$this->idetalle->observaciones;
+
+        $this->factura->update([
+            'total'         =>$this->factura->total-$this->idetalle->total,
+            'descuento'     =>$this->factura->descuento-$this->idetalle->descuento_total
+        ]);
+
+        if($this->elementos->count()===0){
+            $this->elementos=Producto::join('lista_detalles', 'productos.id', '=', 'lista_detalles.producto_id')
+                                        ->where('lista_detalles.lista_id',$this->lista->lista_id)
+                                        ->select('productos.name', 'lista_detalles.producto_id', 'lista_detalles.precio')
+                                        ->orderBy('productos.name', 'ASC')
+                                        ->get();
+        }
+
+        foreach ($this->elementos as $value) {
+            if($value->producto_id===intval($this->elepro)){
+                $this->precio=$value->precio;
+                $this->nombre_producto=$value->name;
+            }
+        }
+
+        $total=$this->unidades*$this->precio;
+        $descuento=$this->precio*$this->lista->descuento/100;
+        $descuentoTotal=$descuento*$this->unidades;
+
+        $this->idetalle->update([
+            'factura_id'        =>$this->factura->id,
+            'producto_id'       =>$this->elepro,
+            'concepto'          =>$this->nombre_producto,
+            'cantidad'          =>$this->unidades,
+            'unitario'          =>$this->precio,
+            'total'             =>$total,
+            'descuento'         =>$descuento,
+            'descuento_total'   =>$descuentoTotal,
+            'observaciones'     =>$observaciones
+        ]);
+
+        $this->factura->update([
+            'total'     =>$this->factura->total+$total,
+            'descuento' =>$this->factura->descuento+$descuentoTotal,
+        ]);
+
+        $this->reset(
+            'elepro',
+            'unidades',
+            'precio',
+            'nombre_producto',
+            'observaciones',
+            'idetalle'
+        );
+
+        $this->infodeta();
+
     }
 
     public function clean(){
