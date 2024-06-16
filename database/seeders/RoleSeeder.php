@@ -20,6 +20,8 @@ class RoleSeeder extends Seeder
         $OperacionesEmpresa=Role::create(['name'=>'OperacionesEmpresa']);
         $Administrativo=Role::create(['name'=>'Administrativo']);
         $Auxiliar=Role::create(['name'=>'Auxiliar']);
+        $AdminEmpresa=Role::create(['name'=>'AdminEmpresa']);
+        $AuxEmpresa=Role::create(['name'=>'AuxEmpresa']);
         $Usuario=Role::create(['name'=>'Usuario']);
         $Mensajero=Role::create(['name'=>'Mensajero']);
 
@@ -94,19 +96,31 @@ class RoleSeeder extends Seeder
                     'name'=>'Diligencias',
                     'descripcion'=>'ingreso al menú diligencias',
                     'modulo'=>'diligencias'
-                    ])->syncRoles([$Superusuario,$Financiero,$OperacionesEmpresa,$OperacionesGeneral,$Auxiliar,$Administrativo,$Mensajero,$Usuario]);
+                    ])->syncRoles([$Superusuario,$Financiero,$OperacionesEmpresa,$OperacionesGeneral,$Auxiliar,$Administrativo, $AdminEmpresa,$AuxEmpresa,$Mensajero,$Usuario]);
 
         Permission::create([
                     'name'=>'di_diligencias',
                     'descripcion'=>'Ver listado de diligencias',
                     'modulo'=>'diligencias'
-                    ])->syncRoles([$Superusuario,$OperacionesEmpresa,$OperacionesGeneral,$Administrativo,$Auxiliar,$Mensajero,$Usuario]);
+                    ])->syncRoles([$Superusuario,$OperacionesEmpresa,$OperacionesGeneral,$Administrativo,$AdminEmpresa,$AuxEmpresa,$Auxiliar,$Mensajero,$Usuario]);
 
         Permission::create([
                     'name'=>'di_diligenciaModify',
                     'descripcion'=>'Crear y editar diligencias',
                     'modulo'=>'diligencias'
                     ])->syncRoles([$Superusuario,$OperacionesEmpresa,$OperacionesGeneral,$Administrativo,$Auxiliar,$Mensajero,$Usuario]);
+
+        Permission::create([
+                    'name'=>'di_diligestion',
+                    'descripcion'=>'Acceso a Menú de gestión de diligencias desde Principal',
+                    'modulo'=>'diligencias'
+                    ])->syncRoles([$Superusuario,$OperacionesGeneral,$Administrativo,$Auxiliar,$Mensajero]);
+
+        Permission::create([
+                    'name'=>'di_diligeModify',
+                    'descripcion'=>'Gestión de diligencias con los operadores',
+                    'modulo'=>'diligencias'
+                    ])->syncRoles([$Superusuario,$OperacionesGeneral,$Administrativo,$Auxiliar]);
 
         Permission::create([
                     'name'=>'Humana',
@@ -196,10 +210,10 @@ class RoleSeeder extends Seeder
 
 
         Permission::create([
-            'name'=>'PESV',
-            'descripcion'=>'ingreso al menú PESV',
-            'modulo'=>'pesv'
-            ])->syncRoles([$Superusuario,$Financiero,$OperacionesEmpresa,$OperacionesGeneral,$Auxiliar,$Administrativo,$Mensajero,$Usuario]);
+                    'name'=>'PESV',
+                    'descripcion'=>'ingreso al menú PESV',
+                    'modulo'=>'pesv'
+                    ])->syncRoles([$Superusuario,$Financiero,$OperacionesEmpresa,$OperacionesGeneral,$Auxiliar,$Administrativo,$Mensajero,$Usuario]);
 
         Permission::create([
                     'name'=>'pe_hv_vehiculos',

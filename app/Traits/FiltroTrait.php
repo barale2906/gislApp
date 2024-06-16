@@ -45,6 +45,12 @@ trait FiltroTrait
                 $this->is_inicia=!$this->is_inicia;
                 $this->is_termina=!$this->is_termina;
                 break;
+
+            case 6:
+                $this->text='Buscar diligencia por id, remitente, destinatario, mensajero';
+                $this->is_creacion=!$this->is_creacion;
+                $this->is_entrega=!$this->is_entrega;
+                break;
         }
     }
 }

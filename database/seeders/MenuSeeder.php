@@ -72,6 +72,15 @@ class MenuSeeder extends Seeder
                     'menu_id'           => $m2->id
                 ]);
 
+        Menu::create([
+                    'permiso'           => 'di_diligestion',
+                    'ruta'              => 'diligencia.gestion',
+                    'identificaRuta'    => 'diligencia.gestion',
+                    'name'              => 'Gestión',
+                    'icono'             => 'fa-solid fa-list-check text-gray-500',
+                    'menu_id'           => $m2->id
+                ]);
+
         $m3=Menu::create([
                     'name'              => 'HUMANA',
                     'identificaRuta'    => 'humana.*',
@@ -83,7 +92,7 @@ class MenuSeeder extends Seeder
                     'name'              => 'FACTURACIÓN',
                     'identificaRuta'    => 'facturacion.*',
                     'permiso'           => 'Facturacion',
-                    'icono'             => 'fa-solid fa-file-invoice-dollar  text-gray-500'
+                    'icono'             => 'fa-solid fa-file-invoice-dollar'
                 ]);
 
         Menu::create([
