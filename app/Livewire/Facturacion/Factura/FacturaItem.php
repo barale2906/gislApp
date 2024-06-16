@@ -249,6 +249,15 @@ class FacturaItem extends Component
         ]);
 
         FacturaDetalle::where('id',$item['id'])->delete();
+
+        if($this->elementos->count()===0){
+            $this->elementos=Producto::join('lista_detalles', 'productos.id', '=', 'lista_detalles.producto_id')
+                                        ->where('lista_detalles.lista_id',$this->lista->lista_id)
+                                        ->select('productos.name', 'lista_detalles.producto_id', 'lista_detalles.precio')
+                                        ->orderBy('productos.name', 'ASC')
+                                        ->get();
+        }
+
         $this->infodeta();
     }
 
