@@ -26,7 +26,7 @@ class FacturaDiligencia extends Component
 
         $this->dili=Diligencia::find($item);
         $this->factura=Factura::where('empresa_id', $empresa)
-                                ->where('status', 3)
+                                ->where('status', 1)
                                 ->first();
 
         $this->empr=ListaEmpresa::where('empresa_id',$empresa)

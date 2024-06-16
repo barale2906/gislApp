@@ -30,7 +30,7 @@ class FacturaItem extends Component
     public $detinf;
     public $zip;
     public $numerofactura;
-    public $status=3;
+    public $status=1;
 
     public $is_detalles=true;
     public $is_factura=false;
@@ -51,7 +51,7 @@ class FacturaItem extends Component
     public function updatedCliente(){
 
         $this->factura=Factura::where('empresa_id',$this->cliente)
-                                ->where('status', 3)
+                                ->where('status', 1)
                                 ->first();
 
 
@@ -258,7 +258,7 @@ class FacturaItem extends Component
 
             $this->factura->update([
                 'numero'        =>$this->numerofactura,
-                'status'        =>4,
+                'status'        =>2,
                 'observaciones' =>$this->observaciones
             ]);
 
@@ -276,6 +276,7 @@ class FacturaItem extends Component
                         ->update([
                             'status_factura'    =>3
                         ]);
+            //Cargar Cartera
 
             $this->reset('observaciones','numerofactura');
             $this->dispatch('alerta', name:'Se aprobo la factura, cargue el archivo de soporte.');

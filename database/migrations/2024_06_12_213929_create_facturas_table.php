@@ -31,7 +31,7 @@ return new class extends Migration
             $table->double('descuento')->comment('total descuento aplicado');
             $table->longText('observaciones')->nullable()->comment('info a tener en cuenta');
             $table->longText('ruta')->nullable()->comment('ruta del archivo con la factura');
-            $table->integer('status')->default(3)->comment('1 anulada, 2 pagada 3 proceso, 4 enviada');
+            $table->integer('status')->default(1)->comment('1 proceso, 2 enviada 3 pagada, 4 anulada');
 
             $table->timestamps();
         });

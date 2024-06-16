@@ -62,7 +62,7 @@
                 @enderror
             </div>
         @endif
-        @if ($is_factura && $factura->status===3)
+        @if ($is_factura && $factura->status===1)
             <button type="button" wire:click.prevent="anexar()" class="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800">
                 Cargar
             </button>
@@ -101,10 +101,10 @@
                     <div class="flex flex-col items-center justify-center">
                         <dt class="mb-2 md:text-2xl text-sm  font-extrabold">
                             {{number_format($factura->numero, 0, '.', ' ')}} -
-                            @if (!$factura->ruta && $factura->status===4)
+                            @if (!$factura->ruta && $factura->status===2)
                                 <i class="fa-solid fa-upload " wire:click.prevent="muestrazip()" style="cursor: pointer;"></i>
                             @endif
-                            @if ($factura->ruta && $factura->status===4)
+                            @if ($factura->ruta && $factura->status===2)
                                 <a href="{{Storage::url($factura->ruta)}}" target="_blank">
                                     <i class="fa-solid fa-download "></i>
                                 </a>
@@ -208,7 +208,7 @@
                 </table>
             </div>
             <div class="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
-                @if ($factura->status===3)
+                @if ($factura->status===1)
                     <a href="#" wire:click.prevent="aprobar()" class="w-full sm:w-auto bg-cyan-800 hover:bg-cyan-700 focus:ring-4 focus:outline-none focus:ring-cyan-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-cyan-700 dark:hover:bg-cyan-600 dark:focus:ring-cyan-700">
                         <i class="fa-solid fa-file-circle-check"></i>
                         <div class="text-left rtl:text-right">
@@ -232,7 +232,7 @@
                         </a>
                     @endif
                 @endif
-                @if ($factura->status===3)
+                @if ($factura->status===1)
                     <a href="#" wire:click.prevent="activaelim()" class="w-full sm:w-auto bg-red-800 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-red-700 dark:hover:bg-red-600 dark:focus:ring-red-700">
                         <i class="fa-solid fa-trash-can"></i>
                         <div class="text-left rtl:text-right">
@@ -249,7 +249,7 @@
                         </a>
                     @endif
                 @endif
-                @if ($factura->status===4)
+                @if ($factura->status===2)
                     <a href="#" wire:click.prevent="activaelim()" class="w-full sm:w-auto bg-red-800 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-red-700 dark:hover:bg-red-600 dark:focus:ring-red-700">
                         <i class="fa-solid fa-trash-can"></i>
                         <div class="text-left rtl:text-right">
@@ -314,7 +314,7 @@
 
                                 <div class="inline-flex rounded-md shadow-sm" role="group">
                                     @can('fa_facturamodify')
-                                        @if ($factura->status===3)
+                                        @if ($factura->status===1)
                                             <button wire:click.prevent="show({{$item->id}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 border border-blue-900 rounded-s-lg hover:bg-blue-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-blue-700 dark:focus:bg-blue-700">
                                                 <i class="fa-solid fa-marker"></i>
                                             </button>
