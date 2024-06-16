@@ -141,8 +141,31 @@
                     <div class="flex flex-col items-center justify-center">
                         <dt class="mb-2 md:text-2xl text-sm  font-extrabold">{{$factura->vencimiento}}</dt>
                         <dd class="text-gray-500 dark:text-gray-400">Vencimiento</dd>
+                        @if ($factura->status===1)
+                            <i class="fa-solid fa-calendar-days" wire:click.prevent="modifechas()" style="cursor: pointer;"></i>
+                        @endif
                     </div>
-
+                    @if ($is_fechas)
+                        <div class="mb-6 ring-1 ring-zinc-600 rounded-md p-2">
+                            <label for="fecha" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha de factura</label>
+                            <div class="relative z-0 w-full mb-5 group">
+                                <input type="date" wire:model.live="fecha" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"  />
+                                <label for="fecha" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Fecha</label>
+                            </div>
+                        </div>
+                        <div class="mb-6 ring-1 ring-zinc-600 rounded-md p-2">
+                            <label for="vencimiento" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha vencimiento</label>
+                            <div class="relative z-0 w-full mb-5 group">
+                                <input type="date" wire:model.live="vencimiento" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"  />
+                                <label for="vencimiento" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Vencimiento</label>
+                            </div>
+                        </div>
+                        <a href="" wire:click.prevent="actualizafechas">
+                            <button type="button"  class="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800">
+                                Actualizar fechas
+                            </button>
+                        </a>
+                    @endif
                 </dl>
             </div>
             <p class="mb-5 text-base text-justify text-gray-500 sm:text-lg dark:text-gray-400 bg-white rounded-lg">

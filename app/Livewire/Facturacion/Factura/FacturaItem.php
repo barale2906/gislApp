@@ -31,12 +31,15 @@ class FacturaItem extends Component
     public $zip;
     public $numerofactura;
     public $status=1;
+    public $fecha;
+    public $vencimiento;
 
     public $is_detalles=true;
     public $is_factura=false;
     public $is_aprobar=false;
     public $is_eliminar=false;
     public $is_cargazip=false;
+    public $is_fechas=false;
 
     protected $listeners = ['refresh' => '$refresh'];
 
@@ -145,7 +148,7 @@ class FacturaItem extends Component
         $descuento=$this->precio*$this->lista->descuento/100;
         $descuentoTotal=$descuento*$this->unidades;
 
-        $this->factura=Factura::create([
+        Factura::create([
             'lista_id'      => $this->lista->lista_id,
             'empresa_id'    => $this->lista->empresa_id,
             'empresa'       => $this->lista->empresa,
@@ -155,6 +158,10 @@ class FacturaItem extends Component
             'fecha'         => now(),
             'vencimiento'   => now()
         ]);
+
+        $this->factura=Factura::where('empresa_id',$this->cliente)
+                                ->where('status', 1)
+                                ->first();
 
         FacturaDetalle::create([
             'factura_id'        =>$this->factura->id,
@@ -175,6 +182,9 @@ class FacturaItem extends Component
             'nombre_producto',
             'observaciones'
         );
+        $this->factura=Factura::where('empresa_id',$this->cliente)
+                                ->where('status', 1)
+                                ->first();
         $this->infodeta();
     }
 
@@ -253,7 +263,9 @@ class FacturaItem extends Component
 
     public function cierrafactura(){
 
-        if($this->observaciones && $this->numerofactura){
+        $existe=Factura::where('numero', $this->numerofactura)->count();
+
+        if($existe===0 && $this->observaciones && $this->numerofactura){
             //Actualizar factura
 
             $this->factura->update([
@@ -284,7 +296,7 @@ class FacturaItem extends Component
 
             $this->is_cargazip=true;
         }else{
-            $this->dispatch('alerta', name:'El campo de observaciones y numero de factura son obligatorios');
+            $this->dispatch('alerta', name:'¡NUMERO YA EXISTE! y las observaciones y numero de factura son obligatorios');
         }
 
     }
@@ -450,6 +462,27 @@ class FacturaItem extends Component
             $this->dispatch('cancelando');
         }else{
             $this->dispatch('alerta', name:'Es necesario registrar observaciones');
+        }
+    }
+
+    public function modifechas(){
+        $this->is_fechas=!$this->is_fechas;
+        $this->fecha=$this->factura->fecha;
+        $this->vencimiento=$this->factura->vencimiento;
+    }
+
+    public function actualizafechas(){
+
+        if($this->fecha && $this->vencimiento && $this->fecha<=$this->vencimiento){
+            $this->factura->update([
+                'fecha'         =>$this->fecha,
+                'vencimiento'   =>$this->vencimiento
+            ]);
+            $this->dispatch('alerta', name:'Fechas actualizadas correctamente.');
+            $this->infodeta();
+            $this->is_fechas=!$this->is_fechas;
+        }else{
+            $this->dispatch('alerta', name:'los campos son obligatorios, la fecha debe ser menor a vencimiento.');
         }
     }
 
