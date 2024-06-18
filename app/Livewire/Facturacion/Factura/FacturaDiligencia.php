@@ -24,6 +24,12 @@ class FacturaDiligencia extends Component
     public $empr;
     public $factura;
 
+
+    public $ordena='id';
+    public $ordenado='ASC';
+    public $pages = 15;
+    public $busqueda='';
+
     public function cargar($item,$empresa){
 
         $this->dili=Diligencia::find($item);
@@ -109,7 +115,7 @@ class FacturaDiligencia extends Component
                 'numero_fac'        =>$this->factura->id
             ]);
 
-            $this->diligencias();
+            $this->gestionar([4,8]);
         }else{
             $this->dispatch('alerta', name:'Producto sin precio');
         }
@@ -132,18 +138,6 @@ class FacturaDiligencia extends Component
         );
     }
 
-    /* private function diligencias(){
-
-        return Diligencia::whereBetween('status', [4,8])
-                            ->where('status_factura', 1)
-                            ->where('numero_fac', null)
-                            ->where('seguimiento', true)
-                            ->whereNotNull('guias')
-                            ->orderBy('id', 'ASC')
-                            ->paginate(15);
-
-    } */
-
     private function productos(){
 
         return Producto::where('status', true)
@@ -154,7 +148,7 @@ class FacturaDiligencia extends Component
     public function render()
     {
         return view('livewire.facturacion.factura.factura-diligencia',[
-            'diligencias'   => $this->gestionar(),
+            'diligencias'   => $this->gestionar([4,8],'guias'),
             'productos'     => $this->productos()
         ]);
     }

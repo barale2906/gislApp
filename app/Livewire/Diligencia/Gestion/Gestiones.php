@@ -3,6 +3,7 @@
 namespace App\Livewire\Diligencia\Gestion;
 
 use App\Models\Diligencias\Diligencia;
+use App\Traits\DiligenciasTrait;
 use App\Traits\FiltroTrait;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -12,6 +13,7 @@ class Gestiones extends Component
 {
     use WithPagination;
     use FiltroTrait;
+    use DiligenciasTrait;
 
     public $permiso='di_diligenciaModify';
 
@@ -102,7 +104,7 @@ class Gestiones extends Component
     public function render()
     {
         return view('livewire.diligencia.gestion.gestiones',[
-            'diligencias' => $this->diligencias()
+            'diligencias' => $this->gestionar([1,3])
         ]);
     }
 }

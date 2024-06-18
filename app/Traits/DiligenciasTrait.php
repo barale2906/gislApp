@@ -7,28 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 trait DiligenciasTrait
 {
-    public $is_diligencias=false;
-    public $is_gestionar=false;
-
-    /* public function configuracion($id){
-        switch ($id) {
-            case '1':
-                $this->is_diligencias=true;
-                break;
-
-            default:
-                # code...
-                break;
-        }
-    }
-
-    public function diligencias(){
-        if($this->is_diligencias){
-            $this->generales();
-        }
-
-        if()
-    } */
+    public $nulo;
 
     public function generales(){
 
@@ -117,15 +96,20 @@ trait DiligenciasTrait
 
     }
 
-    public function gestionar(){
-
-        return Diligencia::whereBetween('status', [4,8])
+    public function gestionar($status, $nulo=null){
+        if($nulo){
+            $this->nulo=$nulo;
+        }else{
+            $this->nulo='id';
+        }
+        return Diligencia::whereBetween('status', $status)
+                            ->buscar($this->busqueda)
                             ->where('status_factura', 1)
                             ->where('numero_fac', null)
                             ->where('seguimiento', true)
-                            ->whereNotNull('guias')
-                            ->orderBy('id', 'ASC')
-                            ->paginate(15);
+                            ->whereNotNull($this->nulo)
+                            ->orderBy($this->ordena, $this->ordenado)
+                            ->paginate($this->pages);
 
     }
 }

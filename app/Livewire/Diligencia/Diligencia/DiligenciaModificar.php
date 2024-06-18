@@ -42,6 +42,7 @@ class DiligenciaModificar extends Component
 
     public $descripcion;
     public $detalle;
+    public $observaciones=[];
 
     public function mount($elegido=null, $tipo=null){
 
@@ -75,6 +76,7 @@ class DiligenciaModificar extends Component
     }
 
     public function valores(){
+        $this->observaciones=explode('-----',$this->actual->observaciones);
 
     }
 

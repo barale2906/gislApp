@@ -3,7 +3,6 @@
 namespace App\Livewire\Diligencia\Diligencia;
 
 use App\Models\Configuracion\Ubica;
-use App\Models\Diligencias\Diligencia;
 use App\Traits\DiligenciasTrait;
 use App\Traits\FiltroTrait;
 use Illuminate\Support\Facades\Auth;
@@ -143,93 +142,6 @@ class Diligencias extends Component
         $this->limpiaFiltro();
         $this->is_lista=$id;
     }
-
-    /* private function diligencias(){
-
-        switch ($this->is_lista) {
-            case 1:
-                return Diligencia::where('status', '<=', 3)
-                                    ->where('empresa_id', Auth::user()->empresa_id)
-                                    ->mias(Auth::user()->id)
-                                    ->buscar($this->busqueda)
-                                    ->creado($this->filtrocrea)
-                                    ->entregado($this->filtroentrega)
-                                    ->orderBy($this->ordena, $this->ordenado)
-                                    ->paginate($this->pages);
-                break;
-            case 2:
-                return Diligencia::where('status', '<=', 3)
-                                    ->where('empresa_id', Auth::user()->empresa_id)
-                                    ->area($this->ubica)
-                                    ->buscar($this->busqueda)
-                                    ->creado($this->filtrocrea)
-                                    ->entregado($this->filtroentrega)
-                                    ->orderBy($this->ordena, $this->ordenado)
-                                    ->paginate($this->pages);
-                break;
-            case 3:
-                return Diligencia::where('status', '<=', 3)
-                                    ->where('empresa_id', Auth::user()->empresa_id)
-                                    ->miallega(Auth::user()->id)
-                                    ->buscar($this->busqueda)
-                                    ->creado($this->filtrocrea)
-                                    ->entregado($this->filtroentrega)
-                                    ->orderBy($this->ordena, $this->ordenado)
-                                    ->paginate($this->pages);
-                break;
-            case 4:
-                return Diligencia::where('status', '<=', 3)
-                                    ->where('empresa_id', Auth::user()->empresa_id)
-                                    ->areallega($this->ubica)
-                                    ->buscar($this->busqueda)
-                                    ->creado($this->filtrocrea)
-                                    ->entregado($this->filtroentrega)
-                                    ->orderBy($this->ordena, $this->ordenado)
-                                    ->paginate($this->pages);
-                break;
-            case 5:
-                return Diligencia::where('status', '>=', 1)
-                                    ->where('empresa_id', Auth::user()->empresa_id)
-                                    ->mias(Auth::user()->id)
-                                    ->buscar($this->busqueda)
-                                    ->creado($this->filtrocrea)
-                                    ->entregado($this->filtroentrega)
-                                    ->orderBy($this->ordena, $this->ordenado)
-                                    ->paginate($this->pages);
-                break;
-            case 6:
-                return Diligencia::where('status', '>=', 1)
-                                    ->where('empresa_id', Auth::user()->empresa_id)
-                                    ->area($this->ubica)
-                                    ->buscar($this->busqueda)
-                                    ->creado($this->filtrocrea)
-                                    ->entregado($this->filtroentrega)
-                                    ->orderBy($this->ordena, $this->ordenado)
-                                    ->paginate($this->pages);
-                break;
-            case 7:
-                return Diligencia::where('status', '>=', 1)
-                                    ->where('empresa_id', Auth::user()->empresa_id)
-                                    ->miallega(Auth::user()->id)
-                                    ->buscar($this->busqueda)
-                                    ->creado($this->filtrocrea)
-                                    ->entregado($this->filtroentrega)
-                                    ->orderBy($this->ordena, $this->ordenado)
-                                    ->paginate($this->pages);
-                break;
-            case 8:
-                return Diligencia::where('status', '>=', 1)
-                                    ->where('empresa_id', Auth::user()->empresa_id)
-                                    ->areallega($this->ubica)
-                                    ->buscar($this->busqueda)
-                                    ->creado($this->filtrocrea)
-                                    ->entregado($this->filtroentrega)
-                                    ->orderBy($this->ordena, $this->ordenado)
-                                    ->paginate($this->pages);
-                break;
-        }
-
-    } */
 
     public function render()
     {
