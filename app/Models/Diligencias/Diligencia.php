@@ -5,12 +5,11 @@ namespace App\Models\Diligencias;
 use App\Models\Configuracion\Ciudad;
 use App\Models\Configuracion\Ubica;
 use App\Models\Facturacion\Empresa;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Diligencia extends Model
 {
@@ -46,12 +45,12 @@ class Diligencia extends Model
     }
 
     /**
-     * Relación muchos a muchos.
-     * Diligencias con users
+     * Relación muno a muchos.
+     * Diligencias con users mensajeros
      */
-    public function mensajeros() : BelongsToMany
+    public function mensajeros() : HasMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(Dilimensajero::class);
     }
 
     //Salen

@@ -19,6 +19,9 @@ class Gestiones extends Component
 
     public $buscar;
     public $busqueda;
+    public $filtroCreades;
+    public $filtroCreahas;
+    public $filtrocrea=[];
 
     public $ordena='id';
     public $ordenado='ASC';
@@ -33,7 +36,7 @@ class Gestiones extends Component
     protected $listeners = ['refresh' => '$refresh'];
 
     public function mount(){
-        $this->claseFiltro(6);
+        $this->claseFiltro(7);
     }
 
     public function buscando(){
@@ -81,9 +84,19 @@ class Gestiones extends Component
     #[On('limpiando')]
     public function limpiaFiltro(){
         $this->reset(
+            'filtroCreades',
+            'filtroCreahas',
+            'filtrocrea',
             'buscar',
             'busqueda'
         );
+    }
+
+    public function updatedFiltroCreahas(){
+        $crea=array();
+        array_push($crea, $this->filtroCreades);
+        array_push($crea, $this->filtroCreahas);
+        $this->filtrocrea=$crea;
     }
 
     //Modificar registro
@@ -93,12 +106,6 @@ class Gestiones extends Component
         $this->tipo=$est;
         $this->is_modify = !$this->is_modify;
         $this->is_creating = !$this->is_creating;
-    }
-
-    private function diligencias(){
-        return Diligencia::buscar($this->busqueda)
-                            ->orderBy($this->ordena, $this->ordenado)
-                            ->paginate($this->pages);
     }
 
     public function render()

@@ -12,6 +12,7 @@ trait FiltroTrait
     public $is_ubicarecibe=false;
     public $is_inicia=false;
     public $is_termina=false;
+    public $is_crear=true;
 
     public function filtroMostrar(){
         $this->is_filtro=!$this->is_filtro;
@@ -50,6 +51,12 @@ trait FiltroTrait
                 $this->text='Buscar diligencia por id, remitente, destinatario, mensajero';
                 $this->is_creacion=!$this->is_creacion;
                 $this->is_entrega=!$this->is_entrega;
+                break;
+
+            case 7:
+                $this->text='Buscar diligencia por id, remitente, destinatario, mensajero';
+                $this->is_creacion=!$this->is_creacion;
+                $this->is_crear=!$this->is_crear;
                 break;
         }
     }

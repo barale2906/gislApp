@@ -104,6 +104,7 @@ trait DiligenciasTrait
         }
         return Diligencia::whereBetween('status', $status)
                             ->buscar($this->busqueda)
+                            ->creado($this->filtrocrea)
                             ->where('status_factura', 1)
                             ->where('numero_fac', null)
                             ->where('seguimiento', true)

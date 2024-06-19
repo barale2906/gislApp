@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('diligencia_user', function (Blueprint $table) {
+        Schema::create('dilimensajeros', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('diligencia_id');
@@ -19,6 +19,10 @@ return new class extends Migration
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+
+            $table->datetime('fecha')->comment('fecha en que recoge la dligencia');
+            $table->integer('status')->default(1)->comment('1. Asignado, 2 Recogido, 3 entregado, 4 reasignado');
+            $table->longText('observaciones')->comment('REgistre lo ocurrido con la asignación');
 
             $table->timestamps();
         });
@@ -29,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('diligencia_user');
+        Schema::dropIfExists('dilimensajeros');
     }
 };
