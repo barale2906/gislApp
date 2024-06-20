@@ -53,6 +53,15 @@ class Diligencia extends Model
         return $this->hasMany(Dilimensajero::class);
     }
 
+    /**
+     * Relación muno a muchos.
+     * Soportes de la diligencia
+     */
+    public function fotos() : HasMany
+    {
+        return $this->hasMany(Dilifotos::class);
+    }
+
     //Salen
     public function scopeMias($query,$user){
         $query->wherehas('ubica', function($query) use($user){

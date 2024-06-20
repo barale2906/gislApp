@@ -5,11 +5,11 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Configuracion\Ubica;
+use App\Models\Diligencias\Dilifotos;
 use App\Models\Diligencias\Dilimensajero;
 use App\Models\Facturacion\Empresa;
 use App\Models\Facturacion\Factura;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -104,8 +104,17 @@ class User extends Authenticatable
      * Relación muchos a muchos.
      * Diligencias con users
      */
-    public function mensajeros() : BelongsTo
+    public function mensajeros() : HasMany
     {
-        return $this->belongsTo(Dilimensajero::class);
+        return $this->hasMany(Dilimensajero::class);
+    }
+
+    /**
+     * Relación muchos a muchos.
+     * fotografos mensajeros
+     */
+    public function fotografos() : HasMany
+    {
+        return $this->hasMany(Dilifotos::class);
     }
 }

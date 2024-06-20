@@ -27,8 +27,10 @@ class Mensajero extends Component
     public $ordena='id';
     public $ordenado='ASC';
     public $pages = 15;
+    public $elegido;
 
-    public $is_editar=false;
+    public $is_editar=true;
+    public $is_foto=false;
 
 
     public function mount(){
@@ -86,6 +88,15 @@ class Mensajero extends Component
         );
     }
 
+    #[On('fotografiando')]
+    public function fotos(){
+        $this->reset(
+            'elegido',
+            'is_editar',
+            'is_foto',
+        );
+    }
+
     public function recibe($id){
 
         $observaciones=now()." ".Auth::user()->name.": Recogio la diligencia. ----- ";
@@ -136,6 +147,13 @@ class Mensajero extends Component
         $this->dispatch('alerta', name:'Recibido');
         $this->gestionar([1,3]);
     }
+
+    public function gest($id){
+        $this->elegido=$id;
+        $this->is_editar=!$this->is_editar;
+        $this->is_foto=!$this->is_foto;
+    }
+
     public function render()
     {
         return view('livewire.diligencia.gestion.mensajero',[

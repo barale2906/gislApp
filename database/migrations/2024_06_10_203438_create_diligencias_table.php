@@ -38,7 +38,7 @@ return new class extends Migration
             $table->date('fecha_recepcion')->nullable()->comment('fecha en que reciben el envío');
             $table->longText('observaciones')->nullable()->comment('anotaciones a la diligencia, uso interna de correspondencia');
             $table->bigInteger('planilla')->nullable()->comment('numero de planilla cuando se hace enrutamiento');
-            $table->double('cobro')->nullable()->comment('Se registra el valor recibido del destinatario');
+            $table->double('cobro')->default(0)->comment('Se registra el valor recibido del destinatario');
             $table->integer('guias')->nullable()->comment('Cantidad de vueltas registradas para su ejecución');
 
             $table->integer('status')->default(1)->comment('1 creado, 2 asignado, 3 en proceso, 4 entregada destinatario, 5 ejecutada(cierro yo), 6 cerrada(cierra cliente), 7 legalizada mensajero, 8 Devolución, 9 Diligencia Cancelada, 10 Frecuente');
