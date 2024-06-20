@@ -80,15 +80,6 @@ class Empresa extends Model
         return $this->hasMany(Factura::class);
     }
 
-    /**
-     * Relación uno a muchos.
-     * clientes con esta lista
-     */
-    public function empresas() : HasMany
-    {
-        return $this->hasMany(ListaEmpresa::class);
-    }
-
 
     //Buscar
     public function scopeBuscar($query, $item){

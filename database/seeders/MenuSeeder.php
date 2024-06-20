@@ -81,6 +81,15 @@ class MenuSeeder extends Seeder
                     'menu_id'           => $m2->id
                 ]);
 
+        Menu::create([
+                    'permiso'           => 'di_diligestmensa',
+                    'ruta'              => 'diligencia.mensajero',
+                    'identificaRuta'    => 'diligencia.mensajero',
+                    'name'              => 'Mensajero',
+                    'icono'             => 'fa-solid fa-truck-ramp-box text-gray-500',
+                    'menu_id'           => $m2->id
+                ]);
+
         $m3=Menu::create([
                     'name'              => 'HUMANA',
                     'identificaRuta'    => 'humana.*',

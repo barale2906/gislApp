@@ -18,9 +18,6 @@
         <!-- fontawesome -->
         <script src="https://kit.fontawesome.com/f6a1d7369b.js" crossorigin="anonymous"></script>
 
-        <!-- campos de calendario -->
-        <script src="../path/to/flowbite/dist/datepicker.js"></script>
-
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 

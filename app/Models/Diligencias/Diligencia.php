@@ -89,6 +89,9 @@ class Diligencia extends Model
                             $query->wherehas('user', function($query) use($item){
                                 $query->where('users.name', 'like', "%".$item."%");
                             });
+                        })
+                        ->orWherehas('empresa', function($query) use($item) {
+                            $query->where('empresas.name', 'like', "%".$item."%");
                         });
                 });
 

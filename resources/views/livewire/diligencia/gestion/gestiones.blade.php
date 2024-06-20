@@ -33,10 +33,10 @@
                     <table class="w-full text-sm text-left rtl:text-right mt-2 text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase ">
                             <tr>
-                                <th scope="col" colspan="2" class="px-6 py-3 text-center text-xl font-extrabold bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <th scope="col" colspan="3" class="px-6 py-3 text-center text-xl font-extrabold bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                     GESTIÓN
                                 </th>
-                                <th scope="col" colspan="2" class="px-6 py-3 text-center text-xl font-extrabold bg-gray-200 dark:bg-gray-800 dark:text-gray-500">
+                                <th scope="col" colspan="1" class="px-6 py-3 text-center text-xl font-extrabold bg-gray-200 dark:bg-gray-800 dark:text-gray-500">
                                     REMITENTE
                                 </th>
                                 <th scope="col" colspan="2" class="px-6 py-3 text-center text-xl font-extrabold bg-gray-300 dark:bg-gray-900 dark:text-gray-600">
@@ -47,10 +47,7 @@
                                 <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 
                                 </th>
-                                <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                    OBSERVACIONES
-                                </th>
-                                <th scope="col" class="px-6 py-3  bg-gray-200 dark:bg-gray-800 dark:text-gray-500" style="cursor: pointer;" wire:click="organizar('id')">
+                                <th scope="col" class="px-6 py-3  bg-gray-50 dark:bg-gray-800 dark:text-gray-500" style="cursor: pointer;" wire:click="organizar('id')">
                                     ID
                                     @if ($ordena != 'id')
                                         <i class="fas fa-sort"></i>
@@ -62,6 +59,10 @@
                                         @endif
                                     @endif
                                 </th>
+                                <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    OBSERVACIONES
+                                </th>
+
                                 <th scope="col" class="px-6 py-3 bg-gray-200 dark:bg-gray-800 dark:text-gray-500" style="cursor: pointer;" wire:click="organizar('created_at')">
                                     Fecha - Remite
                                     @if ($ordena != 'created_at')
@@ -108,11 +109,11 @@
                                             @endcan
                                         </div>
                                     </th>
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 text-justify dark:text-white">
-                                        {{$item->observaciones}}
-                                    </th>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{$item->id}}
+                                    </th>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 text-justify dark:text-white">
+                                        {{$item->observaciones}}
                                     </th>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 text-justify  dark:text-white capitalize">
                                         @switch($item->status)

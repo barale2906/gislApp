@@ -9,3 +9,7 @@ Route::get('/diligencias', function () {
 Route::get('/gestion', function () {
             return view('index.diligencia.gestion');
         })->middleware('can:di_diligestion')->name('gestion');
+
+Route::get('/mensajero', function () {
+            return view('index.diligencia.mensajero');
+        })->middleware('can:di_diligestmensa')->name('mensajero');

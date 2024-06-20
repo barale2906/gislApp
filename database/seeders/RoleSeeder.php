@@ -123,6 +123,12 @@ class RoleSeeder extends Seeder
                     ])->syncRoles([$Superusuario,$OperacionesGeneral,$Administrativo,$Auxiliar]);
 
         Permission::create([
+                    'name'=>'di_diligestmensa',
+                    'descripcion'=>'Gestión como mensajero',
+                    'modulo'=>'diligencias'
+                    ])->syncRoles([$Superusuario,$Mensajero]);
+
+        Permission::create([
                     'name'=>'Humana',
                     'descripcion'=>'ingreso al menú Humana',
                     'modulo'=>'humana'
