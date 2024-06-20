@@ -3,11 +3,14 @@
 namespace App\Traits;
 
 use App\Models\Diligencias\Diligencia;
+use App\Models\Diligencias\Dilimensajero;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 trait DiligenciasTrait
 {
     public $nulo;
+    public $seleccionados;
 
     public function generales(){
 
@@ -105,6 +108,8 @@ trait DiligenciasTrait
         return Diligencia::whereBetween('status', $status)
                             ->buscar($this->busqueda)
                             ->creado($this->filtrocrea)
+                            ->ciudad($this->ciudad)
+                            ->mensajero($this->mensafiltro)
                             ->where('status_factura', 1)
                             ->where('numero_fac', null)
                             ->where('seguimiento', true)
@@ -112,5 +117,27 @@ trait DiligenciasTrait
                             ->orderBy($this->ordena, $this->ordenado)
                             ->paginate($this->pages);
 
+    }
+
+    public function asignados(){
+        $ids=array();
+
+        $mensajeros=Dilimensajero::whereIn('status', [1,2])
+                                    ->select('user_id')
+                                    ->groupBy('user_id')
+                                    ->get();
+
+        foreach ($mensajeros as $value) {
+            if(in_array($value->user_id, $ids)){
+
+            }else{
+                array_push($ids, $value->user_id);
+            }
+        }
+
+        $this->seleccionados = User::whereIn('id',$ids)
+                                    ->select('id','name')
+                                    ->orderBy('name', 'ASC')
+                                    ->get();
     }
 }

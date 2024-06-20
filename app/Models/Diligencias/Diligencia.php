@@ -94,6 +94,12 @@ class Diligencia extends Model
 
     }
 
+    public function scopeCiudad($query, $ciudad){
+        $query->when($ciudad ?? null, function($query, $ciudad){
+            $query->where('ciudad_id', $ciudad);
+        });
+    }
+
     public function scopeCreado($query, $lapso){
         $query->when($lapso ?? null, function($query, $lapso){
             $fecha1=Carbon::parse($lapso[0]);
@@ -105,8 +111,19 @@ class Diligencia extends Model
 
     public function scopeEntregado($query, $lapso){
         $query->when($lapso ?? null, function($query, $lapso){
-
             $query->whereBetween('fecha_recepcion', $lapso);
+        });
+    }
+
+    public function scopeMensajero($query,$mensajero){
+
+        $query->when($mensajero ?? null, function($query, $mensajero){
+
+            $query->wherehas('mensajeros', function($query) use($mensajero){
+
+                $query->where('dilimensajeros.user_id', $mensajero)
+                        ->whereIn('dilimensajeros.status', [1,2]);
+            });
         });
     }
 }

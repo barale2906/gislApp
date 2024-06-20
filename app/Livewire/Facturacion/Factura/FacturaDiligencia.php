@@ -30,6 +30,8 @@ class FacturaDiligencia extends Component
     public $pages = 15;
     public $busqueda=null;
     public $filtrocrea=null;
+    public $ciudad;
+    public $mensafiltro;
 
     public function cargar($item,$empresa){
 
