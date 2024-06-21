@@ -93,9 +93,15 @@
                     Imágenes - Soportes anexos
                 </a>
                 <h2 class="text-gray-900 dark:text-white text-lg md:text-3xl font-extrabold mb-2">Soportes Anexos</h2>
-                <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">
-                    Imagenes
-                </p>
+                @foreach ($actual->fotos as $valor)
+                    <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">
+                        {{$valor->created_at}}
+                        <a href="{{Storage::url($valor->ruta)}}" target="_blank">
+                            <i class="fa-solid fa-download "></i>
+                        </a>
+                    </p>
+                @endforeach
+
 
             </div>
         </div>
