@@ -118,10 +118,13 @@ class Mensajero extends Component
                                 ->orderBy('id', 'DESC')
                                 ->first();
 
-            $dili->update([
-                'status'    =>4,
-                'observaciones' =>$observaciones.$dili->observaciones
-            ]);
+            if($dili){
+                $dili->update([
+                    'status'    =>4,
+                    'observaciones' =>$observaciones.$dili->observaciones
+                ]);
+            }
+
 
             Dilimensajero::create([
                 'diligencia_id'     =>$id,

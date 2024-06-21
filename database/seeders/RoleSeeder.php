@@ -114,7 +114,7 @@ class RoleSeeder extends Seeder
                     'name'=>'di_diligestion',
                     'descripcion'=>'Acceso a Menú de gestión de diligencias desde Principal',
                     'modulo'=>'diligencias'
-                    ])->syncRoles([$Superusuario,$OperacionesGeneral,$Administrativo,$Auxiliar,$Mensajero]);
+                    ])->syncRoles([$Superusuario,$OperacionesGeneral,$Administrativo,$Auxiliar]);
 
         Permission::create([
                     'name'=>'di_diligeModify',

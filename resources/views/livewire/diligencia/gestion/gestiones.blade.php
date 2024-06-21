@@ -170,7 +170,7 @@
         </div>
     @endif
     @if ($is_creating)
-        <livewire:facturacion.empresa.empresas-modificar :elegido="$elegido" :tipo="$tipo"/>
+        <livewire:diligencia.diligencia.diligencia-modificar :elegido="$elegido" :tipo="$tipo"/>
     @endif
 
     @push('js')
