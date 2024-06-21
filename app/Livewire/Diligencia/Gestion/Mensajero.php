@@ -133,10 +133,6 @@ class Mensajero extends Component
 
         }
 
-
-
-
-
         $detalle=Diligencia::whereId($id)->first();
 
         $detalle->update([
