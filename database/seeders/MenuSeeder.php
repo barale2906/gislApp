@@ -109,7 +109,7 @@ class MenuSeeder extends Seeder
                     'ruta'              => 'facturacion.empresas',
                     'identificaRuta'    => 'facturacion.empresas',
                     'name'              => 'Empresas',
-                    'icono'             => 'fa-solid fa-building',
+                    'icono'             => 'fa-solid fa-building text-gray-500',
                     'menu_id'           => $m4->id
                 ]);
 
@@ -118,7 +118,7 @@ class MenuSeeder extends Seeder
                     'ruta'              => 'facturacion.listas',
                     'identificaRuta'    => 'facturacion.listas',
                     'name'              => 'Listas Precio',
-                    'icono'             => 'fa-solid fa-money-bill',
+                    'icono'             => 'fa-solid fa-money-bill text-gray-500',
                     'menu_id'           => $m4->id
                 ]);
 
@@ -127,7 +127,7 @@ class MenuSeeder extends Seeder
                     'ruta'              => 'facturacion.productos',
                     'identificaRuta'    => 'facturacion.productos',
                     'name'              => 'Productos',
-                    'icono'             => 'fa-solid fa-handshake',
+                    'icono'             => 'fa-solid fa-handshake text-gray-500',
                     'menu_id'           => $m4->id
                 ]);
 
@@ -136,7 +136,7 @@ class MenuSeeder extends Seeder
                     'ruta'              => 'facturacion.facturas',
                     'identificaRuta'    => 'facturacion.facturas',
                     'name'              => 'Facturas',
-                    'icono'             => 'fa-solid fa-file-invoice-dollar',
+                    'icono'             => 'fa-solid fa-file-invoice-dollar text-gray-500',
                     'menu_id'           => $m4->id
                 ]);
 
@@ -145,6 +145,15 @@ class MenuSeeder extends Seeder
                     'identificaRuta'    => 'financiera.*',
                     'permiso'           => 'Financiera',
                     'icono'             => 'fa-solid fa-chart-line'
+                ]);
+
+        Menu::create([
+                    'permiso'           => 'fi_bancos',
+                    'ruta'              => 'financiera.bancos',
+                    'identificaRuta'    => 'financiera.bancos',
+                    'name'              => 'Bancos',
+                    'icono'             => 'fa-solid fa-piggy-bank text-gray-500',
+                    'menu_id'           => $m5->id
                 ]);
 
         $m6=Menu::create([

@@ -50,6 +50,11 @@ class RouteServiceProvider extends ServiceProvider
                     ->prefix('diligencia')
                     ->name('diligencia.')
                     ->group(base_path('routes/diligencia.php'));
+
+            Route::middleware('web', 'auth')
+                    ->prefix('financiera')
+                    ->name('financiera.')
+                    ->group(base_path('routes/financiera.php'));
         });
     }
 }
