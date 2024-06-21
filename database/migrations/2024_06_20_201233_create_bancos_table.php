@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('banco')->comment('Banco al que pertenece la cuenta');
             $table->string('numero')->comment('numero de la cuenta');
             $table->string('tipo')->comment('tipo Ahorros o Corriente o Daviplata o Nequi...');
-            $table->integer('status')->default(1)->comment('1 activa, 2 inactiva 3 fuera de uso');
+            $table->boolean('status')->default(true)->comment('false Inactiva, true Activa');
 
             $table->timestamps();
         });

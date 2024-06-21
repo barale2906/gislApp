@@ -65,6 +65,10 @@ trait FiltroTrait
                 $this->text='Buscar diligencia por id, remitente, destinatario, mensajero';
                 $this->is_crear=!$this->is_crear;
                 break;
+
+            case 9:
+                $this->text='Buscar cuentas';
+                break;
         }
     }
 }
