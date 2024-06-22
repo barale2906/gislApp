@@ -9,9 +9,9 @@
                         <th scope="col" class="px-6 py-3">
 
                         </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('nombre')">
+                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('concepto')">
                             NOMBRE
-                            @if ($ordena != 'nombre')
+                            @if ($ordena != 'concepto')
                                 <i class="fas fa-sort"></i>
                             @else
                                 @if ($ordenado=='ASC')
@@ -21,21 +21,9 @@
                                 @endif
                             @endif
                         </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('banco')">
-                            BANCO
-                            @if ($ordena != 'banco')
-                                <i class="fas fa-sort"></i>
-                            @else
-                                @if ($ordenado=='ASC')
-                                    <i class="fas fa-sort-up"></i>
-                                @else
-                                    <i class="fas fa-sort-down"></i>
-                                @endif
-                            @endif
-                        </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('numero')">
-                            NÚMERO
-                            @if ($ordena != 'numero')
+                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('cuenta')">
+                            CUENTA (PUC)
+                            @if ($ordena != 'cuenta')
                                 <i class="fas fa-sort"></i>
                             @else
                                 @if ($ordenado=='ASC')
@@ -46,7 +34,7 @@
                             @endif
                         </th>
                         <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('tipo')">
-                            TIPO
+                            NATURALEZA
                             @if ($ordena != 'tipo')
                                 <i class="fas fa-sort"></i>
                             @else
@@ -60,29 +48,33 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($bancos as $item)
+                    @foreach ($conceptos as $item)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
                                 <div class="inline-flex rounded-md shadow-sm" role="group">
-                                    @can('fi_bancosModify')
-                                        <button wire:click.prevent="show({{$item->id}},{{2}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-yellow-900 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 border border-yellow-900 rounded-lg hover:bg-yellow-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-yellow-500 focus:bg-yellow-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-yellow-700">
+                                    @can('fi_conceptosModify')
+                                        <button wire:click.prevent="show({{$item->id}},{{2}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-yellow-900 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 border border-yellow-900 rounded-e-lg hover:bg-yellow-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-yellow-500 focus:bg-yellow-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-yellow-700">
                                             <i class="fa-brands fa-creative-commons-sa"></i>
                                         </button>
                                     @endcan
                                 </div>
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$item->nombre}}
+                                {{$item->concepto}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white capitalize">
-                                {{$item->banco}}
-                            </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white uppercase">
-                                {{$item->numero}}
+                                {{$item->cuenta}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                {{$item->tipo}}
+                                @switch($item->tipo)
+                                    @case(0)
+                                        Débito
+                                        @break
+                                    @case(1)
+                                        Crédito
+                                        @break
+                                @endswitch
                             </th>
                         </tr>
                     @endforeach
@@ -102,13 +94,13 @@
                     </label>
                 </div>
                 <div>
-                    {{ $bancos->links() }}
+                    {{ $conceptos->links() }}
                 </div>
             </div>
         </div>
     @endif
     @if ($is_creating)
-        <livewire:financiera.banco.bancos-create :elegido="$elegido" :tipo="$tipo"/>
+        <livewire:financiera.concepto.conceptos-create :elegido="$elegido" :tipo="$tipo"/>
     @endif
 
     @push('js')

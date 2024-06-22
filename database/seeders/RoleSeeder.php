@@ -158,6 +158,18 @@ class RoleSeeder extends Seeder
                     'modulo'=>'financiera'
                     ])->syncRoles([$Superusuario,$Financiero]);
 
+        Permission::create([
+                    'name'=>'fi_conceptos',
+                    'descripcion'=>'Ver lista de conceptos',
+                    'modulo'=>'financiera'
+                    ])->syncRoles([$Superusuario,$Financiero]);
+
+        Permission::create([
+                        'name'=>'fi_conceptosModify',
+                        'descripcion'=>'Editar tipos de conceptos',
+                        'modulo'=>'financiera'
+                        ])->syncRoles([$Superusuario,$Financiero]);
+
 
         Permission::create([
                     'name'=>'Facturacion',

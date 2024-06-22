@@ -69,6 +69,10 @@ trait FiltroTrait
             case 9:
                 $this->text='Buscar cuentas';
                 break;
+
+            case 10:
+                $this->text='Buscar conceptos';
+                break;
         }
     }
 }

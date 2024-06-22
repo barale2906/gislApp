@@ -156,6 +156,15 @@ class MenuSeeder extends Seeder
                     'menu_id'           => $m5->id
                 ]);
 
+        Menu::create([
+                    'permiso'           => 'fi_conceptos',
+                    'ruta'              => 'financiera.conceptos',
+                    'identificaRuta'    => 'financiera.conceptos',
+                    'name'              => 'Conceptos',
+                    'icono'             => 'fa-solid fa-coins text-gray-500',
+                    'menu_id'           => $m5->id
+                ]);
+
         $m6=Menu::create([
             'name'              => 'PESV',
             'identificaRuta'    => 'pesv.*',
