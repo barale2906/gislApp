@@ -9,3 +9,7 @@ Route::get('/bancos', function () {
 Route::get('/conceptos', function () {
             return view('index.financiera.conceptos');
         })->middleware('can:fi_conceptos')->name('conceptos');
+
+Route::get('/movimientos', function () {
+            return view('index.financiera.movimientos');
+        })->middleware('can:fi_movimientos')->name('movimientos');

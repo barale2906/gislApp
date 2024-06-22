@@ -170,6 +170,18 @@ class RoleSeeder extends Seeder
                         'modulo'=>'financiera'
                         ])->syncRoles([$Superusuario,$Financiero]);
 
+        Permission::create([
+                        'name'=>'fi_movimientos',
+                        'descripcion'=>'Ver movimientos',
+                        'modulo'=>'financiera'
+                        ])->syncRoles([$Superusuario,$Financiero]);
+
+        Permission::create([
+                            'name'=>'fi_movimientosModify',
+                            'descripcion'=>'Crear - Editar Movimientos',
+                            'modulo'=>'financiera'
+                            ])->syncRoles([$Superusuario,$Financiero]);
+
 
         Permission::create([
                     'name'=>'Facturacion',

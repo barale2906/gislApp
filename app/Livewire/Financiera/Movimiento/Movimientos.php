@@ -1,24 +1,30 @@
 <?php
 
-namespace App\Livewire\Financiera\Concepto;
+namespace App\Livewire\Financiera\Movimiento;
 
-use App\Models\Financiera\Concepto;
 use App\Traits\FiltroTrait;
+use App\Traits\MovimientosTrait;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Conceptos extends Component
+class Movimientos extends Component
 {
     use WithPagination;
     use FiltroTrait;
+    use MovimientosTrait;
 
-    public $permiso='fi_conceptosModify';
+    public $permiso='fi_movimientosModify';
     public $buscar;
     public $busqueda;
+    public $filtroCreades;
+    public $filtroCreahas;
+    public $filtrocrea=[];
+    public $banco_id;
+    public $concepto_id;
 
-    public $ordena='concepto';
-    public $ordenado='ASC';
+    public $ordena='fecha';
+    public $ordenado='DESC';
     public $pages = 15;
 
     public $is_modify = true;
@@ -30,7 +36,7 @@ class Conceptos extends Component
     protected $listeners = ['refresh' => '$refresh'];
 
     public function mount(){
-        $this->claseFiltro(10);
+        $this->claseFiltro(11);
     }
 
     public function buscando(){
@@ -55,6 +61,13 @@ class Conceptos extends Component
         $this->pages=$valor;
     }
 
+    public function updatedFiltroCreahas(){
+        $crea=array();
+        array_push($crea, $this->filtroCreades);
+        array_push($crea, $this->filtroCreahas);
+        $this->filtrocrea=$crea;
+    }
+
     //Activar evento
     #[On('cancelando')]
     //resetear variables
@@ -65,6 +78,7 @@ class Conceptos extends Component
                         'tipo',
                         'elegido'
                     );
+        $this->movimi();
     }
 
     //Activar evento
@@ -83,6 +97,10 @@ class Conceptos extends Component
         );
     }
 
+    public function filban($id){
+        $this->banco_id=$id;
+    }
+
     //Modificar registro
     public function show($id, $est){
         $this->cancela();
@@ -92,16 +110,13 @@ class Conceptos extends Component
         $this->is_creating = !$this->is_creating;
     }
 
-    private function conceptos(){
-        return Concepto::buscar($this->busqueda)
-                        ->orderBy($this->ordena, $this->ordenado)
-                        ->paginate($this->pages);
-    }
 
     public function render()
     {
-        return view('livewire.financiera.concepto.conceptos',[
-            'conceptos'=>$this->conceptos()
+        return view('livewire.financiera.movimiento.movimientos',[
+            'movimientos'   =>$this->movimi(),
+            'saldos'        =>$this->saldos(),
+            'conceptos'     =>$this->conceptos()
         ]);
     }
 }

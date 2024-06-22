@@ -14,6 +14,7 @@ trait FiltroTrait
     public $is_termina=false;
     public $is_crear=true;
     public $is_asignados=false;
+    public $is_conceptos=false;
 
     public function filtroMostrar(){
         $this->is_filtro=!$this->is_filtro;
@@ -72,6 +73,12 @@ trait FiltroTrait
 
             case 10:
                 $this->text='Buscar conceptos';
+                break;
+
+            case 11:
+                $this->text='Buscar Comentario de Movimientos';
+                $this->is_creacion=!$this->is_creacion;
+                $this->is_conceptos=!$this->is_conceptos;
                 break;
         }
     }
