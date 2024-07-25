@@ -93,7 +93,12 @@ class Movimientos extends Component
     public function limpiaFiltro(){
         $this->reset(
             'buscar',
-            'busqueda'
+            'busqueda',
+            'filtroCreades',
+            'filtroCreahas',
+            'filtrocrea',
+            'banco_id',
+            'concepto_id',
         );
     }
 
@@ -116,7 +121,8 @@ class Movimientos extends Component
         return view('livewire.financiera.movimiento.movimientos',[
             'movimientos'   =>$this->movimi(),
             'saldos'        =>$this->saldos(),
-            'conceptos'     =>$this->conceptos()
+            'conceptos'     =>$this->conceptos(),
+            'bancos'    =>$this->movibancos(),
         ]);
     }
 }

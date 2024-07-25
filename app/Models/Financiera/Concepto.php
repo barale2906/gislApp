@@ -16,7 +16,7 @@ class Concepto extends Model
      * Relación uno a muchos.
      * Movimientos generados
      */
-    public function librodiario() : HasMany
+    public function librodiarios() : HasMany
     {
         return $this->hasMany(Librodiario::class);
     }

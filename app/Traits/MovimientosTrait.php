@@ -2,13 +2,15 @@
 
 namespace App\Traits;
 
+use App\Models\Financiera\Banco;
 use App\Models\Financiera\Concepto;
 use App\Models\Financiera\Librodiario;
 
 trait MovimientosTrait
 {
     public function movimi(){
-        return Librodiario::buscar($this->busqueda)
+        return Librodiario::with('banco','concepto')
+                        ->buscar($this->busqueda)
                         ->fecha($this->filtrocrea)
                         ->banco($this->banco_id)
                         ->concepto($this->concepto_id)
@@ -17,7 +19,8 @@ trait MovimientosTrait
     }
 
     public function saldos(){
-        return Librodiario::saldo()
+        return Librodiario::with('banco')
+                            ->saldo()
                             ->orderBy('saldo')
                             ->get();
     }
@@ -43,6 +46,27 @@ trait MovimientosTrait
         return Concepto::whereIn('id',$ids)
                                         ->select('id','concepto')
                                         ->orderBy('concepto', 'ASC')
+                                        ->get();
+    }
+
+    private function movibancos(){
+        $ids=array();
+
+        $conceptos=Librodiario::select('banco_id')
+                                    ->groupBy('banco_id')
+                                    ->get();
+
+        foreach ($conceptos as $value) {
+            if(in_array($value->banco_id, $ids)){
+
+            }else{
+                array_push($ids, $value->banco_id);
+            }
+        }
+
+        return Banco::whereIn('id',$ids)
+                                        ->select('id','nombre')
+                                        ->orderBy('nombre', 'ASC')
                                         ->get();
     }
 }

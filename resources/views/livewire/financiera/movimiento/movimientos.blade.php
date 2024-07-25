@@ -7,7 +7,7 @@
             <div class="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
                 @foreach ($saldos as $item)
                     <button wire:click.prevent="filban({{$item->banco_id}})" type="button" class="inline-flex items-center p-1 m-1 text-sm font-medium text-blue-900 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 border border-blue-900 rounded-lg hover:bg-blue-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-blue-700 dark:focus:bg-blue-700">
-                        <i class="fa-solid fa-file-invoice-dollar"></i> {{$item->banco_id}} Saldo: $ {{number_format($item->saldo, 0, '.', ' ')}}
+                        <i class="fa-solid fa-file-invoice-dollar mr-2"></i> <span class=" font-extrabold uppercase">{{$item->banco->nombre}}</span> ---  Saldo: $ {{number_format($item->saldo, 0, '.', ' ')}}
                     </button>
                 @endforeach
             </div>
@@ -129,10 +129,10 @@
                                 {{$item->fecha}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white capitalize">
-                                {{$item->banco_id}}{{-- {{$item->bancos->nombre}} --}}
+                                {{$item->banco->nombre}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white capitalize">
-                                {{$item->concepto_id}}{{-- {{$item->conceptos->concepto}} --}}
+                                {{$item->concepto->concepto}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white capitalize">
                                 $ {{number_format($item->valor, 0, '.', ' ')}}

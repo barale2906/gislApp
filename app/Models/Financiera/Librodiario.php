@@ -16,7 +16,7 @@ class Librodiario extends Model
      * Relación uno a muchos inversa.
      * movimiento banco
      */
-    public function bancos() : BelongsTo
+    public function banco() : BelongsTo
     {
         return $this->belongsTo(Banco::class);
     }
@@ -25,7 +25,7 @@ class Librodiario extends Model
      * Relación uno a muchos inversa.
      * movimiento por concepto
      */
-    public function conceptos() : BelongsTo
+    public function concepto() : BelongsTo
     {
         return $this->belongsTo(Concepto::class);
     }

@@ -7,6 +7,7 @@ trait FiltroTrait
     public $text;
     public $is_filtro=false;
     public $is_creacion=false;
+    public $is_banco=false;
     public $is_entrega=false;
     public $is_ubicaenvia=false;
     public $is_ubicarecibe=false;
@@ -79,6 +80,7 @@ trait FiltroTrait
                 $this->text='Buscar Comentario de Movimientos';
                 $this->is_creacion=!$this->is_creacion;
                 $this->is_conceptos=!$this->is_conceptos;
+                $this->is_banco=!$this->is_banco;
                 break;
         }
     }
