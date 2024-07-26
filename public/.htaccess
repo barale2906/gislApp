@@ -19,8 +19,4 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 
-    # Ensure the .htaccess file is being processed
-    Options +FollowSymLinks
-    RewriteRule ^ storage/(.*)$ /storage/$1 [L]
-
 </IfModule>
