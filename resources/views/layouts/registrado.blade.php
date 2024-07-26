@@ -21,6 +21,10 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+        {{-- Compresor de imagenes --}}
+        <script src="https://cdn.jsdelivr.net/npm/compress.js@1.1.3/dist/compress.min.js"></script>
+
+
         <!-- Styles -->
         @livewireStyles
 
