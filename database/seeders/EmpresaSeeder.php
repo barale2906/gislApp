@@ -16,6 +16,8 @@ class EmpresaSeeder extends Seeder
      */
     public function run(): void
     {
+        $areas=['gerencia','correspondencia'];
+
         $emp=Empresa::create([
             'nit'               => '901713998',
             'name'              => 'gisla mensajería creatividad y tecnología S.A.S.',
@@ -43,15 +45,20 @@ class EmpresaSeeder extends Seeder
             'ciudad_id' =>1
         ]);
 
-        //Crear primer área de la sucursal
-        $area=Area::where('name', 'gerencia')->first();
+        //Crear áreas de la sucursal
+        $areast=Area::where('status', true)
+                    ->select('id')
+                    ->orderBy('id')
+                    ->get();
 
-        DB::table('area_sucursal')->insert([
-            'area_id'       =>$area->id,
-            'sucursal_id'   =>$suc->id,
-            'created_at'    =>now(),
-            'updated_at'    =>now()
-        ]);
+        foreach ($areast as $value) {
+            DB::table('area_sucursal')->insert([
+                'area_id'       =>$value->id,
+                'sucursal_id'   =>$suc->id,
+                'created_at'    =>now(),
+                'updated_at'    =>now()
+            ]);
+        }
 
         $empr=Empresa::create([
             'nit'               => '900474371',
@@ -80,15 +87,17 @@ class EmpresaSeeder extends Seeder
             'ciudad_id' =>1
             ]);
 
-            //Crear primer área de la sucursal
-            $area=Area::where('name', 'gerencia')->first();
+            //Crear áreas de la sucursal
+            $espacios=Area::whereIn('name', $areas)->get();
 
-            DB::table('area_sucursal')->insert([
-            'area_id'       =>$area->id,
-            'sucursal_id'   =>$sucu->id,
-            'created_at'    =>now(),
-            'updated_at'    =>now()
-            ]);
+            foreach ($espacios as $value) {
+                DB::table('area_sucursal')->insert([
+                    'area_id'       =>$value->id,
+                    'sucursal_id'   =>$sucu->id,
+                    'created_at'    =>now(),
+                    'updated_at'    =>now()
+                    ]);
+            }
 
             $empr1=Empresa::create([
                 'nit'               => '900800698',
@@ -117,15 +126,17 @@ class EmpresaSeeder extends Seeder
                 'ciudad_id' =>1
                 ]);
 
-                //Crear primer área de la sucursal
-                $area=Area::where('name', 'gerencia')->first();
+                //Crear áreas de la sucursal
+                $espacios=Area::whereIn('name', $areas)->get();
 
-                DB::table('area_sucursal')->insert([
-                'area_id'       =>$area->id,
-                'sucursal_id'   =>$sucu->id,
-                'created_at'    =>now(),
-                'updated_at'    =>now()
-                ]);
+                foreach ($espacios as $value) {
+                    DB::table('area_sucursal')->insert([
+                        'area_id'       =>$value->id,
+                        'sucursal_id'   =>$sucu->id,
+                        'created_at'    =>now(),
+                        'updated_at'    =>now()
+                        ]);
+                }
 
                 $empr1=Empresa::create([
                     'nit'               => '900346539',
@@ -154,15 +165,17 @@ class EmpresaSeeder extends Seeder
                     'ciudad_id' =>1
                     ]);
 
-                    //Crear primer área de la sucursal
-                    $area=Area::where('name', 'gerencia')->first();
+                    //Crear áreas de la sucursal
+                    $espacios=Area::whereIn('name', $areas)->get();
 
-                    DB::table('area_sucursal')->insert([
-                    'area_id'       =>$area->id,
-                    'sucursal_id'   =>$sucu->id,
-                    'created_at'    =>now(),
-                    'updated_at'    =>now()
-                    ]);
+                    foreach ($espacios as $value) {
+                        DB::table('area_sucursal')->insert([
+                            'area_id'       =>$value->id,
+                            'sucursal_id'   =>$sucu->id,
+                            'created_at'    =>now(),
+                            'updated_at'    =>now()
+                            ]);
+                    }
 
                     $empr1=Empresa::create([
                         'nit'               => '900277244',
@@ -191,14 +204,16 @@ class EmpresaSeeder extends Seeder
                         'ciudad_id' =>1
                         ]);
 
-                        //Crear primer área de la sucursal
-                        $area=Area::where('name', 'gerencia')->first();
+                        //Crear áreas de la sucursal
+                        $espacios=Area::whereIn('name', $areas)->get();
 
-                        DB::table('area_sucursal')->insert([
-                        'area_id'       =>$area->id,
-                        'sucursal_id'   =>$sucu->id,
-                        'created_at'    =>now(),
-                        'updated_at'    =>now()
-                        ]);
+                        foreach ($espacios as $value) {
+                            DB::table('area_sucursal')->insert([
+                                'area_id'       =>$value->id,
+                                'sucursal_id'   =>$sucu->id,
+                                'created_at'    =>now(),
+                                'updated_at'    =>now()
+                                ]);
+                        }
     }
 }

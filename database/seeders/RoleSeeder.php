@@ -207,6 +207,12 @@ class RoleSeeder extends Seeder
                         'modulo'=>'Facturacion'
                         ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
 
+        Permission::create([
+                            'name'=>'fa_empresasInactivar',
+                            'descripcion'=>'Inactivar empresas',
+                            'modulo'=>'Facturacion'
+                            ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+
 
         Permission::create([
                         'name'=>'fa_listas',
