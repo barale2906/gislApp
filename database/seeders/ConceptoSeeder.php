@@ -223,5 +223,10 @@ class ConceptoSeeder extends Seeder
             'tipo'          =>true,
         ]);
 
+        Concepto::create([
+            'concepto'      =>strtolower('pago Taxis Clientes'),
+            'tipo'          =>false,
+        ]);
+
     }
 }

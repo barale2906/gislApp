@@ -14,16 +14,16 @@ class BancoSeeder extends Seeder
     public function run(): void
     {
         Banco::create([
-            'nombre'    =>strtolower('principal'),
-            'banco'     =>strtolower('bancolombia'),
-            'numero'    =>strtolower('215-000027-71'),
-            'tipo'      =>strtolower('ahorros'),
+            'nombre'    =>strtolower('efectivo'),
+            'banco'     =>strtolower('nn'),
+            'numero'    =>strtolower('--'),
+            'tipo'      =>strtolower('--'),
         ]);
 
         Banco::create([
-            'nombre'    =>strtolower('diego - ef-ahorros'),
+            'nombre'    =>strtolower('principal'),
             'banco'     =>strtolower('bancolombia'),
-            'numero'    =>strtolower('113-000007-07'),
+            'numero'    =>strtolower('215-000027-71'),
             'tipo'      =>strtolower('ahorros'),
         ]);
 
@@ -42,6 +42,13 @@ class BancoSeeder extends Seeder
         ]);
 
         Banco::create([
+            'nombre'    =>strtolower('diego - ef-ahorros'),
+            'banco'     =>strtolower('bancolombia'),
+            'numero'    =>strtolower('113-000007-07'),
+            'tipo'      =>strtolower('ahorros'),
+        ]);
+
+        Banco::create([
             'nombre'    =>strtolower('diego - ef-nequi'),
             'banco'     =>strtolower('bancolombia'),
             'numero'    =>strtolower('3112611747'),
@@ -55,11 +62,5 @@ class BancoSeeder extends Seeder
             'tipo'      =>strtolower('daviplata'),
         ]);
 
-        Banco::create([
-            'nombre'    =>strtolower('efectivo'),
-            'banco'     =>strtolower('nn'),
-            'numero'    =>strtolower('--'),
-            'tipo'      =>strtolower('--'),
-        ]);
     }
 }

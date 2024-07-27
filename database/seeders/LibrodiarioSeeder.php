@@ -17,7 +17,7 @@ class LibrodiarioSeeder extends Seeder
     {
         $row = 0;
 
-        if(($handle = fopen(public_path() . '/csv/Libro_diario..csv', 'r')) !== false) {
+        if(($handle = fopen(public_path() . '/csv/librodiario.csv', 'r')) !== false) {
 
                 while(($data = fgetcsv($handle, 26000, ';')) !== false) {
 
@@ -39,7 +39,7 @@ class LibrodiarioSeeder extends Seeder
 
 
                     }catch(Exception $exception){
-                        Log::info('Line: ' . $row . ' Libro_diario.csv with error: ' . $exception->getMessage());
+                        Log::info('Line: ' . $row . ' librodiario with error: ' . $exception->getMessage());
                     }
 
                 }

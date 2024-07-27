@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
         $super = User::factory()->create([
             'name' => 'Ing Alexander Barajas V',
             'email' => 'alexanderbarajas@gmail.com',
-            'password'=>bcrypt('10203040'),
+            'password'=>bcrypt('79844910'),
             'rol_id'=>1,
             'empresa_id'=>1,
         ])->assignRole('Superusuario');
@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
                             'updated_at'    =>now()
                         ]);
 
-        $id=1;
+        /* $id=1;
 
         while ($id <= 100) {
 
@@ -76,6 +76,6 @@ class UserSeeder extends Seeder
 
             $id++;
 
-        }
+        } */
     }
 }
