@@ -18,6 +18,9 @@
                             <th scope="col" class="px-6 py-3 text-center font-extrabold bg-gray-50 dark:bg-gray-700 dark:text-gray-400 uppercase">
                                 Llegan Historial
                             </th>
+                            <th scope="col" class="px-6 py-3 text-center font-extrabold bg-gray-50 dark:bg-gray-700 dark:text-gray-400 uppercase">
+                                Cargar Diligencias
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,6 +70,13 @@
                                     <button type="button" wire:click.prevent="mostrar(8)" class="{{$is_lista===8 ? 'bg-gray-400': 'bg-cyan-600'}} inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900  border border-gray-900 rounded-e-lg hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
                                         <i class="fa-solid fa-download"></i>
                                         Área
+                                    </button>
+                                </div>
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-center font-extrabold bg-gray-50 dark:bg-gray-700 dark:text-gray-400 uppercase">
+                                <div class="inline-flex rounded-md shadow-sm" role="group">
+                                    <button type="button" wire:click.prevent="impor" class="bg-green-400 inline-flex items-center px-4 py-2 text-sm font-medium text-green-900  border border-green-900 rounded-lg hover:bg-green-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-green-500 focus:bg-green-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-green-700 dark:focus:bg-green-700">
+                                        <i class="fa-solid fa-file-excel"></i>
                                     </button>
                                 </div>
                             </th>
@@ -299,6 +309,9 @@
     @endif
     @if ($is_creating)
         <livewire:diligencia.diligencia.diligencia-modificar :elegido="$elegido" :tipo="$tipo"/>
+    @endif
+    @if ($is_cargar)
+        <livewire:diligencia.diligencia.diligencia-importar/>
     @endif
 
     @push('js')

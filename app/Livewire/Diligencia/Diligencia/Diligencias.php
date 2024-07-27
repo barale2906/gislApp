@@ -22,6 +22,7 @@ class Diligencias extends Component
 
     public $is_modify = true;
     public $is_creating = false;
+    public $is_cargar=false;
     public $is_lista=1;
 
     public $ubica;
@@ -95,6 +96,7 @@ class Diligencias extends Component
         $this->reset(
                         'is_modify',
                         'is_creating',
+                        'is_cargar',
                         'tipo',
                         'elegido'
                     );
@@ -141,6 +143,11 @@ class Diligencias extends Component
         $this->resetPage();
         $this->limpiaFiltro();
         $this->is_lista=$id;
+    }
+
+    public function impor(){
+        $this->is_modify=!$this->is_modify;
+        $this->is_cargar=!$this->is_cargar;
     }
 
     public function render()
