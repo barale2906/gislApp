@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             EmpresaSeeder::class,
             UserSeeder::class,
             LibrodiarioSeeder::class,
+            OrigenSeeder::class,
         ]);
 
     }
