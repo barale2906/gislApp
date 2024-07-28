@@ -2,7 +2,10 @@
 
 namespace App\Livewire\Configuracion\Usuarios;
 
+use App\Models\Configuracion\Area;
+use App\Models\Configuracion\Ubica;
 use App\Models\Facturacion\Empresa;
+use App\Models\Facturacion\Sucursal;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -155,6 +158,30 @@ class UserModificar extends Component
                             'updated_at'    =>now()
                         ]);
             }
+
+            //Asignar ubicación
+            $areacorres=Area::where('name','correspondencia')
+                                ->select('id')
+                                ->first();
+
+            $seguimiento=Empresa::where('id',$empr)
+                                ->select('seguimiento')
+                                ->first();
+
+            $sucursal=Sucursal::where('empresa_id', $empr)
+                                ->select('id')
+                                ->first();
+
+            Ubica::create([
+                        'empresa_id'=>      $empr,
+                        'sucursal_id'=>     $sucursal->id,
+                        'area_id'=>         $areacorres->id,
+                        'user_id'=>         $nuevoUs->id,
+                        'seguimiento'=>     $seguimiento->seguimiento
+                    ]);
+
+
+
 
             // Notificación
             $this->dispatch('alerta', name:'Se ha creado correctamente el Usuario: '.$this->name);
