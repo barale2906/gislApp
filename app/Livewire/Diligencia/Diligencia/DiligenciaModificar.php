@@ -188,7 +188,7 @@ class DiligenciaModificar extends Component
                             'observaciones'     =>now()." ".Auth::user()->name." cancelo la diligencia ----- ".$this->actual->observaciones,
                         ]);
 
-        $this->dispatch('alerta', name:'Se cancelo la diligencia N°: '.$this->actual->id);
+        $this->dispatch('alerta', name:'Se CANCELO la diligencia N°: '.$this->actual->id);
         $this->resetFields();
 
         //refresh
@@ -204,7 +204,7 @@ class DiligenciaModificar extends Component
     public function recibir(){
         $this->actual->update([
             'fecha_recepcion'=>now(),
-            'observaciones'=>now()." ".Auth::user()->name." Recibio la diligencia con esta observación: ".$this->descripcion.".  ----- ".$this->actual->observaciones,
+            'observaciones'=>now()." ".Auth::user()->name." RECIBIO la diligencia con esta observación: ".$this->descripcion.".  ----- ".$this->actual->observaciones,
             'descripcion'=>now()." ".Auth::user()->name." Recibio la diligencia con esta observación: ".$this->descripcion.".  ----- ".$this->actual->descripcion,
             'status'=>6
         ]);
@@ -274,9 +274,11 @@ class DiligenciaModificar extends Component
         }
         // validate
         $this->validate();
+        $identificador=uniqid();
 
         //Crear registro
         $dili=Diligencia::create([
+                            'identificador'     =>$identificador,
                             'ubica_id'          =>$this->ubica_id,
                             'empresa_id'        =>$this->empresa_id,
                             'tipo'              =>$this->tipo_dili,

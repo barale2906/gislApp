@@ -20,7 +20,10 @@ class DiligenciasImport implements ToModel
                         ->where('status', true)
                         ->first();
 
+        $identificador=uniqid();
+
         return new Diligencia([
+            'identificador'     =>$identificador,
             'ubica_id'          =>$ubica->id,//$row[0],
             'empresa_id'        =>$ubica->empresa_id,//$row[1],
             'name_dest'         =>$row[0],

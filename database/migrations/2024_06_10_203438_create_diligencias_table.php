@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('diligencias', function (Blueprint $table) {
             $table->id();
+            $table->string('identificador')->unique()->comment('Código que identifica la diligencia');
 
             $table->unsignedBigInteger('ubica_id');
             $table->foreign('ubica_id')->references('id')->on('ubicas');

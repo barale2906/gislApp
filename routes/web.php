@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::get('/consulta', function () {
+    return view('index.diligencia.consultas');
+});
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
