@@ -15,9 +15,9 @@
             <table class="w-full text-sm text-left rtl:text-right mt-2 text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase ">
                     <tr>
-                        <th scope="col" class="px-6 py-3  bg-gray-50 dark:bg-gray-800 dark:text-gray-500" style="cursor: pointer;" wire:click="organizar('id')">
+                        <th scope="col" class="px-6 py-3  bg-gray-50 dark:bg-gray-800 dark:text-gray-500" style="cursor: pointer;" wire:click="organizar('identificador')">
                             DATOS
-                            @if ($ordena != 'id')
+                            @if ($ordena != 'identificador')
                                 <i class="fas fa-sort"></i>
                             @else
                                 @if ($ordenado=='ASC')
@@ -55,7 +55,7 @@
                                     </div>
 
 
-                                    ID: <span class=" text-xs">{{$item->id}}</span> DESTINO: NOMBRE: {{$item->name_dest}} DIRECCIÓN: {{$item->direccion_dest}} CIUDAD: {{$item->sucursal_dest}} - {{$item->ciudad->name}} -- {{$item->descripcion}}
+                                    ID: <span class=" text-xs">{{$item->identificador}}</span> DESTINO: NOMBRE: {{$item->name_dest}} DIRECCIÓN: {{$item->direccion_dest}} CIUDAD: {{$item->sucursal_dest}} - {{$item->ciudad->name}} -- {{$item->descripcion}}
                                 </div>
                                 <div class="ring-1 ring-zinc-100 rounded-md m-1  p-1">
                                     REMITE: EMPRESA: {{$item->empresa->name}} REMITE: {{$item->ubica->user->name}} SUCURSAL: {{$item->ubica->sucursal->name}} - Ciudad: {{$item->ubica->sucursal->ciudad->name}}

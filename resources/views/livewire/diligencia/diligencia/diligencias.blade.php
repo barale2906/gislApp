@@ -132,9 +132,9 @@
                                 <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 
                                 </th>
-                                <th scope="col" class="px-6 py-3  bg-gray-200 dark:bg-gray-800 dark:text-gray-500" style="cursor: pointer;" wire:click="organizar('id')">
+                                <th scope="col" class="px-6 py-3  bg-gray-200 dark:bg-gray-800 dark:text-gray-500" style="cursor: pointer;" wire:click="organizar('identificador')">
                                     ID
-                                    @if ($ordena != 'id')
+                                    @if ($ordena != 'identificador')
                                         <i class="fas fa-sort"></i>
                                     @else
                                         @if ($ordenado=='ASC')
@@ -244,7 +244,7 @@
                                         </div>
                                     </th>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{$item->id}}
+                                        {{$item->identificador}}
                                     </th>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                         {{$item->created_at}}
