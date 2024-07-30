@@ -17,6 +17,7 @@ class MovimientosCreate extends Component
     public $status;
 
     public $banco_id;
+    public $banco_dos;
     public $concepto_id;
     public $concep;
     public $fecha;
@@ -39,13 +40,6 @@ class MovimientosCreate extends Component
         }
     }
 
-    /* public function updatedConceptoId(){
-
-        $dato=explode('--',$this->concepto_id);
-        $this->concep=intval($dato[0]);
-        $this->tip=intval($dato[1]);
-    }
- */
     /**
      * Reglas de validación
      */
