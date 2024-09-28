@@ -5,6 +5,8 @@
 /public/csv
 /public/img
 /public/storage
+/public/build.zip
+/copiaDb
 /storage/*.key
 /vendor
 .env
@@ -19,3 +21,5 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/copiaDb
+
