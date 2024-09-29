@@ -104,7 +104,7 @@
                             @if (!$factura->ruta && $factura->status===2)
                                 <i class="fa-solid fa-upload " wire:click.prevent="muestrazip()" style="cursor: pointer;"></i>
                             @endif
-                            @if ($factura->ruta && $factura->status===2)
+                            @if ($factura->ruta)
                                 <a href="{{Storage::url($factura->ruta)}}" target="_blank">
                                     <i class="fa-solid fa-download "></i>
                                 </a>
