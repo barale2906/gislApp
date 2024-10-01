@@ -62,7 +62,7 @@ class MensGestion extends Component
 
         if($this->foto){
 
-            $nombre='public/soportes/'.$this->actual->id."-".uniqid().".".$this->foto->extension();
+            $nombre='soportes/'.$this->actual->id."-".uniqid().".".$this->foto->extension();
             $this->foto->storeAs($nombre);
 
             Dilifotos::create([

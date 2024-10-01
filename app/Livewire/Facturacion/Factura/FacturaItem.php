@@ -430,7 +430,7 @@ class FacturaItem extends Component
 
     public function cargarzip(){
 
-        $nombre='public/facturas/'.$this->factura->id."-".uniqid().".".$this->zip->extension();
+        $nombre='facturas/'.$this->factura->id."-".uniqid().".".$this->zip->extension();
         $this->zip->storeAs($nombre);
 
             $this->factura->update([
