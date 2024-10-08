@@ -122,8 +122,8 @@ class RolesModificar extends Component
             ]);
 
             //Actualizar permisos
-            //$this->actual->permissions()->sync($this->permis);
-            $this->actual->syncPermissions($this->permis);
+            $this->actual->permissions()->sync($this->permis);
+             //$this->actual->syncPermissions($this->permis);
 
             $this->dispatch('alerta', name:'Se ha modificado correctamente el Rol: '.$this->name);
             $this->resetFields();
