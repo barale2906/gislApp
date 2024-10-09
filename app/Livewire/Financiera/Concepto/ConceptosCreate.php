@@ -12,9 +12,11 @@ class ConceptosCreate extends Component
     public $name;
     public $cuenta;
     public $tip;
+    public $accion=1;
     public $actual;
     public $tipo=0;
     public $status;
+    public $is_accion=false;
 
     public function mount($elegido=null, $tipo=null){
         if($elegido){
@@ -36,6 +38,16 @@ class ConceptosCreate extends Component
             $this->status=true;
         }else{
             $this->status=false;
+        }
+    }
+
+    public function updatedTip(){
+
+        $this->reset('is_accion','accion');
+        $tip=intval($this->tip);
+
+        if($tip===1){
+            $this->is_accion=true;
         }
     }
 
@@ -63,6 +75,7 @@ class ConceptosCreate extends Component
     protected $rules = [
         'concepto'=>'required|unique:conceptos',
         'tipo'=>'required',
+        'accion'=>'required',
     ];
 
     /**
@@ -74,6 +87,7 @@ class ConceptosCreate extends Component
             'concepto',
             'cuenta',
             'tip',
+            'accion'
         );
 
     }
@@ -85,9 +99,10 @@ class ConceptosCreate extends Component
 
         //Crear registro
         Concepto::create([
-            'concepto'    =>strtolower($this->concepto),
-            'cuenta'     =>strtolower($this->cuenta),
-            'tipo'      =>strtolower($this->tip),
+            'concepto'  =>strtolower($this->concepto),
+            'cuenta'    =>strtolower($this->cuenta),
+            'tipo'      =>$this->tip,
+            'accion'    =>$this->accion
         ]);
 
 
