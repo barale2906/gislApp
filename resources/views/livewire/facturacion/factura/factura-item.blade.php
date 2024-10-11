@@ -94,7 +94,7 @@
     @if ($is_factura)
 
         <div class="w-full p-4 text-center bg-green-50 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <h5 class="mb-2 text-3xl font-bold text-gray-900 dark:text-white capitalize">{{$factura->empresa}}</h5>
+            <h5 class="mb-2 text-3xl font-bold text-gray-900 dark:text-white capitalize">{{$factura->cliente}}</h5>
 
             <div class="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="stats" role="tabpanel" aria-labelledby="stats-tab">
                 <dl class="grid max-w-screen-xl grid-cols-2 gap-6 p-4 mx-auto text-gray-900 sm:grid-cols-3 xl:grid-cols-6 dark:text-white sm:p-8">

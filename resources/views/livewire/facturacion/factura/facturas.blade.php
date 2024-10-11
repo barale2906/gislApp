@@ -21,9 +21,9 @@
                                 @endif
                             @endif
                         </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('empresa')">
+                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('cliente')">
                             EMPRESA
-                            @if ($ordena != 'empresa')
+                            @if ($ordena != 'cliente')
                                 <i class="fas fa-sort"></i>
                             @else
                                 @if ($ordenado=='ASC')
@@ -130,7 +130,7 @@
                                 {{$item->numero}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white capitalize">
-                                {{$item->empresa}}
+                                {{$item->cliente}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white uppercase">
                                 {{$item->fecha}}

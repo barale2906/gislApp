@@ -8,6 +8,7 @@ use App\Models\Facturacion\Factura;
 use App\Models\Facturacion\FacturaDetalle;
 use App\Models\Facturacion\ListaEmpresa;
 use App\Models\Facturacion\Producto;
+use App\Models\Financiera\Cartera;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -151,7 +152,7 @@ class FacturaItem extends Component
         Factura::create([
             'lista_id'      => $this->lista->lista_id,
             'empresa_id'    => $this->lista->empresa_id,
-            'empresa'       => $this->lista->empresa,
+            'cliente'       => $this->lista->empresa,
             'total'         => $total,
             'descuento'     => $descuentoTotal,
             'user_id'       => Auth::user()->id,
@@ -266,12 +267,24 @@ class FacturaItem extends Component
         $existe=Factura::where('numero', $this->numerofactura)->count();
 
         if($existe===0 && $this->observaciones && $this->numerofactura){
+
             //Actualizar factura
 
             $this->factura->update([
                 'numero'        =>$this->numerofactura,
                 'status'        =>2,
                 'observaciones' =>$this->observaciones
+            ]);
+
+            //Crear Cartera
+            Cartera::create([
+                    'cliente'       =>$this->factura->cliente,
+                    'nit'           =>$this->factura->empresa->nit,
+                    'total'         =>$this->factura->total,
+                    'saldo'         =>$this->factura->total,
+                    'descuento'     =>$this->factura->descuento,
+                    'factura_id'    =>$this->factura->id,
+                    'comentarios'   =>now().': '.Auth::user()->name.' Genero la factura.',
             ]);
 
             //Actualizar diligencia sin requerimiento
@@ -453,10 +466,17 @@ class FacturaItem extends Component
             ]);
 
             $this->factura->update([
-                'status'        =>4,
+                'status'        =>5,
                 'observaciones' =>Auth::user()->name.' Anulo con: '.$this->observaciones.' ----- '.$this->factura->observaciones,
             ]);
 
+            //REgistrar anulación de la cartera
+            $cartera = Cartera::where('factura_id',$this->factura->id)->first();
+
+            $cartera->update([
+                'status'        =>4,
+                'comentarios'   =>Auth::user()->name.' Anulo con: '.$this->observaciones.' ----- '.$cartera->comentarios,
+            ]);
 
             $this->dispatch('alerta', name:'Se anulo correctamente la factura.');
             $this->dispatch('cancelando');

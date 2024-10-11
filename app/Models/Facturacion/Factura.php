@@ -2,18 +2,29 @@
 
 namespace App\Models\Facturacion;
 
+use App\Models\Financiera\Cartera;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Factura extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    /**
+     * Relación uno a muchos.
+     * Registro de Cartera
+     */
+    public function cartera() : HasOne
+    {
+        return $this->hasOne(Cartera::class);
+    }
 
     /**
      * Relación uno a muchos.
@@ -32,6 +43,7 @@ class Factura extends Model
     {
         return $this->belongsTo(Lista::class);
     }
+
 
     /**
      * Relación uno a muchos inversa.

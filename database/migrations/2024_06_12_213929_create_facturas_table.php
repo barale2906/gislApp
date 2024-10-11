@@ -26,7 +26,7 @@ return new class extends Migration
             $table->integer('numero')->nullable()->comment('numero de factura según la DIAN');
             $table->date('fecha')->comment('Fecha de facturación');
             $table->date('vencimiento')->comment('Fecha de vencimiento');
-            $table->string('empresa')->comment('nombre de la empresa a quien se le factura');
+            $table->string('cliente')->comment('nombre de la empresa a quien se le factura');
             $table->double('total')->comments('total de la factura');
             $table->double('descuento')->comment('total descuento aplicado');
             $table->longText('observaciones')->nullable()->comment('info a tener en cuenta');
