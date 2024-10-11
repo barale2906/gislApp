@@ -4,6 +4,7 @@ namespace App\Livewire\Financiera\Movimiento;
 
 use App\Models\Facturacion\Factura;
 use App\Models\Financiera\Banco;
+use App\Models\Financiera\Cartera;
 use App\Models\Financiera\Concepto;
 use App\Models\Financiera\Librodiario;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +25,8 @@ class MovimientosCreate extends Component
     public $concep;
     public $accion;
     public $facturas;
+    public $cartera_id;
+    public $mensaje;
     public $fecha;
     public $valor;
     public $saldo;
@@ -59,8 +62,8 @@ class MovimientosCreate extends Component
         $this->reset('facturas','is_facturas','is_bancos');
         switch ($this->accion) {
             case 2:
-                $this->facturas=Factura::where('status',2)
-                                        ->orderBy('fecha','ASC')
+                $this->facturas=Cartera::where('status','<',3)
+                                        ->orderBy('cliente','ASC')
                                         ->get();
                 $this->is_facturas=true;
                 break;
@@ -97,8 +100,10 @@ class MovimientosCreate extends Component
             'facturas',
             'is_facturas',
             'is_bancos',
+            'saldo',
+            'status',
+            'mensaje'
         );
-
     }
 
     // Crear Registro
@@ -150,7 +155,7 @@ class MovimientosCreate extends Component
     public function saliendo(){
 
         // Notificación
-        $this->dispatch('alerta', name:'Se ha creado correctamente el movimiento con fecha: '.$this->fecha);
+        $this->dispatch('alerta', name:'Se ha creado correctamente el movimiento con fecha: '.$this->fecha.'. '.$this->mensaje);
         $this->resetFields();
 
         //refresh
@@ -186,6 +191,26 @@ class MovimientosCreate extends Component
     }
 
     public function pagafactura(){
+
+        $cartera=Cartera::find($this->cartera_id);
+        $saldo=$cartera->saldo-$this->valor;
+
+        if($saldo>0){
+            $this->saldo=$saldo;
+            $this->status=2;
+            $this->mensaje="Se cargo abono a la factura.";
+        }else{
+            $this->saldo=0;
+            $this->status=3;
+            $this->mensaje="Se pago completamente la factura.";
+        }
+
+        $cartera->update([
+            'saldo'         =>$this->saldo,
+            'status'        =>$this->status,
+            'comentarios'   =>now()." ".Auth::user()->name.": Se genero pago por: $ ".$this->valor.", ".$this->comentario." ----- ".$cartera->comentarios,
+        ]);
+
         $this->saliendo();
     }
 

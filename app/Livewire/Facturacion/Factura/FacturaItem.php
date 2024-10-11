@@ -281,7 +281,7 @@ class FacturaItem extends Component
                     'cliente'       =>$this->factura->cliente,
                     'nit'           =>$this->factura->empresa->nit,
                     'total'         =>$this->factura->total,
-                    'saldo'         =>$this->factura->total,
+                    'saldo'         =>$this->factura->total-$this->factura->descuento,
                     'descuento'     =>$this->factura->descuento,
                     'factura_id'    =>$this->factura->id,
                     'comentarios'   =>now().': '.Auth::user()->name.' Genero la factura.',
