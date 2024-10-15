@@ -297,7 +297,7 @@ class DiligenciaModificar extends Component
 
 
         // Notificación
-        $this->dispatch('alerta', name:'Se ha creado correctamente la diligencia N°: '.$dili->id);
+        $this->dispatch('alerta', name:'Se ha creado correctamente la diligencia N°: '.$dili->identificador);
         $this->resetFields();
 
         //refresh

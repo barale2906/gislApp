@@ -38,7 +38,8 @@ class Consulta extends Component
 
     public function seguimiento(){
         $this->reset('uno', 'dos', 'total');
-        $this->is_referencia=!$this->is_referencia;
+        $this->mount();
+        $this->is_referencia=true;
         $this->diligencia=Diligencia::where('identificador', $this->codigo)
                                     ->where('status_factura', 1)
                                     ->first();
