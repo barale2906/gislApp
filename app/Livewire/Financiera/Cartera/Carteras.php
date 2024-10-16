@@ -79,12 +79,8 @@ class Carteras extends Component
 
     private function totalcarteras(){
         return Cartera::buscar($this->busqueda)
-                        ->sum('total');
-    }
-
-    private function totalsaldo(){
-        return Cartera::buscar($this->busqueda)
-                        ->sum('saldo');
+                        ->selectRaw('SUM(total) as total, SUM(saldo) as saldo')
+                        ->first();
     }
 
     public function render()
@@ -92,7 +88,6 @@ class Carteras extends Component
         return view('livewire.financiera.cartera.carteras',[
             'carteras'  =>$this->carteras(),
             'total'     =>$this->totalcarteras(),
-            'saldo'     =>$this->totalsaldo(),
         ]);
     }
 }
