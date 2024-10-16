@@ -13,7 +13,7 @@ class Carteras extends Component
     use WithPagination;
     use FiltroTrait;
 
-    public $permiso='fi_carterasModify';
+    public $permiso='fi_carterasModif';
     public $buscar;
     public $busqueda;
 
