@@ -77,10 +77,22 @@ class Carteras extends Component
                         ->paginate($this->pages);
     }
 
+    private function totalcarteras(){
+        return Cartera::buscar($this->busqueda)
+                        ->sum('total');
+    }
+
+    private function totalsaldo(){
+        return Cartera::buscar($this->busqueda)
+                        ->sum('saldo');
+    }
+
     public function render()
     {
         return view('livewire.financiera.cartera.carteras',[
-            'carteras'  =>$this->carteras()
+            'carteras'  =>$this->carteras(),
+            'total'     =>$this->totalcarteras(),
+            'saldo'     =>$this->totalsaldo(),
         ]);
     }
 }

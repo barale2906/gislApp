@@ -2,6 +2,9 @@
     @if ($is_modify)
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             @include('include.filtro')
+            <h1 class=" text-center text-2xl font-extrabold">
+                Saldo de cartera: ${{number_format($saldo, 0, '.', ',')}} de un total de: ${{number_format($total, 0, '.', ',')}}
+            </h1>
 
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
