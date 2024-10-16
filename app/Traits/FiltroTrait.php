@@ -82,6 +82,10 @@ trait FiltroTrait
                 $this->is_conceptos=!$this->is_conceptos;
                 $this->is_banco=!$this->is_banco;
                 break;
+
+            case 12:
+                $this->text='Buscar carteras por nombre cliente o NIT';
+                break;
         }
     }
 }

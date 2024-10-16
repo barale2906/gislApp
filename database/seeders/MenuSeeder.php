@@ -13,7 +13,15 @@ class MenuSeeder extends Seeder
      */
     public function run(): void
     {
-        $m1=Menu::create([
+        Menu::create([
+            'permiso'           => 'fi_carteras',
+            'ruta'              => 'financiera.carteras',
+            'identificaRuta'    => 'financiera.carteras',
+            'name'              => 'Cartera',
+            'icono'             => 'fa-solid fa-cash-register text-gray-500',
+            'menu_id'           => 16
+        ]);
+        /* $m1=Menu::create([
             'name'              => 'CONFIGURACIÓN',
             'identificaRuta'    => 'configuracion.*',
             'permiso'           => 'Configuracion',
@@ -179,6 +187,6 @@ class MenuSeeder extends Seeder
             'identificaRuta'    => 'pesv.*',
             'permiso'           => 'PESV',
             'icono'             => 'fa-solid fa-truck-plane'
-        ]);
+        ]); */
     }
 }

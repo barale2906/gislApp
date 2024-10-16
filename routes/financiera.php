@@ -13,3 +13,7 @@ Route::get('/conceptos', function () {
 Route::get('/movimientos', function () {
             return view('index.financiera.movimientos');
         })->middleware('can:fi_movimientos')->name('movimientos');
+
+Route::get('/carteras', function () {
+            return view('index.financiera.carteras');
+        })->middleware('can:fi_carteras')->name('carteras');

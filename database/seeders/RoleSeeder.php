@@ -14,7 +14,24 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $Superusuario=Role::create(['name'=>'Superusuario']);
+        $Superusuario=Role::where('name','Superusuario')->first();
+        $Financiero=Role::where('name','Financiero')->first();
+        $Administrativo=Role::where('name','Administrativo')->first();
+
+        Permission::create([
+                    'name'=>'fi_carteras',
+                    'descripcion'=>'Ver lista de carteras',
+                    'modulo'=>'financiera'
+            ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+
+        Permission::create([
+                    'name'=>'fi_carterasModify',
+                    'descripcion'=>'Editar carteras registrados',
+                    'modulo'=>'financiera'
+            ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+
+
+        /* $Superusuario=Role::create(['name'=>'Superusuario']);
         $Financiero=Role::create(['name'=>'Financiero']);
         $OperacionesGeneral=Role::create(['name'=>'OperacionesGeneral']);
         $OperacionesEmpresa=Role::create(['name'=>'OperacionesEmpresa']);
@@ -268,6 +285,6 @@ class RoleSeeder extends Seeder
                     'descripcion'=>'Ver listado de hojas de vida de los vehiculos',
                     'modulo'=>'pesv'
                     ])->syncRoles([$Superusuario,$OperacionesEmpresa,$OperacionesGeneral,$Administrativo,$Auxiliar,$Mensajero,$Usuario]);
-
+ */
     }
 }
