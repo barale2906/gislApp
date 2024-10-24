@@ -17,3 +17,7 @@ Route::get('/movimientos', function () {
 Route::get('/carteras', function () {
             return view('index.financiera.carteras');
         })->middleware('can:fi_carteras')->name('carteras');
+
+Route::get('/cuentasp', function () {
+            return view('index.financiera.cuentaspagar');
+        })->middleware('can:fi_cuentasp')->name('cuentasp');

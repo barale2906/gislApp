@@ -14,6 +14,15 @@ class MenuSeeder extends Seeder
     public function run(): void
     {
         Menu::create([
+            'permiso'           => 'fi_cuentasp',
+            'ruta'              => 'financiera.cuentasp',
+            'identificaRuta'    => 'financiera.cuentasp',
+            'name'              => 'Cuentas X Pagar',
+            'icono'             => 'fa-solid fa-comment-dollar text-gray-500',
+            'menu_id'           => 16
+        ]);
+        /*
+        Menu::create([
             'permiso'           => 'fi_carteras',
             'ruta'              => 'financiera.carteras',
             'identificaRuta'    => 'financiera.carteras',
@@ -21,7 +30,7 @@ class MenuSeeder extends Seeder
             'icono'             => 'fa-solid fa-cash-register text-gray-500',
             'menu_id'           => 16
         ]);
-        /* $m1=Menu::create([
+        $m1=Menu::create([
             'name'              => 'CONFIGURACIÓN',
             'identificaRuta'    => 'configuracion.*',
             'permiso'           => 'Configuracion',

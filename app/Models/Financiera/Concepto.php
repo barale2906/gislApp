@@ -21,6 +21,15 @@ class Concepto extends Model
         return $this->hasMany(Librodiario::class);
     }
 
+    /**
+     * Relación uno a muchos.
+     * cuentas por pagar
+     */
+    public function cuentaspagar() : HasMany
+    {
+        return $this->hasMany(Cuentaspagar::class);
+    }
+
     //Buscar
     public function scopeBuscar($query, $item){
         $query->when($item ?? null, function($query, $item){
