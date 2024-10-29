@@ -2,6 +2,9 @@
     @if ($is_modify)
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             @include('include.filtro')
+            <a href="" wire:click.prevent="cerrados" class=" text-black bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm mx-2 px-5 py-2.5 text-center capitalize" >
+                <i class="fa-solid fa-bars-progress"></i>
+            </a>
 
             <div>
                 @if ($diligencias->count()>0)
@@ -63,9 +66,9 @@
                                     OBSERVACIONES
                                 </th>
 
-                                <th scope="col" class="px-6 py-3 bg-gray-200 dark:bg-gray-800 dark:text-gray-500" style="cursor: pointer;" wire:click="organizar('created_at')">
-                                    Fecha - Remite
-                                    @if ($ordena != 'created_at')
+                                <th scope="col" class="px-6 py-3 bg-gray-200 dark:bg-gray-800 dark:text-gray-500" style="cursor: pointer;" wire:click="organizar('fecha_entrega')">
+                                    Fecha Entrega - Remite
+                                    @if ($ordena != 'fecha_entrega')
                                         <i class="fas fa-sort"></i>
                                     @else
                                         @if ($ordenado=='ASC')
@@ -101,7 +104,7 @@
                                                 <button wire:click.prevent="show({{$item->id}},{{1}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 border border-blue-900 rounded-lg hover:bg-blue-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-blue-700 dark:focus:bg-blue-700">
                                                     <i class="fa-solid fa-inbox"></i>
                                                 </button>
-                                                @if ($usuconsulta)
+                                                @if ($usuconsulta && $item->status<=3)
                                                     <button wire:click.prevent="asignar({{$item->id}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-green-900 bg-gradient-to-r from-green-300 via-green-400 to-green-500 border border-green-900 rounded-lg hover:bg-green-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-green-500 focus:bg-green-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-green-700 dark:focus:bg-green-700">
                                                         <i class="fa-solid fa-road"></i>
                                                     </button>
@@ -133,8 +136,43 @@
                                                     En proceso
                                                 </span>
                                                 @break
+                                            @case(3)
+                                                <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">
+                                                    En proceso
+                                                </span>
+                                                @break
+                                            @case(4)
+                                                <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">
+                                                    Entregada Destinatario
+                                                </span>
+                                                @break
+                                            @case(5)
+                                                <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">
+                                                    Ejecutada
+                                                </span>
+                                                @break
+                                            @case(6)
+                                                <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">
+                                                    Cerrada
+                                                </span>
+                                                @break
+                                            @case(7)
+                                                <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">
+                                                    Legalizada Mensajero
+                                                </span>
+                                                @break
+                                            @case(8)
+                                                <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">
+                                                    Devolución
+                                                </span>
+                                                @break
+                                            @case(9)
+                                                <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">
+                                                    Cancelada
+                                                </span>
+                                                @break
                                         @endswitch
-                                        FECHA: {{$item->created_at}} EMPRESA: {{$item->empresa->name}} REMITE: {{$item->ubica->user->name}} SUCURSAL: {{$item->ubica->sucursal->name}} - Ciudad: {{$item->ubica->sucursal->ciudad->name}}
+                                        FECHA ENTREGA: {{$item->fecha_entrega}} EMPRESA: {{$item->empresa->name}} REMITE: {{$item->ubica->user->name}} SUCURSAL: {{$item->ubica->sucursal->name}} - Ciudad: {{$item->ubica->sucursal->ciudad->name}}
                                     </th>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 text-justify  dark:text-white capitalize">
                                         NOMBRE: {{$item->name_dest}} DIRECCIÓN: {{$item->direccion_dest}} CIUDAD: {{$item->sucursal_dest}} - {{$item->ciudad->name}}

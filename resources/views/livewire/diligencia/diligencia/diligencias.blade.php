@@ -124,7 +124,7 @@
                                 <th scope="col" colspan="6" class="px-6 py-3 text-center text-xl font-extrabold bg-gray-200 dark:bg-gray-800 dark:text-gray-500">
                                     REMITENTE
                                 </th>
-                                <th scope="col" colspan="6" class="px-6 py-3 text-center text-xl font-extrabold bg-gray-300 dark:bg-gray-900 dark:text-gray-600">
+                                <th scope="col" colspan="7" class="px-6 py-3 text-center text-xl font-extrabold bg-gray-300 dark:bg-gray-900 dark:text-gray-600">
                                     DESTINATARIO
                                 </th>
                             </tr>
@@ -145,7 +145,7 @@
                                     @endif
                                 </th>
                                 <th scope="col" class="px-6 py-3 bg-gray-200 dark:bg-gray-800 dark:text-gray-500" style="cursor: pointer;" wire:click="organizar('created_at')">
-                                    Fecha
+                                    Fecha Creación
                                     @if ($ordena != 'created_at')
                                         <i class="fas fa-sort"></i>
                                     @else
@@ -167,6 +167,18 @@
                                 </th>
                                 <th scope="col" class="px-6 py-3 bg-gray-200 dark:bg-gray-800 dark:text-gray-500" >
                                     Área
+                                </th>
+                                <th scope="col" class="px-6 py-3 bg-gray-300 dark:bg-gray-900 dark:text-gray-500" style="cursor: pointer;" wire:click="organizar('fecha_entrega')">
+                                    Fecha entrega programada
+                                    @if ($ordena != 'fecha_entrega')
+                                        <i class="fas fa-sort"></i>
+                                    @else
+                                        @if ($ordenado=='ASC')
+                                            <i class="fas fa-sort-up"></i>
+                                        @else
+                                            <i class="fas fa-sort-down"></i>
+                                        @endif
+                                    @endif
                                 </th>
                                 <th scope="col" class="px-6 py-3 bg-gray-300 dark:bg-gray-900 dark:text-gray-600" style="cursor: pointer;" wire:click="organizar('name_dest')">
                                     Destinatario
@@ -260,6 +272,9 @@
                                     </th>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                         {{$item->ubica->area->name}}
+                                    </th>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
+                                        {{$item->fecha_entrega}}
                                     </th>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                         {{$item->name_dest}}

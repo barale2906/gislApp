@@ -39,6 +39,8 @@ class Gestiones extends Component
     public $mensajero;
     public $mensafiltro;
     public $ciudad;
+    public $filtrostatus=[1,3];
+    public $is_status=false;
 
     protected $listeners = ['refresh' => '$refresh'];
 
@@ -67,6 +69,17 @@ class Gestiones extends Component
     public function paginas($valor){
         $this->resetPage();
         $this->pages=$valor;
+    }
+
+    //Mostrar cerradas y viceversa
+    public function cerrados(){
+        if($this->is_status){
+            $this->filtrostatus=[4,9];
+        }else{
+            $this->reset('filtrostatus');
+        }
+
+        $this->is_status=!$this->is_status;
     }
 
     //Activar evento
@@ -157,13 +170,13 @@ class Gestiones extends Component
 
         $this->dispatch('alerta', name:'Asignada');
         $this->asignados();
-        $this->gestionar([1,3]);
+        $this->gestionar($this->filtrostatus);
     }
 
     public function render()
     {
         return view('livewire.diligencia.gestion.gestiones',[
-            'diligencias'   => $this->gestionar([1,3]),
+            'diligencias'   => $this->gestionar($this->filtrostatus),
             'mensajeros'    => $this->rolusuarios('Mensajero')
         ]);
     }

@@ -42,6 +42,7 @@ class DiligenciaModificar extends Component
 
     public $descripcion;
     public $detalle;
+    public $fecha_entrega;
     public $observaciones=[];
 
     public function mount($elegido=null, $tipo=null){
@@ -230,6 +231,7 @@ class DiligenciaModificar extends Component
         'ciudad_id'         => 'required',
         'descripcion'       => 'required',
         'detalle'           => 'required',
+        'fecha_entrega'     => 'required',
     ];
 
     /**
@@ -245,7 +247,8 @@ class DiligenciaModificar extends Component
                         'direccion_dest',
                         'ciudad_id',
                         'descripcion',
-                        'detalle'
+                        'detalle',
+                        'fecha_entrega'
                     );
 
     }
@@ -292,6 +295,7 @@ class DiligenciaModificar extends Component
                             'ciudad_id'         =>$this->ciudad_id,
                             'descripcion'       =>strtolower($this->descripcion),
                             'detalle'           =>strtolower($this->detalle),
+                            'fecha_entrega'     =>$this->fecha_entrega,
                             'seguimiento'       =>$this->seguimiento
                         ]);
 
