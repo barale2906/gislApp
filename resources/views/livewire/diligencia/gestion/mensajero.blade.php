@@ -55,7 +55,7 @@
                                     </div>
 
 
-                                    ID: <span class=" text-xs">{{$item->identificador}}</span> DESTINO: NOMBRE: {{$item->name_dest}} DIRECCIÓN: {{$item->direccion_dest}} CIUDAD: {{$item->sucursal_dest}} - {{$item->ciudad->name}} -- {{$item->descripcion}}
+                                    ID: <span class=" text-xs">{{$item->identificador}}</span> ENTREGA: {{$item->fecha_entrega}}  DESTINO: NOMBRE: {{$item->name_dest}} DIRECCIÓN: {{$item->direccion_dest}} CIUDAD: {{$item->sucursal_dest}} - {{$item->ciudad->name}} -- {{$item->descripcion}}
                                 </div>
                                 <div class="ring-1 ring-zinc-100 rounded-md m-1  p-1">
                                     REMITE: EMPRESA: {{$item->empresa->name}} REMITE: {{$item->ubica->user->name}} SUCURSAL: {{$item->ubica->sucursal->name}} - Ciudad: {{$item->ubica->sucursal->ciudad->name}}
