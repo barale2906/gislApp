@@ -143,7 +143,61 @@
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200">
                         <th scope="row" class="px-6 py-4 font-medium  text-gray-900 whitespace-nowrap dark:text-white">
                             {{$item->diligencia->guias}}
-                        </th><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                            @switch($item->diligencia->status)
+
+                                @case(1)
+                                    <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                                        Creada
+                                    </span>
+                                    @break
+                                @case(2)
+                                    <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                                        Asignada
+                                    </span>
+                                    @break
+                                @case(3)
+                                    <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">
+                                        En proceso
+                                    </span>
+                                    @break
+                                @case(3)
+                                    <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">
+                                        En proceso
+                                    </span>
+                                    @break
+                                @case(4)
+                                    <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">
+                                        Entregada Destinatario
+                                    </span>
+                                    @break
+                                @case(5)
+                                    <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">
+                                        Ejecutada
+                                    </span>
+                                    @break
+                                @case(6)
+                                    <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">
+                                        Cerrada
+                                    </span>
+                                    @break
+                                @case(7)
+                                    <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">
+                                        Legalizada Mensajero
+                                    </span>
+                                    @break
+                                @case(8)
+                                    <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">
+                                        Devolución
+                                    </span>
+                                    @break
+                                @case(9)
+                                    <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-blue-300">
+                                        Cancelada
+                                    </span>
+                                    @break
+                            @endswitch
                             {{$item->diligencia->observaciones}}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
