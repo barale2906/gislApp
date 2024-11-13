@@ -31,6 +31,7 @@ class Mensajero extends Component
 
     public $is_editar=true;
     public $is_foto=false;
+    public $is_historial=false;
 
 
     public function mount(){
@@ -69,10 +70,17 @@ class Mensajero extends Component
     public function tipo($id){
         switch ($id) {
             case '1':
+                $this->elegirmensajero(Auth::user()->id);
+                $this->resetPage();
+                $this->is_historial=true;
+                $this->is_editar=false;
+                $this->ordenado='DESC';
+                break;
+            case '2':
                 $this->inicio();
                 break;
 
-            case '2':
+            case '3':
                 $this->limpiando();
                 break;
         }
@@ -157,6 +165,7 @@ class Mensajero extends Component
     {
         return view('livewire.diligencia.gestion.mensajero',[
             'diligencias'   => $this->gestionar([1,3]),
+            'historicas'    =>$this->historial(),
         ]);
     }
 }

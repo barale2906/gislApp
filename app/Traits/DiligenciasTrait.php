@@ -11,6 +11,7 @@ trait DiligenciasTrait
 {
     public $nulo;
     public $seleccionados;
+    public $mensajero;
 
     public function generales(){
 
@@ -139,5 +140,19 @@ trait DiligenciasTrait
                                     ->select('id','name')
                                     ->orderBy('name', 'ASC')
                                     ->get();
+    }
+
+    public function elegirmensajero($id){
+        $this->mensajero=$id;
+    }
+
+    public function historial(){
+        if ($this->mensajero) {
+            return Dilimensajero::where('user_id',$this->mensajero)
+                                ->whereBetween('status', [1,3])
+                                ->orderBy($this->ordena, $this->ordenado)
+                                ->paginate($this->pages);
+        }
+
     }
 }
