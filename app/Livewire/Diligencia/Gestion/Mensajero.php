@@ -78,10 +78,14 @@ class Mensajero extends Component
                 break;
             case '2':
                 $this->inicio();
+                $this->is_historial=false;
+                $this->is_editar=true;
                 break;
 
             case '3':
                 $this->limpiando();
+                $this->is_historial=false;
+                $this->is_editar=true;
                 break;
         }
     }
