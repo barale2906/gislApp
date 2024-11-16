@@ -30,4 +30,32 @@ class Dilimensajero extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeBuscar($query, $item){
+        $query->when($item ?? null, function($query, $item){
+            $query->wherehas('diligencia', function($query) use($item){
+                    $query->where('diligencias.identificador', 'like', "%".$item."%")
+                        ->orwhere('diligencias.name_dest', 'like', "%".$item."%")
+                        ->orwhere('diligencias.direccion_dest','like', "%".$item."%")
+                        ->orwhere('diligencias.descripcion','like', "%".$item."%")
+                        ->orWherehas('ubica', function($query) use($item) {
+                            $query->wherehas('user', function($query) use($item){
+                                $query->where('users.name', 'like', "%".$item."%");
+                            });
+                        })
+                        ->orWherehas('empresa', function($query) use($item) {
+                            $query->where('empresas.name', 'like', "%".$item."%");
+                        });
+                });
+            });
+
+    }
+
+    public function scopeEntregado($query, $lapso){
+        $query->when($lapso ?? null, function($query, $lapso){
+            $query->wherehas('diligencia', function($query) use($lapso){
+                $query->whereBetween('diligencias.fecha_recepcion', $lapso);
+            });
+        });
+    }
 }

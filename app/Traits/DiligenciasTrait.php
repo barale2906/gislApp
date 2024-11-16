@@ -149,6 +149,7 @@ trait DiligenciasTrait
     public function historial(){
         if ($this->mensajero) {
             return Dilimensajero::where('user_id',$this->mensajero)
+                                ->buscar($this->busqueda)
                                 ->whereBetween('status', [1,3])
                                 ->orderBy($this->ordena, $this->ordenado)
                                 ->paginate($this->pages);

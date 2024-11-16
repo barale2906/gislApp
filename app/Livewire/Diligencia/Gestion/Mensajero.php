@@ -24,7 +24,7 @@ class Mensajero extends Component
     public $filtrocrea=[];
     public $mensafiltro;
     public $ciudad;
-    public $ordena='fecha_entrega';
+    public $ordena='id';
     public $ordenado='ASC';
     public $pages = 15;
     public $elegido;
