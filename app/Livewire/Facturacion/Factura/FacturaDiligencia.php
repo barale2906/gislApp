@@ -103,7 +103,7 @@ class FacturaDiligencia extends Component
                 'total'             =>$total,
                 'descuento'         =>$descuento,
                 'descuento_total'   =>$descuentoTotal,
-                'observaciones'     =>'Diligencia N°: '.$this->dili->id
+                'observaciones'     =>'Diligencia N°: '.$this->dili->id.' - '.$this->dili->identificador
             ]);
 
             //Actualiza datos de factura
