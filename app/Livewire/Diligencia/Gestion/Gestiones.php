@@ -27,7 +27,7 @@ class Gestiones extends Component
     public $filtroCreahas;
     public $filtrocrea=[];
 
-    public $ordena='id';
+    public $ordena='fecha_entrega';
     public $ordenado='ASC';
     public $pages = 15;
 
@@ -73,10 +73,12 @@ class Gestiones extends Component
 
     //Mostrar cerradas y viceversa
     public function cerrados(){
+
         if($this->is_status){
-            $this->filtrostatus=[4,9];
-        }else{
             $this->reset('filtrostatus');
+        }else{
+            $this->filtrostatus=[4,9];
+
         }
 
         $this->is_status=!$this->is_status;
@@ -176,7 +178,7 @@ class Gestiones extends Component
     public function render()
     {
         return view('livewire.diligencia.gestion.gestiones',[
-            'diligencias'   => $this->gestionar($this->filtrostatus),
+            'diligencias'   => $this->gestionar($this->filtrostatus,$this->is_status),
             'mensajeros'    => $this->rolusuarios('Mensajero')
         ]);
     }

@@ -112,12 +112,12 @@ class Diligencia extends Model
         });
     }
 
-    public function scopeCreado($query, $lapso){
+    public function scopeEntrega($query, $lapso){
         $query->when($lapso ?? null, function($query, $lapso){
             $fecha1=Carbon::parse($lapso[0]);
             $fecha2=Carbon::parse($lapso[1]);
             $fecha2->addSeconds(86399);
-            $query->whereBetween('created_at', [$fecha1 , $fecha2]);
+            $query->whereBetween('fecha_entrega', [$fecha1 , $fecha2]);
         });
     }
 

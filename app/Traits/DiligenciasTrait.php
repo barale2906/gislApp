@@ -102,21 +102,27 @@ trait DiligenciasTrait
 
     public function gestionar($status, $nulo=null){
         if($nulo){
-            $this->nulo=$nulo;
-        }else{
-            $this->nulo='id';
-        }
-        return Diligencia::whereBetween('status', $status)
+            return Diligencia::whereBetween('status', $status)
                             ->buscar($this->busqueda)
-                            ->creado($this->filtrocrea)
+                            ->entrega($this->filtrocrea)
+                            ->ciudad($this->ciudad)
+                            ->mensajero($this->mensafiltro)
+                            ->where('seguimiento', true)
+                            ->orderBy($this->ordena, $this->ordenado)
+                            ->paginate($this->pages);
+        }else{
+            return Diligencia::whereBetween('status', $status)
+                            ->buscar($this->busqueda)
+                            ->entrega($this->filtrocrea)
                             ->ciudad($this->ciudad)
                             ->mensajero($this->mensafiltro)
                             ->where('status_factura', 1)
                             ->where('numero_fac', null)
                             ->where('seguimiento', true)
-                            ->whereNotNull($this->nulo)
                             ->orderBy($this->ordena, $this->ordenado)
                             ->paginate($this->pages);
+        }
+
 
     }
 
