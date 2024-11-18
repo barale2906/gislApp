@@ -21,7 +21,7 @@ trait DiligenciasTrait
                                     ->where('empresa_id', Auth::user()->empresa_id)
                                     ->mias(Auth::user()->id)
                                     ->buscar($this->busqueda)
-                                    ->creado($this->filtrocrea)
+                                    ->entrega($this->filtrocrea)
                                     ->entregado($this->filtroentrega)
                                     ->orderBy($this->ordena, $this->ordenado)
                                     ->paginate($this->pages);
@@ -31,7 +31,7 @@ trait DiligenciasTrait
                                     ->where('empresa_id', Auth::user()->empresa_id)
                                     ->area($this->ubica)
                                     ->buscar($this->busqueda)
-                                    ->creado($this->filtrocrea)
+                                    ->entrega($this->filtrocrea)
                                     ->entregado($this->filtroentrega)
                                     ->orderBy($this->ordena, $this->ordenado)
                                     ->paginate($this->pages);
@@ -41,7 +41,7 @@ trait DiligenciasTrait
                                     ->where('empresa_id', Auth::user()->empresa_id)
                                     ->miallega(Auth::user()->id)
                                     ->buscar($this->busqueda)
-                                    ->creado($this->filtrocrea)
+                                    ->entrega($this->filtrocrea)
                                     ->entregado($this->filtroentrega)
                                     ->orderBy($this->ordena, $this->ordenado)
                                     ->paginate($this->pages);
@@ -51,7 +51,7 @@ trait DiligenciasTrait
                                     ->where('empresa_id', Auth::user()->empresa_id)
                                     ->areallega($this->ubica)
                                     ->buscar($this->busqueda)
-                                    ->creado($this->filtrocrea)
+                                    ->entrega($this->filtrocrea)
                                     ->entregado($this->filtroentrega)
                                     ->orderBy($this->ordena, $this->ordenado)
                                     ->paginate($this->pages);
@@ -61,7 +61,7 @@ trait DiligenciasTrait
                                     ->where('empresa_id', Auth::user()->empresa_id)
                                     ->mias(Auth::user()->id)
                                     ->buscar($this->busqueda)
-                                    ->creado($this->filtrocrea)
+                                    ->entrega($this->filtrocrea)
                                     ->entregado($this->filtroentrega)
                                     ->orderBy($this->ordena, $this->ordenado)
                                     ->paginate($this->pages);
@@ -71,7 +71,7 @@ trait DiligenciasTrait
                                     ->where('empresa_id', Auth::user()->empresa_id)
                                     ->area($this->ubica)
                                     ->buscar($this->busqueda)
-                                    ->creado($this->filtrocrea)
+                                    ->entrega($this->filtrocrea)
                                     ->entregado($this->filtroentrega)
                                     ->orderBy($this->ordena, $this->ordenado)
                                     ->paginate($this->pages);
@@ -81,7 +81,7 @@ trait DiligenciasTrait
                                     ->where('empresa_id', Auth::user()->empresa_id)
                                     ->miallega(Auth::user()->id)
                                     ->buscar($this->busqueda)
-                                    ->creado($this->filtrocrea)
+                                    ->entrega($this->filtrocrea)
                                     ->entregado($this->filtroentrega)
                                     ->orderBy($this->ordena, $this->ordenado)
                                     ->paginate($this->pages);
@@ -91,7 +91,7 @@ trait DiligenciasTrait
                                     ->where('empresa_id', Auth::user()->empresa_id)
                                     ->areallega($this->ubica)
                                     ->buscar($this->busqueda)
-                                    ->creado($this->filtrocrea)
+                                    ->entrega($this->filtrocrea)
                                     ->entregado($this->filtroentrega)
                                     ->orderBy($this->ordena, $this->ordenado)
                                     ->paginate($this->pages);
