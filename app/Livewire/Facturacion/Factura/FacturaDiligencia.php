@@ -74,7 +74,7 @@ class FacturaDiligencia extends Component
         $this->factura=Factura::create([
             'lista_id'      => $this->listadetalle->lista_id,
             'empresa_id'    => $this->dili->empresa_id,
-            'empresa'       => $this->dili->empresa->name,
+            'cliente'       => $this->dili->empresa->name,
             'total'         => 0,
             'descuento'     => 0,
             'user_id'       => Auth::user()->id,
