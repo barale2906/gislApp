@@ -94,6 +94,7 @@ class Diligencia extends Model
                         ->orwhere('name_dest', 'like', "%".$item."%")
                         ->orwhere('direccion_dest','like', "%".$item."%")
                         ->orwhere('descripcion','like', "%".$item."%")
+                        ->orwhere('detalle','like', "%".$item."%")
                         ->orWherehas('ubica', function($query) use($item) {
                             $query->wherehas('user', function($query) use($item){
                                 $query->where('users.name', 'like', "%".$item."%");

@@ -151,7 +151,7 @@ class FacturaDiligencia extends Component
     public function render()
     {
         return view('livewire.facturacion.factura.factura-diligencia',[
-            'diligencias'   => $this->gestionar([4,8],'guias'),
+            'diligencias'   => $this->gestionar([4,8]),
             'productos'     => $this->productos()
         ]);
     }

@@ -66,7 +66,7 @@ class Factura extends Model
     //Buscar
     public function scopeBuscar($query, $item){
         $query->when($item ?? null, function($query, $item){
-                    $query->where('empresa', 'like', "%".$item."%")
+                    $query->where('cliente', 'like', "%".$item."%")
                         ->orwhere('numero', 'like', "%".$item."%")
                         ->orWherehas('empresa', function($query) use($item) {
                             $query->where('empresas.nit', 'like', "%".$item."%");
