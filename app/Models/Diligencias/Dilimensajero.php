@@ -51,10 +51,10 @@ class Dilimensajero extends Model
 
     }
 
-    public function scopeEntregado($query, $lapso){
+    public function scopeEntrega($query, $lapso){
         $query->when($lapso ?? null, function($query, $lapso){
             $query->wherehas('diligencia', function($query) use($lapso){
-                $query->whereBetween('diligencias.fecha_recepcion', $lapso);
+                $query->whereBetween('diligencias.fecha_entrega', $lapso);
             });
         });
     }

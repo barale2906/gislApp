@@ -156,6 +156,7 @@ trait DiligenciasTrait
         if ($this->mensajero) {
             return Dilimensajero::where('user_id',$this->mensajero)
                                 ->buscar($this->busqueda)
+                                ->entrega($this->filtrocrea)
                                 ->whereBetween('status', [1,3])
                                 ->orderBy($this->ordena, $this->ordenado)
                                 ->paginate($this->pages);

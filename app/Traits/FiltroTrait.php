@@ -66,6 +66,7 @@ trait FiltroTrait
             case 8:
                 $this->text='Buscar diligencia por id, remitente, destinatario, mensajero';
                 $this->is_crear=!$this->is_crear;
+                $this->is_creacion=!$this->is_creacion;
                 break;
 
             case 9:

@@ -21,6 +21,8 @@ class Mensajero extends Component
 
     public $buscar;
     public $busqueda;
+    public $filtroCreades;
+    public $filtroCreahas;
     public $filtrocrea=[];
     public $mensafiltro;
     public $ciudad;
@@ -37,6 +39,13 @@ class Mensajero extends Component
     public function mount(){
         $this->claseFiltro(8);
         $this->inicio();
+    }
+
+    public function updatedFiltroCreahas(){
+        $crea=array();
+        array_push($crea, $this->filtroCreades);
+        array_push($crea, $this->filtroCreahas);
+        $this->filtrocrea=$crea;
     }
 
     public function inicio(){
