@@ -2,5 +2,5 @@
     @push('title')
         Contratos
     @endpush
-    <livewire:financiera.movimiento.movimientos />
+    <livewire:humana.contrato.contratos />
 </x-registrado-layout>

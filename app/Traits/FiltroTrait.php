@@ -87,6 +87,10 @@ trait FiltroTrait
             case 12:
                 $this->text='Buscar carteras por nombre cliente o NIT';
                 break;
+
+            case 13:
+                $this->text='Buscar contrato';
+                break;
         }
     }
 }

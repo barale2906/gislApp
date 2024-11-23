@@ -21,4 +21,13 @@ class Contrato extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    //Buscar
+    public function scopeBuscar($query, $item){
+        $query->when($item ?? null, function($query, $item){
+                    $query->where('nombre', 'like', "%".$item."%")
+                        ->orwhere('descripcion', 'like', "%".$item."%");
+                });
+
+    }
 }
