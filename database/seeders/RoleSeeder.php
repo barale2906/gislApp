@@ -19,6 +19,20 @@ class RoleSeeder extends Seeder
         $Administrativo=Role::where('name','Administrativo')->first();
 
         Permission::create([
+                'name'=>'hu_contratos',
+                'descripcion'=>'Ver listado de contratos',
+                'modulo'=>'humana'
+            ])->syncRoles([$Superusuario,$Financiero]);
+
+        Permission::create([
+                'name'=>'hu_contratosModify',
+                'descripcion'=>'Modificar Contrato',
+                'modulo'=>'humana'
+            ])->syncRoles([$Superusuario,$Financiero]);
+
+
+
+        Permission::create([
                     'name'=>'fi_cuentasp',
                     'descripcion'=>'Ver lista de cuentas por pagar',
                     'modulo'=>'financiera'
@@ -30,8 +44,10 @@ class RoleSeeder extends Seeder
                     'descripcion'=>'Editar cuentas por pagar',
                     'modulo'=>'financiera'
             ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+        /*
+        --DESDE ACÁ
 
-        /*Permission::create([
+        Permission::create([
                     'name'=>'fi_carteras',
                     'descripcion'=>'Ver lista de carteras',
                     'modulo'=>'financiera'

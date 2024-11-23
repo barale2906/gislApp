@@ -9,6 +9,7 @@ use App\Models\Diligencias\Dilifotos;
 use App\Models\Diligencias\Dilimensajero;
 use App\Models\Facturacion\Empresa;
 use App\Models\Facturacion\Factura;
+use App\Models\Humana\Contrato;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -117,4 +118,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Dilifotos::class);
     }
+
+    /**
+     * Relación muchos a muchos.
+     * Diligencias con users
+     */
+    public function aprobados() : HasMany
+    {
+        return $this->hasMany(Contrato::class);
+    }
+
+
 }

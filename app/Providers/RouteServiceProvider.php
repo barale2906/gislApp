@@ -55,6 +55,11 @@ class RouteServiceProvider extends ServiceProvider
                     ->prefix('financiera')
                     ->name('financiera.')
                     ->group(base_path('routes/financiera.php'));
+
+            Route::middleware('web', 'auth')
+                    ->prefix('humana')
+                    ->name('humana.')
+                    ->group(base_path('routes/humana.php'));
         });
     }
 }

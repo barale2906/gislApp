@@ -14,6 +14,15 @@ class MenuSeeder extends Seeder
     public function run(): void
     {
         Menu::create([
+            'permiso'           => 'hu_contratos',
+            'ruta'              => 'humana.contratos',
+            'identificaRuta'    => 'humana.contratos',
+            'name'              => 'Contratos',
+            'icono'             => 'fa-solid fa-file-signature text-gray-500',
+            'menu_id'           => 10
+        ]);
+
+        Menu::create([
             'permiso'           => 'fi_cuentasp',
             'ruta'              => 'financiera.cuentasp',
             'identificaRuta'    => 'financiera.cuentasp',
@@ -21,7 +30,7 @@ class MenuSeeder extends Seeder
             'icono'             => 'fa-solid fa-comment-dollar text-gray-500',
             'menu_id'           => 16
         ]);
-        /*
+
         Menu::create([
             'permiso'           => 'fi_carteras',
             'ruta'              => 'financiera.carteras',
@@ -30,6 +39,9 @@ class MenuSeeder extends Seeder
             'icono'             => 'fa-solid fa-cash-register text-gray-500',
             'menu_id'           => 16
         ]);
+
+        /*
+        -- DESDE ACÁ
         $m1=Menu::create([
             'name'              => 'CONFIGURACIÓN',
             'identificaRuta'    => 'configuracion.*',
