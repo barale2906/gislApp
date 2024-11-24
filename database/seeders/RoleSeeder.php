@@ -19,6 +19,33 @@ class RoleSeeder extends Seeder
         $Administrativo=Role::where('name','Administrativo')->first();
 
         Permission::create([
+            'name'=>'hu_adicionales',
+            'descripcion'=>'Ver listado de costos adicionales',
+            'modulo'=>'humana'
+        ])->syncRoles([$Superusuario,$Financiero]);
+
+        Permission::create([
+            'name'=>'hu_adicionalesModify',
+            'descripcion'=>'Modificar costo adicional',
+            'modulo'=>'humana'
+        ])->syncRoles([$Superusuario,$Financiero]);
+
+        Permission::create([
+            'name'=>'fi_carteras',
+            'descripcion'=>'Ver lista de carteras',
+            'modulo'=>'financiera'
+        ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+
+        Permission::create([
+            'name'=>'fi_carterasModify',
+            'descripcion'=>'Editar carteras registrados',
+            'modulo'=>'financiera'
+        ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+
+
+        /*
+
+        Permission::create([
                 'name'=>'hu_contratos',
                 'descripcion'=>'Ver listado de contratos',
                 'modulo'=>'humana'
@@ -44,20 +71,10 @@ class RoleSeeder extends Seeder
                     'descripcion'=>'Editar cuentas por pagar',
                     'modulo'=>'financiera'
             ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
-        /*
+
         --DESDE ACÁ
 
-        Permission::create([
-                    'name'=>'fi_carteras',
-                    'descripcion'=>'Ver lista de carteras',
-                    'modulo'=>'financiera'
-            ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
 
-        Permission::create([
-                    'name'=>'fi_carterasModify',
-                    'descripcion'=>'Editar carteras registrados',
-                    'modulo'=>'financiera'
-            ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
 
 
         $Superusuario=Role::create(['name'=>'Superusuario']);

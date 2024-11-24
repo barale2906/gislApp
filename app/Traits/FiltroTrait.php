@@ -91,6 +91,10 @@ trait FiltroTrait
             case 13:
                 $this->text='Buscar contrato';
                 break;
+
+            case 14:
+                $this->text='Buscar cargos adicionales';
+                break;
         }
     }
 }
