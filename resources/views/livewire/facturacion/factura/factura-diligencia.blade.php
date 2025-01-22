@@ -59,7 +59,7 @@
                         {{$item->guias}}
                     </th>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white uppercase">
-                        {{$item->created_at}}
+                        {{$item->fecha_entrega}}
                     </th>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white uppercase">
                         {{$item->direccion_dest}}
