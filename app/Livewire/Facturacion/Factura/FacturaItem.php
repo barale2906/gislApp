@@ -88,8 +88,7 @@ class FacturaItem extends Component
 
     public function fijas(){
 
-        $this->lista=ListaEmpresa::where('status', 3)
-                                    ->where('empresa_id',$this->factura->empresa_id)
+        $this->lista=ListaEmpresa::where('empresa_id',$this->factura->empresa_id)
                                     ->where('lista_id', $this->factura->lista_id)
                                     ->first();
 
