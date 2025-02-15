@@ -44,17 +44,14 @@ class EmpresasModificar extends Component
     public $is_sucursales=false;
 
     public function mount($elegido=null, $tipo=null){
-        if($elegido){
+        $this->reset('tipo');
+        if($elegido>0){
             $this->actual=Empresa::find($elegido);
             $this->tipo=$tipo;
             $this->valores();
-
-            $this->is_sucursales=!$this->is_sucursales;
         }
-        if($tipo){
+        if($tipo>0){
             $this->tipo=$tipo;
-        }else{
-            $this->tipo=0;
         }
     }
 
@@ -81,6 +78,7 @@ class EmpresasModificar extends Component
 
         $this->tipo_suc=0;
 
+        $this->is_sucursales=true;
     }
 
     //Inactivar Registro
@@ -228,7 +226,7 @@ class EmpresasModificar extends Component
             $this->actual=Empresa::find($empr->id);
             $this->tipo=1;
             $this->valores();
-            $this->is_sucursales=!$this->is_sucursales;
+            $this->is_sucursales=true;
             //$this->dispatch('cancelando');
         }
     }

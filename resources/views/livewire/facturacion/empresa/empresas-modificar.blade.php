@@ -320,9 +320,11 @@
                 </table>
             </div>
 
+            <livewire:configuracion.soporte.soporte-gestion :id="$actual->id" :origen=1 :propietario="$actual->name"/>
+
         @endif
 
-        <livewire:configuracion.soporte.soporte-gestion :id="$actual->id" :origen=1 :propietario="$actual->name"/>
+
     @endif
 
     @if ($tipo===2)
