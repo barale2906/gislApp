@@ -211,6 +211,12 @@ class MovimientosCreate extends Component
             'comentarios'   =>now()." ".Auth::user()->name.": Se genero pago por: $ ".$this->valor.", ".$this->comentario." ----- ".$cartera->comentarios,
         ]);
 
+        // Actualiza la factura
+        Factura::where('id', $cartera->factura_id)
+                ->update([
+                    'status'=>3
+                ]);
+
         $this->saliendo();
     }
 
