@@ -1,4 +1,10 @@
 <div>
+    <h2 class=" text-justify mb-2">
+        <span class=" font-extrabold">DILIGENCIA:</span> {{$this->actual->descripcion}};
+    </h2>
+    <p class=" text-justify mb-5">
+        <span class=" font-semibold">OBSERVACIONES: </span>{{$this->actual->observaciones}}
+    </p>
     <form class="max-w-3xl mx-auto">
 
         <div class="relative z-0 w-full mb-5 group">
