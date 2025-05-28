@@ -27,7 +27,7 @@ class Facturas extends Component
 
     public $ordena='status';
     public $ordenado='ASC';
-    public $pages = 15;
+    public $pages = 100;
 
     public $is_modify = true;
     public $is_creating = false;
