@@ -14,6 +14,17 @@ class MenuSeeder extends Seeder
     public function run(): void
     {
         Menu::create([
+            'permiso'           => 'hu_salarios',
+            'ruta'              => 'humana.salarios',
+            'identificaRuta'    => 'humana.salarios',
+            'name'              => 'Salarios',
+            'icono'             => 'fa-solid fa-money-bill-1-wave text-gray-500',
+            'menu_id'           => 10
+        ]);
+
+        /*
+
+        Menu::create([
             'permiso'           => 'hu_adicionales',
             'ruta'              => 'humana.adicionales',
             'identificaRuta'    => 'humana.adicionales',
@@ -21,8 +32,6 @@ class MenuSeeder extends Seeder
             'icono'             => 'fa-solid fa-person-digging text-gray-500',
             'menu_id'           => 10
         ]);
-
-        /*
 
         Menu::create([
             'permiso'           => 'hu_contratos',

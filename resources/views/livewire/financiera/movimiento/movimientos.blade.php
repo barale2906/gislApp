@@ -134,11 +134,11 @@
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white capitalize">
                                 {{$item->concepto->concepto}}
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 text-right dark:text-white capitalize">
-                                $ {{number_format($item->valor, 0, '.', '')}}
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-right dark:text-white capitalize">
+                                $ {{number_format($item->valor, 0, ',', '.')}}
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-right text-gray-900 dark:text-white capitalize">
-                                $ {{number_format($item->saldo, 0, '.', '')}}
+                            <th scope="row" class="px-6 py-4 font-medium text-right whitespace-nowrap text-gray-900 dark:text-white capitalize">
+                                $ {{number_format($item->saldo, 0, ',', '.')}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                 @switch($item->tipo)

@@ -27,7 +27,7 @@ class FacturaDiligencia extends Component
 
     public $ordena='id';
     public $ordenado='ASC';
-    public $pages = 15;
+    public $pages = 100;
     public $busqueda=null;
     public $filtrocrea=null;
     public $ciudad;
