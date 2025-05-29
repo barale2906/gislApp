@@ -22,13 +22,11 @@ class MenuSeeder extends Seeder
             'menu_id'           => 10
         ]);
 
-        /*
-
         Menu::create([
             'permiso'           => 'hu_adicionales',
             'ruta'              => 'humana.adicionales',
             'identificaRuta'    => 'humana.adicionales',
-            'name'              => 'Contratos - Adicioanles',
+            'name'              => 'Contratos - Adicionales',
             'icono'             => 'fa-solid fa-person-digging text-gray-500',
             'menu_id'           => 10
         ]);
@@ -60,6 +58,8 @@ class MenuSeeder extends Seeder
             'menu_id'           => 16
         ]);
 
+
+        /*
         -- DESDE ACÁ
         $m1=Menu::create([
             'name'              => 'CONFIGURACIÓN',

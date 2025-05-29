@@ -30,9 +30,6 @@ class RoleSeeder extends Seeder
             'modulo'=>'humana'
         ])->syncRoles([$Superusuario,$Financiero]);
 
-
-        /*
-
         Permission::create([
             'name'=>'hu_adicionales',
             'descripcion'=>'Ver listado de costos adicionales',
@@ -72,7 +69,7 @@ class RoleSeeder extends Seeder
 
 
         Permission::create([
-                    'name'=>'fi_cuentasp',
+                    'name'=>'fi_cxp',
                     'descripcion'=>'Ver lista de cuentas por pagar',
                     'modulo'=>'financiera'
             ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
@@ -84,6 +81,7 @@ class RoleSeeder extends Seeder
                     'modulo'=>'financiera'
             ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
 
+        /*
         --DESDE ACÁ
 
 
