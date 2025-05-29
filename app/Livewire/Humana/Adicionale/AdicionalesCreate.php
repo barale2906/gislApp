@@ -10,6 +10,8 @@ class AdicionalesCreate extends Component
 {
     public $nombre;
     public $descripcion;
+    public $aplica;
+    public $crt_base;
     public $valor_tra;
     public $tipo_tra;
     public $valor_emp;
@@ -36,6 +38,8 @@ class AdicionalesCreate extends Component
     public function valores(){
         $this->nombre=$this->actual->nombre;
         $this->descripcion=$this->actual->descripcion;
+        $this->aplica=$this->actual->aplica;
+        $this->crt_base=$this->actual->crt_base;
         $this->valor_tra=$this->actual->valor_tra;
         $this->tipo_tra=$this->actual->tipo_tra;
         $this->tipo_emp=$this->actual->tipo_emp;
@@ -67,6 +71,8 @@ class AdicionalesCreate extends Component
     protected $rules = [
         'nombre'=>'required|unique:contratos',
         'descripcion'=>'required',
+        'aplica'=>'required',
+        'crt_base'=>'required',
         'valor_emp'=>'required|numeric|min:0',
         'tipo_emp'=>'required',
         'valor_tra'=>'required|numeric|min:0',
@@ -82,6 +88,8 @@ class AdicionalesCreate extends Component
         $this->reset(
             'nombre',
             'descripcion',
+            'aplica',
+            'crt_base',
             'valor_emp',
             'tipo_emp',
             'valor_tra',
@@ -148,6 +156,8 @@ class AdicionalesCreate extends Component
         Adicionale::create([
             'nombre'          =>strtolower($this->nombre),
             'descripcion'     =>strtolower($this->descripcion),
+            'aplica'          =>$this->aplica,
+            'crt_base'        =>$this->crt_base,
             'valor_emp'       =>$this->valor_emp,
             'tipo_emp'        =>$this->tipo_emp,
             'valor_tra'       =>$this->valor_tra,
@@ -172,6 +182,8 @@ class AdicionalesCreate extends Component
         $this->actual->update([
             'nombre'          =>strtolower($this->nombre),
             'descripcion'     =>strtolower($this->descripcion),
+            'aplica'          =>$this->aplica,
+            'crt_base'        =>$this->crt_base,
             'valor_emp'       =>$this->valor_emp,
             'tipo_emp'        =>$this->tipo_emp,
             'valor_tra'       =>$this->valor_tra,

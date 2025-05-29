@@ -33,6 +33,30 @@
                                 @endif
                             @endif
                         </th>
+                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('aplica')">
+                            APLICA
+                            @if ($ordena != 'aplica')
+                                <i class="fas fa-sort"></i>
+                            @else
+                                @if ($ordenado=='ASC')
+                                    <i class="fas fa-sort-up"></i>
+                                @else
+                                    <i class="fas fa-sort-down"></i>
+                                @endif
+                            @endif
+                        </th>
+                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('crt_base')">
+                            BASE DE CONTROL
+                            @if ($ordena != 'crt_base')
+                                <i class="fas fa-sort"></i>
+                            @else
+                                @if ($ordenado=='ASC')
+                                    <i class="fas fa-sort-up"></i>
+                                @else
+                                    <i class="fas fa-sort-down"></i>
+                                @endif
+                            @endif
+                        </th>
                         <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('valor_tra')">
                             VALOR PAGADO POR TRABAJADOR
                             @if ($ordena != 'valor_tra')
@@ -112,6 +136,12 @@
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                 {{$item->descripcion}}
+                            </th>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white">
+                                {{$adicionalesaplica[$item->aplica]}}
+                            </th>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white">
+                                {{$adicionalesbase[$item->crt_base]}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 text-right dark:text-white uppercase">
                                 {{number_format($item->valor_tra, 2, '.', ' ')}}
