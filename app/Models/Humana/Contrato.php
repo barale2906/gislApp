@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Contrato extends Model
 {
@@ -13,9 +14,18 @@ class Contrato extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-/**
+    /**
+     * Relación uno a muchos.
+     * salarios con este tipo de contrato
+     */
+    public function salarios() : HasMany
+    {
+        return $this->hasMany(Salario::class);
+    }
+
+    /**
      * Relación uno a muchos inversa
-     * Asignación de diligencias al mensajero
+     * persona que aprobo
      */
     public function aprobado() : BelongsTo
     {

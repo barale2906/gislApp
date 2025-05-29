@@ -24,11 +24,11 @@ return new class extends Migration
             $table->double('salud')->comment('Valor a calcular de salud sobre el salario base');
             $table->double('pension')->comment('Valor a calcular de pensión sobre el salario base');
             $table->double('arl')->comment('Valor a calcular de arl según el riesgo');
-            $table->double('cesantías')->comment('Valor a calcular de cesantías sobre el salario base');
+            $table->double('cesantias')->comment('Valor a calcular de cesantías sobre el salario base');
             $table->double('vacaciones')->comment('Valor a calcular de vacaciones sobre el salario base');
             $table->double('dotaciones')->comment('Valor a provisionar por dotaciones');
             $table->year('anio')->comment('Año en el que aplica este salario');
-            $table->longText('observaciones')->comment('anotaciones a la adición');
+            $table->longText('observaciones')->comment('anotaciones al salario');
             $table->integer('status')->default(1)->comment('0 Inactivo, 1 En proceso, 2 Activo');
 
             $table->timestamps();

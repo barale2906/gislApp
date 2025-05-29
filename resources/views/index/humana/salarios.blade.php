@@ -2,5 +2,5 @@
     @push('title')
         Salarios
     @endpush
-    <livewire:humana.contrato.contratos />
+    <livewire:humana.salario.salarios />
 </x-registrado-layout>
