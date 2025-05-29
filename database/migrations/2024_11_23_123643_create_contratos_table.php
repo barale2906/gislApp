@@ -19,6 +19,7 @@ return new class extends Migration
 
             $table->string('nombre')->comment('Nombre identificador del documento');
             $table->longText('descripcion')->comment('Detalles del contrato');
+            $table->longText('observaciones')->nullable()->comment('Observaciones de historial de cambios');
             $table->integer('status')->default(1)->comment('0 inactivo, 1 en proceso, 2 Activo');
 
             $table->timestamps();

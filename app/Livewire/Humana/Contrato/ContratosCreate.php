@@ -4,6 +4,7 @@ namespace App\Livewire\Humana\Contrato;
 
 use App\Models\Humana\Contrato;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -11,6 +12,7 @@ class ContratosCreate extends Component
 {
     public $nombre;
     public $descripcion;
+    public $observaciones;
     public $actual;
     public $tipo=0;
     public $status;
@@ -31,7 +33,6 @@ class ContratosCreate extends Component
 
     public function valores(){
         $this->nombre=$this->actual->nombre;
-        $this->descripcion=$this->actual->descripcion;
         $this->status=$this->actual->status;
     }
 
@@ -56,11 +57,29 @@ class ContratosCreate extends Component
     /**
      * Reglas de validación
      */
-    protected $rules = [
+    /* protected $rules = [
         'nombre'=>'required|unique:contratos',
         'descripcion'=>'required',
         'status'=>'required',
-    ];
+    ]; */
+
+    public function rules()
+    {
+        $rules = [
+            'descripcion'       => 'required',
+            'observaciones'     => 'required',
+            'status'            => 'required',
+        ];
+
+        // Regla condicional para el nombre
+        if($this->actual){
+            $rules['nombre']=['required', Rule::unique('contratos')->ignore($this->actual->id)];
+        }else{
+            $rules['nombre']=['required', 'unique:contratos'];
+        }
+
+        return $rules;
+    }
 
     /**
      * Reset de todos los campos
@@ -70,6 +89,7 @@ class ContratosCreate extends Component
         $this->reset(
             'nombre',
             'descripcion',
+            'observaciones',
             'status'
         );
 
@@ -80,10 +100,12 @@ class ContratosCreate extends Component
         // validate
         $this->validate();
 
+        $obs=now().": ".Auth::user()->name." creo el contrato, ".strtolower($this->observaciones);
         //Crear registro
         Contrato::create([
             'nombre'          =>strtolower($this->nombre),
             'descripcion'     =>strtolower($this->descripcion),
+            'observaciones'   =>$obs,
             'status'          =>$this->status,
             'aprobado_id'     =>Auth::user()->id
         ]);
@@ -102,12 +124,22 @@ class ContratosCreate extends Component
     // Editar Registro
     public function edit(){
 
+        if($this->descripcion){
+            $this->descripcion=$this->descripcion." ----- ".$this->actual->descripcion;
+        }else{
+            $this->descripcion=$this->descripcion;
+        }
+
+
         // validate
         $this->validate();
+
+        $obs=now().": ".Auth::user()->name." Edito el contrato: ".strtolower($this->observaciones)." ----- ".$this->actual->observaciones;
 
         $this->actual->update([
             'nombre'          =>strtolower($this->nombre),
             'descripcion'     =>strtolower($this->descripcion),
+            'observaciones'   =>$obs,
             'status'          =>$this->status,
             'aprobado_id'     =>Auth::user()->id
         ]);
