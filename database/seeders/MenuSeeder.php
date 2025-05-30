@@ -13,6 +13,7 @@ class MenuSeeder extends Seeder
      */
     public function run(): void
     {
+
         Menu::create([
             'permiso'           => 'hu_salarios',
             'ruta'              => 'humana.salarios',
@@ -41,7 +42,16 @@ class MenuSeeder extends Seeder
         ]);
 
         Menu::create([
-            'permiso'           => 'fi_cuentasp',
+            'permiso'           => 'hu_inasistencias',
+            'ruta'              => 'humana.inasistencias',
+            'identificaRuta'    => 'humana.inasistencias',
+            'name'              => 'Inasistencias',
+            'icono'             => 'fa-regular fa-hourglass text-gray-500',
+            'menu_id'           => 10
+        ]);
+
+        Menu::create([
+            'permiso'           => 'fi_cxp',
             'ruta'              => 'financiera.cuentasp',
             'identificaRuta'    => 'financiera.cuentasp',
             'name'              => 'Cuentas X Pagar',

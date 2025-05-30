@@ -99,6 +99,10 @@ trait FiltroTrait
             case 15:
                 $this->text='Buscar salarios';
                 break;
+
+            case 16:
+                $this->text='Buscar Empleado o aprobador';
+                break;
         }
     }
 }

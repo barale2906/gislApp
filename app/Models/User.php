@@ -10,6 +10,7 @@ use App\Models\Diligencias\Dilimensajero;
 use App\Models\Facturacion\Empresa;
 use App\Models\Facturacion\Factura;
 use App\Models\Humana\Contrato;
+use App\Models\Humana\Inasistencia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -111,7 +112,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Relación muchos a muchos.
+     * Relación uno a muchos.
      * fotografos mensajeros
      */
     public function fotografos() : HasMany
@@ -120,12 +121,21 @@ class User extends Authenticatable
     }
 
     /**
-     * Relación muchos a muchos.
-     * Diligencias con users
+     * Relación uno a muchos.
+     * Contratos aprobados con users
      */
     public function aprobados() : HasMany
     {
         return $this->hasMany(Contrato::class);
+    }
+
+    /**
+     * Relación uno a muchos.
+     * Empleado Inasistente
+     */
+    public function inasistencias() : HasMany
+    {
+        return $this->hasMany(Inasistencia::class);
     }
 
 

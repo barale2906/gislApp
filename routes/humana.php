@@ -13,3 +13,7 @@ Route::get('/adicionales', function () {
 Route::get('/salarios', function () {
             return view('index.humana.salarios');
         })->middleware('can:hu_salarios')->name('salarios');
+
+Route::get('/inasistencias', function () {
+            return view('index.humana.inasistencias');
+        })->middleware('can:hu_inasistencias')->name('inasistencias');
