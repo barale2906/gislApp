@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('justificada')->default(0)->comment('0 Injustificada, 1 Justificada');
             $table->longText('soporte')->nullable()->comment('Ruta con el soporte de la inasistencia');
             $table->longText('aprobo')->nullable()->comment('Nombre del funcionario que aprobo la incapacidad');
+            $table->longText('observaciones')->nullable()->comment('anotaciones de la inasistencia y /o  vacaciones');
             $table->integer('status')->default(0)->comment('0 sin aplicar 1 aplicado');
 
             $table->timestamps();

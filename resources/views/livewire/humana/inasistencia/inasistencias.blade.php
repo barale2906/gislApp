@@ -94,6 +94,9 @@
                             @endif
                         </th>
                         <th scope="col" class="px-6 py-3">
+                            OBSERVACIONES
+                        </th>
+                        <th scope="col" class="px-6 py-3">
                             SOPORTE
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -135,6 +138,9 @@
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                 {{$item->aprobo}}
+                            </th>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 text-sm  dark:text-white capitalize">
+                                {{$item->observaciones}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                 <a href="{{Storage::url($item->soporte)}}" target="_blank">

@@ -29,6 +29,7 @@ class InasistenciasCreate extends Component
     public $actual;
     public $tipo=0;
     public $status=0;
+    public $observaciones;
 
     public function mount($elegido=null, $tipo=null){
         if($elegido){
@@ -54,6 +55,7 @@ class InasistenciasCreate extends Component
         $this->soporte      = $this->actual->soporte;
         $this->aprobo       = $this->actual->aprobo;
         $this->status       = $this->actual->status;
+        $this->observaciones= $this->actual->observaciones;
     }
 
     //Inactivar Registro
@@ -86,6 +88,7 @@ class InasistenciasCreate extends Component
         'motivo'    =>'required',
         'justificada'   =>'required',
         'foto'      =>'nullable|mimes:jpg,bmp,png,jpeg,pdf',
+        'observaciones' =>'required',
         'status'    =>'required',
     ];
 
@@ -131,6 +134,7 @@ class InasistenciasCreate extends Component
                         'justificada'   =>$this->justificada,
                         'soporte'   =>$this->soporte,
                         'aprobo'    =>$this->aprobo,
+                        'observaciones'=>$this->observaciones,
                         'status'    =>$this->status,
         ]);
 
@@ -156,6 +160,8 @@ class InasistenciasCreate extends Component
         // validate
         $this->validate();
 
+        $obs=now()." ".Auth::user()->name.": ".$this->actual->observaciones." ----- ";
+
         $this->actual->update([
             'user_id'   =>$this->user_id,
             'nombre'    =>$this->nombre,
@@ -166,6 +172,7 @@ class InasistenciasCreate extends Component
             'justificada'   =>$this->justificada,
             'soporte'   =>$this->soporte,
             'aprobo'    =>$this->aprobo,
+            'observaciones'=>$obs,
             'status'    =>$this->status,
         ]);
 

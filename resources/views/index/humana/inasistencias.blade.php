@@ -1,6 +1,6 @@
 <x-registrado-layout>
     @push('title')
-        Inasistencias
+        Vacaciones - Inasistencias
     @endpush
     <livewire:humana.inasistencia.inasistencias />
 </x-registrado-layout>
