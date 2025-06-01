@@ -28,7 +28,7 @@ class InasistenciasCreate extends Component
     public $aprobo = null;
     public $actual;
     public $tipo=0;
-    public $status;
+    public $status=0;
 
     public function mount($elegido=null, $tipo=null){
         if($elegido){
@@ -40,7 +40,6 @@ class InasistenciasCreate extends Component
             $this->tipo=$tipo;
         }else{
             $this->tipo=0;
-            $this->status=1;
         }
     }
 
@@ -188,9 +187,15 @@ class InasistenciasCreate extends Component
     }
 
     private function emplenombre(){
-        $emple=User::find($this->user_id);
 
-        $this->nombre=$emple->name;
+        if($this->user_id){
+            $emple=User::find($this->user_id);
+
+            $this->nombre=$emple->name;
+        }else{
+            $this->validate();
+        }
+
     }
 
     private function apruebanombre(){
@@ -201,10 +206,16 @@ class InasistenciasCreate extends Component
 
     private function calculadia(){
 
-        $inicia=Carbon::create($this->inicia);
-        $finaliza=Carbon::create($this->finaliza);
+        if($this->inicia && $this->finaliza){
+            $inicia=Carbon::create($this->inicia);
+            $finaliza=Carbon::create($this->finaliza);
 
-        $this->dias = $inicia->diffInDays($finaliza) + 1;
+            $this->dias = $inicia->diffInDays($finaliza) + 1;
+        }else{
+            $this->validate();
+        }
+
+
     }
 
     private function empleados(){
