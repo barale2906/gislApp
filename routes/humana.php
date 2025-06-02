@@ -17,3 +17,7 @@ Route::get('/salarios', function () {
 Route::get('/inasistencias', function () {
             return view('index.humana.inasistencias');
         })->middleware('can:hu_inasistencias')->name('inasistencias');
+
+Route::get('/devengados', function () {
+            return view('index.humana.devengados');
+        })->middleware('can:hu_devengados')->name('devengados');

@@ -10,6 +10,7 @@ use App\Models\Diligencias\Dilimensajero;
 use App\Models\Facturacion\Empresa;
 use App\Models\Facturacion\Factura;
 use App\Models\Humana\Contrato;
+use App\Models\Humana\Devengado;
 use App\Models\Humana\Inasistencia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -136,6 +137,15 @@ class User extends Authenticatable
     public function inasistencias() : HasMany
     {
         return $this->hasMany(Inasistencia::class);
+    }
+
+    /**
+     * Relación uno a muchos.
+     * RElación de salarios devengados
+     */
+    public function devengados() : HasMany
+    {
+        return $this->hasMany(Devengado::class);
     }
 
 

@@ -15,6 +15,15 @@ class MenuSeeder extends Seeder
     {
 
         Menu::create([
+            'permiso'           => 'hu_devengados',
+            'ruta'              => 'humana.devengados',
+            'identificaRuta'    => 'humana.devengados',
+            'name'              => 'Nómina',
+            'icono'             => 'fa-solid fa-money-check-dollar text-gray-500',
+            'menu_id'           => 10
+        ]);
+
+        Menu::create([
             'permiso'           => 'hu_salarios',
             'ruta'              => 'humana.salarios',
             'identificaRuta'    => 'humana.salarios',

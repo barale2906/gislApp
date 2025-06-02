@@ -5,6 +5,7 @@ namespace App\Models\Humana;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Salario extends Model
 {
@@ -21,6 +22,14 @@ class Salario extends Model
         return $this->belongsTo(Contrato::class);
     }
 
+    /**
+     * Relación uno a muchos.
+     * Relación de salarios devengados con este salario
+     */
+    public function devengados() : HasMany
+    {
+        return $this->hasMany(Devengado::class);
+    }
 
     //Buscar
     public function scopeBuscar($query, $item){

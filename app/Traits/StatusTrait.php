@@ -11,4 +11,5 @@ trait StatusTrait
     public $inasistenciamotivo=["Cita médica","Cita familiar", "Incapacidad", "Evadido", "Vacaciones", "Capacitación"];
     public $inasistenciajustificada=["Injustificada", "Justificada"];
     public $inasistenciaaplicado=["Sin Aplicar", "Aplicado"];
+    public $devengadostatus=['Calculando','Pagado'];
 }
