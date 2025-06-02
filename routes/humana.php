@@ -20,4 +20,4 @@ Route::get('/inasistencias', function () {
 
 Route::get('/devengados', function () {
             return view('index.humana.devengados');
-        })->middleware('can:hu_devengados')->name('devengados');
+        })->middleware('can:hu_nominas')->name('devengados');

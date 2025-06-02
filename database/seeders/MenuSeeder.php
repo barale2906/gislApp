@@ -15,7 +15,7 @@ class MenuSeeder extends Seeder
     {
 
         Menu::create([
-            'permiso'           => 'hu_devengados',
+            'permiso'           => 'hu_nominas',
             'ruta'              => 'humana.devengados',
             'identificaRuta'    => 'humana.devengados',
             'name'              => 'Nómina',
