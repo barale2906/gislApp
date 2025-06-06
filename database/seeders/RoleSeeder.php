@@ -19,6 +19,18 @@ class RoleSeeder extends Seeder
         $Administrativo=Role::where('name','Administrativo')->first();
 
         Permission::create([
+            'name'=>'hu_plantas',
+            'descripcion'=>'Ver listado de personal de planta',
+            'modulo'=>'humana'
+        ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+
+        Permission::create([
+            'name'=>'hu_plantasModify',
+            'descripcion'=>'Modificar personal de planta',
+            'modulo'=>'humana'
+        ])->syncRoles([$Superusuario,$Financiero,$Administrativo]);
+
+        Permission::create([
             'name'=>'hu_nominas',
             'descripcion'=>'Ver listado de nómina',
             'modulo'=>'humana'

@@ -107,6 +107,10 @@ trait FiltroTrait
             case 17:
                 $this->text='Buscar empleado';
                 break;
+
+            case 18:
+                $this->text='Buscar historial de empleado.';
+                break;
         }
     }
 }

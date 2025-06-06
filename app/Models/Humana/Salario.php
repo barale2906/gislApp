@@ -31,6 +31,15 @@ class Salario extends Model
         return $this->hasMany(Devengado::class);
     }
 
+    /**
+     * Relación uno a muchos.
+     * Personas con este salario
+     */
+    public function plantas() : HasMany
+    {
+        return $this->hasMany(Planta::class);
+    }
+
     //Buscar
     public function scopeBuscar($query, $item){
         $query->when($item ?? null, function($query, $item){

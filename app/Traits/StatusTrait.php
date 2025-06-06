@@ -12,4 +12,5 @@ trait StatusTrait
     public $inasistenciajustificada=["Injustificada", "Justificada"];
     public $inasistenciaaplicado=["Sin Aplicar", "Aplicado"];
     public $devengadostatus=['Calculando','Pagado'];
+    public $plantastatus=['Inactivo','Activo'];
 }

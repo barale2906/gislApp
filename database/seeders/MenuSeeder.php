@@ -15,6 +15,15 @@ class MenuSeeder extends Seeder
     {
 
         Menu::create([
+            'permiso'           => 'hu_plantas',
+            'ruta'              => 'humana.plantas',
+            'identificaRuta'    => 'humana.plantas',
+            'name'              => 'Planta Personal',
+            'icono'             => 'fa-solid fa-people-group text-gray-500',
+            'menu_id'           => 10
+        ]);
+
+        Menu::create([
             'permiso'           => 'hu_nominas',
             'ruta'              => 'humana.devengados',
             'identificaRuta'    => 'humana.devengados',

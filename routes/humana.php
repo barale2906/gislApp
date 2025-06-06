@@ -21,3 +21,7 @@ Route::get('/inasistencias', function () {
 Route::get('/devengados', function () {
             return view('index.humana.devengados');
         })->middleware('can:hu_nominas')->name('devengados');
+
+Route::get('/plantas', function () {
+            return view('index.humana.plantas');
+        })->middleware('can:hu_plantas')->name('plantas');

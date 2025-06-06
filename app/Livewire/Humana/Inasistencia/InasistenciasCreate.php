@@ -160,7 +160,7 @@ class InasistenciasCreate extends Component
         // validate
         $this->validate();
 
-        $obs=now()." ".Auth::user()->name.": ".$this->actual->observaciones." ----- ";
+        $obs=now()." ".Auth::user()->name.": ".$this->observaciones." ----- ".$this->actual->observaciones;
 
         $this->actual->update([
             'user_id'   =>$this->user_id,

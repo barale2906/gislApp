@@ -6,47 +6,45 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Contrato extends Model
+class Planta extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     /**
-     * Relación uno a muchos.
-     * salarios con este tipo de contrato
+     * Relación uno a muchos inversa
+     * Contrato con el que fue hecha la vinculación
      */
-    public function salarios() : HasMany
+    public function contrato() : BelongsTo
     {
-        return $this->hasMany(Salario::class);
+        return $this->belongsTo(Contrato::class);
     }
 
     /**
      * Relación uno a muchos inversa
-     * persona que aprobo
+     * Empleado
      */
-    public function aprobado() : BelongsTo
+    public function empleado() : BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
     /**
-     * Relación uno a muchos.
-     * Personas con este contrato
+     * Relación uno a muchos inversa
+     * Salario aplicado
      */
-    public function plantas() : HasMany
+    public function salario() : BelongsTo
     {
-        return $this->hasMany(Planta::class);
+        return $this->belongsTo(Salario::class);
     }
 
-    //Buscar
+     //Buscar
     public function scopeBuscar($query, $item){
         $query->when($item ?? null, function($query, $item){
                     $query->where('nombre', 'like', "%".$item."%")
-                        ->orwhere('descripcion', 'like', "%".$item."%");
+                        ->orwhere('anio', 'like', "%".$item."%");
                 });
-
     }
 }

@@ -12,6 +12,7 @@ use App\Models\Facturacion\Factura;
 use App\Models\Humana\Contrato;
 use App\Models\Humana\Devengado;
 use App\Models\Humana\Inasistencia;
+use App\Models\Humana\Planta;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -146,6 +147,15 @@ class User extends Authenticatable
     public function devengados() : HasMany
     {
         return $this->hasMany(Devengado::class);
+    }
+
+    /**
+     * Relación uno a muchos.
+     * Personas activas en el sistema
+     */
+    public function plantas() : HasMany
+    {
+        return $this->hasMany(Planta::class);
     }
 
 
