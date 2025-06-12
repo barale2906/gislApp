@@ -4,7 +4,7 @@ namespace App\Livewire\Humana\Devengado;
 
 use App\Models\Humana\Adicionale;
 use App\Models\Humana\Devengado;
-use App\Models\Humana\Salario;
+use App\Models\Humana\Planta;
 use App\Models\User;
 use App\Traits\StatusTrait;
 use Illuminate\Support\Facades\Auth;
@@ -255,14 +255,8 @@ class DevengadosCreate extends Component
     }
 
     private function empleados(){
-        return User::whereIn('rol_id',[1,2,3,5,6,10])
-                    ->orderBy('name', 'ASC')
-                    ->get();
-    }
-
-    private function salarios(){
-        return Salario::where('status', 2)
-                        ->orderBy('basico', 'ASC')
+        return Planta::where('status',1)
+                        ->orderBy('nombre','ASC')
                         ->get();
     }
 
@@ -275,7 +269,7 @@ class DevengadosCreate extends Component
     public function render()
     {
         return view('livewire.humana.devengado.devengados-create',[
-            'salarios'  => $this->salarios(),
+
             'empleados' => $this->empleados(),
             'adicionales'   => $this->adicionales(),
         ]);
