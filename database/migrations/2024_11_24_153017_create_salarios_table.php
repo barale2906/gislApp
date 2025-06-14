@@ -22,6 +22,7 @@ return new class extends Migration
             $table->double('subsidio_transporte')->comment('Subisidio aplicable');
             $table->double('rodamiento')->default(0)->comment('Rodamiento según el cargo');
             $table->double('dotaciones')->comment('Valor a provisionar por dotaciones mensualmente');
+            $table->integer('salud')->comment('0 No se le paga, 1 Si se le paga');
             $table->double('arl')->comment('porcentaje aplicable para ARL');
             $table->double('otros')->default(0)->comment('Otros cargos aplicables a este salario');
             $table->year('anio')->comment('Año en el que aplica este salario');

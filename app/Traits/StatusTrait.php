@@ -14,4 +14,12 @@ trait StatusTrait
     public $devengadostatus=['Calculando','Pagado'];
     public $plantastatus=['Inactivo','Activo'];
     public $meses=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    public $riesgo=[
+                        ["Riesgo I" =>0.522],
+                        ["Riesgo II" =>1.044],
+                        ["Riesgo III" =>2.436],
+                        ["Riesgo IV" =>4.350],
+                        ["Riesgo V" =>6.960]
+                    ];
+    public $afirmacion=["No","Si"];
 }

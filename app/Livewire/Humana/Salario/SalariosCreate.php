@@ -18,13 +18,14 @@ class SalariosCreate extends Component
     public $subsidio_transporte;
     public $rodamiento;
     public $salud;
-    public $pension;
+    /* public $pension; */
     public $arl;
-    public $cesantias;
-    public $vacaciones;
+    /* public $cesantias;
+    public $vacaciones; */
     public $dotaciones;
     public $anio;
     public $observaciones;
+    public $otros;
     public $actual;
     public $tipo;
     public $status;
@@ -49,10 +50,10 @@ class SalariosCreate extends Component
         $this->subsidio_transporte=$this->actual->subsidio_transporte;
         $this->rodamiento=$this->actual->rodamiento;
         $this->salud=$this->actual->salud;
-        $this->pension=$this->actual->pension;
+        /* $this->pension=$this->actual->pension; */
         $this->arl=$this->actual->arl;
-        $this->cesantias=$this->actual->cesantias;
-        $this->vacaciones=$this->actual->vacaciones;
+        /* $this->cesantias=$this->actual->cesantias;
+        $this->vacaciones=$this->actual->vacaciones; */
         $this->dotaciones=$this->actual->dotaciones;
         $this->anio=$this->actual->anio;
         $this->status=$this->actual->status;
@@ -86,12 +87,13 @@ class SalariosCreate extends Component
         'subsidio_transporte'=>'required|numeric|min: 0',
         'rodamiento'=>'required|numeric|min: 0',
         'salud'=>'required|numeric|min: 0',
-        'pension'=>'required|numeric|min: 0',
+        //'pension'=>'required|numeric|min: 0',
         'arl'=>'required|numeric|min: 0',
-        'cesantias'=>'required|numeric|min: 0',
-        'vacaciones'=>'required|numeric|min: 0',
+        //'cesantias'=>'required|numeric|min: 0',
+        //'vacaciones'=>'required|numeric|min: 0',
         'dotaciones'=>'required|numeric|min: 0',
         'anio'=>'required|digits:4|integer|min:1901|max:2155',
+        'otros'=>'required',
         'observaciones'=>'required',
 
     ];
@@ -107,14 +109,15 @@ class SalariosCreate extends Component
                 'subsidio_transporte',
                 'rodamiento',
                 'salud',
-                'pension',
+                /* 'pension', */
                 'arl',
-                'cesantias',
-                'vacaciones',
+                /* 'cesantias',
+                'vacaciones', */
                 'dotaciones',
                 'anio',
                 'observaciones',
                 'actual',
+                'otros',
                 'tipo',
                 'status',
         );
@@ -134,13 +137,14 @@ class SalariosCreate extends Component
                 'subsidio_transporte' => $this->subsidio_transporte,
                 'rodamiento' => $this->rodamiento,
                 'salud' => $this->salud,
-                'pension' => $this->pension,
+                /* 'pension' => $this->pension, */
                 'arl' => $this->arl,
-                'cesantias' => $this->cesantias,
-                'vacaciones' => $this->vacaciones,
+                /* 'cesantias' => $this->cesantias,
+                'vacaciones' => $this->vacaciones, */
                 'dotaciones' => $this->dotaciones,
                 'anio' => $this->anio,
                 'observaciones' => $obs,
+                'otros' => $this->otros,
                 'status' => $this->status,
         ]);
 
@@ -162,6 +166,7 @@ class SalariosCreate extends Component
         $this->validate();
 
         $obs=now().": ".Auth::user()->name." Edito el salario: ".strtolower($this->observaciones)." ----- ".$this->actual->observaciones;
+        $otros=$this->otros+$this->actual->otros;
 
         $this->actual->update([
             'contrato_id' => $this->contrato_id,
@@ -169,13 +174,14 @@ class SalariosCreate extends Component
             'subsidio_transporte' => $this->subsidio_transporte,
             'rodamiento' => $this->rodamiento,
             'salud' => $this->salud,
-            'pension' => $this->pension,
+            /* 'pension' => $this->pension, */
             'arl' => $this->arl,
-            'cesantias' => $this->cesantias,
-            'vacaciones' => $this->vacaciones,
+            /* 'cesantias' => $this->cesantias,
+            'vacaciones' => $this->vacaciones, */
             'dotaciones' => $this->dotaciones,
             'anio' => $this->anio,
             'observaciones' => $obs,
+            'otros' => $otros,
             'status' => $this->status,
         ]);
 
@@ -187,9 +193,6 @@ class SalariosCreate extends Component
         $this->dispatch('refresh');
         $this->dispatch('cancelando');
     }
-
-
-
 
     private function contratos(){
         return Contrato::orderBy('status','DESC')

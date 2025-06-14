@@ -45,6 +45,9 @@
                                 @endif
                             @endif
                         </th>
+                        <th scope="col" class="px-6 py-3" ">
+                            SEGURIDAD SOCIAL
+                        </th>
                         <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('rodamiento')">
                             RODAMIENTO
                             @if ($ordena != 'rodamiento')
@@ -71,6 +74,9 @@
                         </th>
                         <th scope="col" class="px-6 py-3" ">
                             OTROS
+                        </th>
+                        <th scope="col" class="px-6 py-3" ">
+                            ADICIONALES
                         </th>
                         <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('observaciones')">
                             OBSERVACIONES
@@ -121,18 +127,21 @@
                                 $ {{number_format($item->subsidio_transporte, 0, '.', ',')}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
+                                {{$afirmacion[$item->salud]}}
+                            </th>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                 $ {{number_format($item->rodamiento, 0, '.', ',')}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                 {{number_format($item->anio, 0, '.', ',')}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                SALUD: $ {{number_format($item->salud, 0, '.', ',')}} <br>
-                                PENSIÓN: $ {{number_format($item->pension, 0, '.', ',')}}<br>
-                                ARL: $ {{number_format($item->arl, 0, '.', ',')}}<br>
-                                CESANTIAS: $ {{number_format($item->cesantias, 0, '.', ',')}}<br>
-                                VACACIONES: $ {{number_format($item->vacaciones, 0, '.', ',')}}<br>
+                                {{number_format($item->otros, 0, '.', ',')}}
+                            </th>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
+                                ARL: $ {{number_format($item->arl, 5, '.', ',')}}<br>
                                 DOTACIONES: $ {{number_format($item->dotaciones, 0, '.', ',')}}<br>
+
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                 {{$item->observaciones}}
