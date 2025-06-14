@@ -5,6 +5,7 @@ namespace App\Livewire\Humana\Devengado;
 use App\Models\Humana\Adicionale;
 use App\Models\Humana\Devengado;
 use App\Models\Humana\Planta;
+use App\Models\Humana\Salario;
 use App\Models\User;
 use App\Traits\StatusTrait;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +18,14 @@ class DevengadosCreate extends Component
     use WithFileUploads;
     use StatusTrait;
 
-    public $user_id;
+    public $user_id=0;
+    public $planta_id;
     public $salario_id;
+    public $adicional_id;
+    public $totadicional;
+    public $cantidad;
+    public $adicargados;
+    public $devengado;
     public $nombre;
     public $dias;
     public $costo_empresa;
@@ -38,6 +45,7 @@ class DevengadosCreate extends Component
     public $status=0;
     public $observaciones;
     public $movimiento_banco;
+    public $eleanios;
 
     public function mount($elegido=null, $tipo=null){
         if($elegido){
@@ -50,6 +58,11 @@ class DevengadosCreate extends Component
         }else{
             $this->tipo=0;
         }
+
+        $hoy=now();
+        $annio=$hoy->year;
+        $this->eleanios=$annio-2;
+
     }
 
     public function valores(){
@@ -70,6 +83,40 @@ class DevengadosCreate extends Component
             $this->calculo = $this->actual->calculo;
             $this->observaciones = $this->actual->observaciones;
             $this->status = $this->actual->status;
+
+            $this->cargadicionales();
+    }
+
+    //Cargar datos del alumno
+    public function creardevengado(){
+        $this->cargainicial();
+        $this->cargadicionales();
+
+        //CAlcular prestamos
+    }
+
+    public function cargainicial(){
+        $planta=Planta::find($this->planta_id);
+
+        $esta=Devengado::where('mes',$this->mes)
+                        ->where('anio',$this->anio)
+                        ->where('user_id',$planta->user_id)
+                        ->first();
+
+        if($esta && $esta->count()>0){
+            $this->actual=$esta;
+            $this->valores();
+        }else{
+            $salario=Salario::find($planta->salario_id);
+
+        }
+    }
+
+
+
+    //Adicionales cargados
+    public function cargadicionales(){
+
     }
 
     //Inactivar Registro
@@ -242,10 +289,7 @@ class DevengadosCreate extends Component
             $emple=User::find($this->user_id);
 
             $this->nombre=$emple->name;
-        }else{
-            $this->validate();
         }
-
     }
 
     private function apruebanombre(){
@@ -269,7 +313,6 @@ class DevengadosCreate extends Component
     public function render()
     {
         return view('livewire.humana.devengado.devengados-create',[
-
             'empleados' => $this->empleados(),
             'adicionales'   => $this->adicionales(),
         ]);

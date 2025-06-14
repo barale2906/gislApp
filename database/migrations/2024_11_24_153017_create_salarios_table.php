@@ -21,12 +21,9 @@ return new class extends Migration
             $table->double('basico')->comment('Salario base a pagar');
             $table->double('subsidio_transporte')->comment('Subisidio aplicable');
             $table->double('rodamiento')->default(0)->comment('Rodamiento según el cargo');
-            $table->double('salud')->comment('Valor a calcular de salud sobre el salario base');
-            $table->double('pension')->comment('Valor a calcular de pensión sobre el salario base');
-            $table->double('arl')->comment('Valor a calcular de arl según el riesgo');
-            $table->double('cesantias')->comment('Valor a calcular de cesantías sobre el salario base');
-            $table->double('vacaciones')->comment('Valor a calcular de vacaciones sobre el salario base');
-            $table->double('dotaciones')->comment('Valor a provisionar por dotaciones');
+            $table->double('dotaciones')->comment('Valor a provisionar por dotaciones mensualmente');
+            $table->double('arl')->comment('porcentaje aplicable para ARL');
+            $table->double('otros')->default(0)->comment('Otros cargos aplicables a este salario');
             $table->year('anio')->comment('Año en el que aplica este salario');
             $table->longText('observaciones')->comment('anotaciones al salario');
             $table->integer('status')->default(1)->comment('0 Inactivo, 1 En proceso, 2 Activo');

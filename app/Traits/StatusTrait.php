@@ -13,4 +13,5 @@ trait StatusTrait
     public $inasistenciaaplicado=["Sin Aplicar", "Aplicado"];
     public $devengadostatus=['Calculando','Pagado'];
     public $plantastatus=['Inactivo','Activo'];
+    public $meses=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 }
