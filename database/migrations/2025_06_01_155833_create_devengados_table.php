@@ -47,7 +47,7 @@ return new class extends Migration
 
             $table->double('rodamiento')->default(0)->comment('Rodamiento según el cargo');
 
-            $table->longText('soporte_pago')->nullable()->comment('Ruta del sosporte');
+            $table->longText('soporte_pago')->nullable()->comment('Ruta del soporte');
             $table->bigInteger('movimiento_banco')->nullable()->comment('id del movimiento bancario con el que se hizo el pago');
             $table->string('calculo')->comment('nombre del usuario que calculo');
             $table->longText('observaciones')->comment('Registro de observaciones');
