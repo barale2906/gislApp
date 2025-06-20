@@ -22,6 +22,7 @@ class DevengadosCreate extends Component
     public $user_id=0;
     public $planta_id;
     public $salario_id;
+    public $adicional_id;
     public $nombre;
     public $dias;
     public $total_empresa;
@@ -129,49 +130,56 @@ class DevengadosCreate extends Component
     }
 
     public function cargainicial(){
-        $planta=Planta::find($this->planta_id);
+        if($this->dias>0 && $this->dias<31){
+            $planta=Planta::find($this->planta_id);
 
-        $esta=Devengado::where('mes',$this->mes)
-                        ->where('anio',$this->anio)
-                        ->where('user_id',$planta->user_id)
-                        ->first();
+            $esta=Devengado::where('mes',$this->mes)
+                            ->where('anio',$this->anio)
+                            ->where('user_id',$planta->user_id)
+                            ->first();
 
-        if($esta && $esta->count()>0){
-            $this->actual=$esta;
-            $this->valores();
-        }else{
-            $salario=Salario::find($planta->salario_id);
-            $this->porce();
+            if($esta && $esta->count()>0){
+                $this->actual=$esta;
+                $this->valores();
+            }else{
+                $salario=Salario::find($planta->salario_id);
+                $this->porce();
 
-            $this->user_id=$planta->user_id;
-            $this->basico = $salario->basico;
-            $this->subsidio_transporte=$salario->subsidio_transporte;
-            $this->rodamiento = $salario->rodamiento;
-            $this->dotaciones = $salario->dotaciones;
-            $this->salario_id=$salario->id;
-            $this->nombre=$planta->empleado->name;
+                $porcdias=$this->dias/30;
 
-            if($salario->salud===1){
+                $this->user_id=$planta->user_id;
+                $this->basico = $salario->basico*$porcdias;
+                $this->subsidio_transporte=$salario->subsidio_transporte*$porcdias;
+                $this->rodamiento = $salario->rodamiento*$porcdias;
+                $this->dotaciones = $salario->dotaciones*$porcdias;
+                $this->salario_id=$salario->id;
+                $this->nombre=$planta->nombre;
+                $this->observaciones="Se crea registro de pago.";
 
-                $ibc=$salario->basico+$salario->subsidio_transporte; //Salud, pensiones, parafiscales, ARL
+                if($salario->salud===1){
 
-                $ib2=$salario->basico; //Prestaciones prima, cesantias, vacaciones
+                    $ibc=($salario->basico+$salario->subsidio_transporte)*$porcdias; //Salud, pensiones, parafiscales, ARL
 
-                $this->salud_empresa =          $this->porcentajesvigentes->porcen_salud*$ibc/100;
-                $this->salud_empleado =         $this->porcentajesvigentes->porcen_salud_emple*$ibc/100;
-                $this->pension_empresa =        $this->porcentajesvigentes->porcen_pension*$ibc/100;
-                $this->pension_empleado =       $this->porcentajesvigentes->porcen_pension_emple*$ibc/100;
-                $this->arl =                    $salario->arl*$ibc/100;
-                $this->cesantias =              $this->porcentajesvigentes->porcen_cesantias*$ib2/100;
-                $this->interesescesantias =     $this->porcentajesvigentes->interesescesantias*$ib2/100;
-                $this->prima =                  $this->porcentajesvigentes->porcen_prima*$ib2/100;
-                $this->vacaciones =             $this->porcentajesvigentes->porcen_vacaciones*$ib2/100;
-                $this->sena =                   $this->porcentajesvigentes->porcen_sena*$ibc/100;
-                $this->icbf =                   $this->porcentajesvigentes->porcen_icbf*$ibc/100;
-                $this->caja =                   $this->porcentajesvigentes->porcen_caja*$ibc/100;
+                    $ib2=$salario->basico*$porcdias; //Prestaciones prima, cesantias, vacaciones
+
+                    $this->salud_empresa =          $this->porcentajesvigentes->porcen_salud*$ibc/100;
+                    $this->salud_empleado =         $this->porcentajesvigentes->porcen_salud_emple*$ibc/100;
+                    $this->pension_empresa =        $this->porcentajesvigentes->porcen_pension*$ibc/100;
+                    $this->pension_empleado =       $this->porcentajesvigentes->porcen_pension_emple*$ibc/100;
+                    $this->arl =                    $salario->arl*$ibc/100;
+                    $this->cesantias =              $this->porcentajesvigentes->porcen_cesantias*$ib2/100;
+                    $this->interesescesantias =     $this->porcentajesvigentes->porcen_interesescesantias*$ib2/100;
+                    $this->prima =                  $this->porcentajesvigentes->porcen_prima*$ib2/100;
+                    $this->vacaciones =             $this->porcentajesvigentes->porcen_vacaciones*$ib2/100;
+                    $this->sena =                   $this->porcentajesvigentes->porcen_sena*$ibc/100;
+                    $this->icbf =                   $this->porcentajesvigentes->porcen_icbf*$ibc/100;
+                    $this->caja =                   $this->porcentajesvigentes->porcen_caja*$ibc/100;
+                }
+
+                $this->totlizainicio();
             }
-
-            $this->totlizainicio();
+        }else{
+            $this->dispatch('alerta', name:'Días deben estar entre 1 y 30 días.');
         }
     }
 
@@ -180,6 +188,8 @@ class DevengadosCreate extends Component
         $this->total_empresa=$this->basico+$this->subsidio_transporte+$this->rodamiento+$this->dotaciones+$this->salud_empresa+$this->pension_empresa+$this->arl+$this->cesantias+$this->interesescesantias+$this->prima+$this->vacaciones+$this->sena+$this->icbf+$this->caja;
 
         $this->total_empleado=$this->salud_empleado+$this->pension_empleado;
+
+        $this->new();
     }
 
 
@@ -211,24 +221,31 @@ class DevengadosCreate extends Component
      * Reglas de validación
      */
     protected $rules = [
-                'user_id'                   => 'required',
-                'salario_id'                => 'required',
-                'nombre'                    => 'required',
-                'dias'                      => 'required',
-                'costo_empresa'             => 'required',
-                'total_empleado'            => 'required',
-                'anio'                      => 'required',
-                'mes'                       => 'required',
-                'fecha_pago'                => 'required',
-                'seguridad_social_empresa'  => 'required',
-                'seguridad_social_empleado' => 'required',
-                'provisiones'               => 'required',
-                'soporte_pago'              => 'required',
-                'movimiento_banco'          => 'required',
-                'calculo'                   => 'required',
-                'observaciones'             => 'required',
-                'status'                    => 'required',
-                'foto'                      => 'nullable|mimes:jpg,bmp,png,jpeg,pdf',
+                'user_id'               =>'required',
+                'basico'                =>'required',
+                'subsidio_transporte'   =>'required',
+                'dias'                  => 'required|min:1|max:30',
+                'anio'                  => 'required',
+                'mes'                   => 'required',
+                'rodamiento'            => 'required',
+                'dotaciones'            => 'required',
+                'salario_id'            => 'required',
+                'nombre'                => 'required',
+                'salud_empresa'         => 'required',
+                'salud_empleado'        => 'required',
+                'pension_empresa'       => 'required',
+                'pension_empleado'      => 'required',
+                'arl'                   => 'required',
+                'cesantias'             => 'required',
+                'interesescesantias'    => 'required',
+                'prima'                 => 'required',
+                'vacaciones'            => 'required',
+                'sena'                  => 'required',
+                'icbf'                  => 'required',
+                'caja'                  => 'required',
+                'observaciones'         => 'required',
+                'status'                => 'required',
+                'foto'                  => 'nullable|mimes:jpg,bmp,png,jpeg,pdf',
     ];
 
     /**
@@ -283,8 +300,8 @@ class DevengadosCreate extends Component
 
 
         //Crear registro
-        Devengado::create([
-                        'user_id' => $this->ser_id,
+        $crea=Devengado::create([
+                        'user_id' => $this->user_id,
                         'salario_id' => $this->salario_id,
                         'nombre' => $this->nombre,
                         'dias' => $this->dias,
@@ -314,16 +331,12 @@ class DevengadosCreate extends Component
                         'calculo' => $this->calculo,
                         'observaciones' => $this->observaciones,
                         'status' => $this->status,
-            ]);
+                ]);
 
 
         // Notificación
         $this->dispatch('alerta', name:'Se ha creado correctamente la nómina: '.$this->nombre);
-        $this->resetFields();
-
-        //refresh
-        $this->dispatch('refresh');
-        $this->dispatch('cancelando');
+        $this->mount($crea->id);
 
     }
 
@@ -339,24 +352,36 @@ class DevengadosCreate extends Component
         $obs=now()." ".Auth::user()->name.": ".$this->observaciones." ----- ".$this->actual->observaciones;
 
         $this->actual->update([
-            'user_id'                   => $this->user_id,
-            'salario_id'                => $this->salario_id,
-            'nombre'                    => $this->nombre,
-            'dias'                      => $this->dias,
-            'costo_empresa'             => $this->costo_empresa,
-            'total_empleado'            => $this->total_empleado,
-            'anio'                      => $this->anio,
-            'mes'                       => $this->mes,
-            'fecha_pago'                => $this->fecha_pago,
-            'seguridad_social_empresa'  => $this->seguridad_social_empresa,
-            'seguridad_social_empleado' => $this->seguridad_social_empleado,
-            'provisiones'               => $this->provisiones,
-            'soporte_pago'              => $this->soporte_pago,
-            'movimiento_banco'          => $this->movimiento_banco,
-            'calculo'                   => $this->calculo,
-            'observaciones'             => $obs,
-            'status'                    => $this->status,
-            'soporte_pago'              => $this->soporte_pago
+                'user_id' => $this->ser_id,
+                'salario_id' => $this->salario_id,
+                'nombre' => $this->nombre,
+                'dias' => $this->dias,
+                'total_empresa' => $this->total_empresa,
+                'total_empleado' => $this->total_empleado,
+                'anio' => $this->anio,
+                'mes' => $this->mes,
+                'fecha_pago' => $this->fecha_pago,
+                'basico' => $this->basico,
+                'subsidio_transporte' => $this->subsidio_transporte,
+                'salud_empresa' => $this->salud_empresa,
+                'salud_empleado' => $this->salud_empleado,
+                'pension_empresa' => $this->pension_empresa,
+                'pension_empleado' => $this->pension_empleado,
+                'arl' => $this->arl,
+                'cesantias' => $this->cesantias,
+                'interesescesantias' => $this->interesescesantias,
+                'prima' => $this->prima,
+                'vacaciones' => $this->vacaciones,
+                'dotaciones' => $this->dotaciones,
+                'sena' => $this->sena,
+                'icbf' => $this->icbf,
+                'caja' => $this->caja,
+                'rodamiento' => $this->rodamiento,
+                'soporte_pago' => $this->soporte_pago,
+                'movimiento_banco' => $this->movimiento_banco,
+                'calculo' => $this->calculo,
+                'observaciones' => $obs,
+                'status' => $this->status,
         ]);
 
         // Notificación
