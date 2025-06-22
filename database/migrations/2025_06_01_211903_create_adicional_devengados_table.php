@@ -25,6 +25,7 @@ return new class extends Migration
             $table->double('cantidad')->comment('Numero de veces que se carga el adicional');
             $table->double('total')->comment('valor del adicional');
             $table->longText('detalle')->comment('comentarios al adicional');
+            $table->bigInteger('id_diligencia')->nullable()->comment('id de la diligencia que se este gestionando');
 
             $table->timestamps();
 

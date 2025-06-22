@@ -58,4 +58,13 @@ class Dilimensajero extends Model
             });
         });
     }
+
+    public function scopeFinalizada($query, $status){
+        $query->when($status ?? null, function($query, $status){
+            $query->wherehas('diligencia', function($query) use($status){
+                $query->whereIn('diligencias.status', $status)
+                        ->whereNull('pago_mensajero');
+            });
+        });
+    }
 }

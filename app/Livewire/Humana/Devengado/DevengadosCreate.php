@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Humana\Devengado;
 
+use App\Models\Diligencias\Diligencia;
+use App\Models\Diligencias\Dilimensajero;
 use App\Models\Humana\AdicionalDevengado;
 use App\Models\Humana\Adicionale;
 use App\Models\Humana\Devengado;
@@ -61,6 +63,7 @@ class DevengadosCreate extends Component
     public $calculo;
     public $observaciones;
     public $status=0;
+    public $diligencias;
 
     public $foto;
     public $soporte = null;
@@ -213,10 +216,38 @@ class DevengadosCreate extends Component
         $this->adicionales=AdicionalDevengado::where('devengado_id',$this->actual->id)
                                                 ->get();
 
+        $this->cargaDiligencias();
+    }
+
+     //Cargar diligencias
+    private function cargaDiligencias(){
+        $this->diligencias=Dilimensajero::where('user_id',$this->actual->user_id)
+                                            ->where('status',3)
+                                            ->finalizada($this->statusfinalizados)
+                                            ->whereHas('diligencia')
+                                            ->with('diligencia')
+                                            ->orderBy(
+                                                Diligencia::select('fecha_entrega')
+                                                    ->whereColumn('diligencias.id', 'dilimensajeros.diligencia_id'),
+                                                'ASC' // o 'desc' según lo que necesites
+                                            )
+                                            ->get();
         $this->totaliza();
     }
 
-    public function calculadicional(){
+    //Recibe diligencia
+    public function recibeDiligencia($value){
+        $diligencia = Diligencia::find(intval($value));
+        $diligencia->update([
+                        'pago_mensajero'    => $this->actual->id
+                    ]);
+
+        $this->detalle="Diligencia N°: ".$diligencia->id." fecha: ".$diligencia->fecha_entrega.", del cliente: ".$diligencia->empresa->name." por: ".$diligencia->guias." guías.";
+        $this->cantidad=$diligencia->guias;
+        $this->calculadicional($diligencia->id);
+    }
+
+    public function calculadicional($id=null){
 
         $this->selecadicional=Adicionale::find($this->adicional_id);
 
@@ -271,10 +302,10 @@ class DevengadosCreate extends Component
         }
 
         $this->observaciones =          now().": Se cargo adicional: ".$this->selecadicional->nombre." ----- ".$this->actual->observaciones;
-        $this->cargarDevengadosAdicional();
+        $this->cargarDevengadosAdicional($id);
     }
 
-    public function cargarDevengadosAdicional(){
+    public function cargarDevengadosAdicional($id=null){
         $total=$this->totadicional*$this->cantidad;
         AdicionalDevengado::create([
             'adicional_id'      =>  $this->adicional_id,
@@ -283,6 +314,7 @@ class DevengadosCreate extends Component
             'cantidad'          =>  $this->cantidad,
             'total'             =>  $total,
             'detalle'           =>  $this->detalle,
+            'id_diligencia'     =>  $id
         ]);
 
         $this->resetAdicionalFields();
@@ -479,13 +511,38 @@ class DevengadosCreate extends Component
         $this->mount($this->actual->id);
     }
 
+    //REgistrar pago
+    public function registraPago(){
+
+        $this->cargasoporte();
+
+        $obs=now().": ".Auth::user()->name." registro el pago y anexo el soporte. ----- ".$this->actual->observaciones;
+
+        $this->actual->update([
+
+                'soporte_pago'  => $this->soporte_pago,
+                'observaciones' => $obs,
+                'fecha_pago'    => $this->fecha_pago,
+                'status'        => 1,
+        ]);
+
+        // Notificación
+        $this->dispatch('alerta', name:'Se ha actualizado correctamente la nómina: '.$this->actual->nombre);
+
+        $this->resetFields();
+
+        //refresh
+        $this->dispatch('refresh');
+        $this->dispatch('cancelando');
+    }
+
     private function resetAdicionalFields() {
         $this->reset('adicional_id', 'cantidad', 'detalle');
     }
 
     private function cargasoporte(){
         if($this->foto){
-            $nombre='inasistencias/'.$this->user_id."-".uniqid().".".$this->foto->extension();
+            $nombre='soportespagos/'.$this->actual->id."-".uniqid().".".$this->foto->extension();
             $this->foto->storeAs($nombre);
             $this->soporte_pago=$nombre;
         }

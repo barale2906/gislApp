@@ -22,4 +22,5 @@ trait StatusTrait
                         ["Riesgo V" =>6.960]
                     ];
     public $afirmacion=["No","Si"];
+    public $statusfinalizados=[4,5,6,7,8];
 }
