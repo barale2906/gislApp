@@ -45,21 +45,9 @@
                                 @endif
                             @endif
                         </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('crt_base')">
-                            BASE DE CONTROL
-                            @if ($ordena != 'crt_base')
-                                <i class="fas fa-sort"></i>
-                            @else
-                                @if ($ordenado=='ASC')
-                                    <i class="fas fa-sort-up"></i>
-                                @else
-                                    <i class="fas fa-sort-down"></i>
-                                @endif
-                            @endif
-                        </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('valor_tra')">
-                            VALOR PAGADO POR TRABAJADOR
-                            @if ($ordena != 'valor_tra')
+                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('valor')">
+                            VALOR
+                            @if ($ordena != 'valor')
                                 <i class="fas fa-sort"></i>
                             @else
                                 @if ($ordenado=='ASC')
@@ -70,32 +58,8 @@
                             @endif
                         </th>
                         <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('tipo_tra')">
-                            PORCENTAJE O VALOR DIRECTO - TRABAJADOR
+                            FORMA DE CALCULO
                             @if ($ordena != 'tipo_tra')
-                                <i class="fas fa-sort"></i>
-                            @else
-                                @if ($ordenado=='ASC')
-                                    <i class="fas fa-sort-up"></i>
-                                @else
-                                    <i class="fas fa-sort-down"></i>
-                                @endif
-                            @endif
-                        </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('valor_emp')">
-                            VALOR PAGADO POR EMPRESA
-                            @if ($ordena != 'valor_emp')
-                                <i class="fas fa-sort"></i>
-                            @else
-                                @if ($ordenado=='ASC')
-                                    <i class="fas fa-sort-up"></i>
-                                @else
-                                    <i class="fas fa-sort-down"></i>
-                                @endif
-                            @endif
-                        </th>
-                        <th scope="col" class="px-6 py-3" style="cursor: pointer;" wire:click="organizar('tipo_emp')">
-                            PORCENTAJE O VALOR DIRECTO - EMPRESA
-                            @if ($ordena != 'tipo_emp')
                                 <i class="fas fa-sort"></i>
                             @else
                                 @if ($ordenado=='ASC')
@@ -140,27 +104,11 @@
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white">
                                 {{$adicionalesaplica[$item->aplica]}}
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white">
-                                {{$adicionalesbase[$item->crt_base]}}
-                            </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 text-right dark:text-white uppercase">
-                                {{number_format($item->valor_tra, 2, '.', ' ')}}
+                                {{number_format($item->valor, 2, ',', '.')}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 text-center  dark:text-white capitalize">
-                                @switch($item->tipo_tra)
-                                    @case(0)
-                                        Directo
-                                        @break
-                                    @case(1)
-                                        %
-                                        @break
-                                @endswitch
-                            </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 text-right dark:text-white uppercase">
-                                {{number_format($item->valor_emp, 2, '.', ' ')}}
-                            </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 text-center  dark:text-white capitalize">
-                                @switch($item->tipo_emp)
+                                @switch($item->form_calculo)
                                     @case(0)
                                         Directo
                                         @break

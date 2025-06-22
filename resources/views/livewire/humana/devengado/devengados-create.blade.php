@@ -73,77 +73,195 @@
                     Cargar Básico
                 </button>
             @endif
-            @if ($actual)
-                <div class="relative z-0 w-full mb-5 group">
-                    <select wire:model.live="adicional_id" id="adicional_id" class="block py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize">
-                        <option>Elegir...</option>
-                        @foreach ($adicionales as $item)
-                            <option value={{$item->id}}><span class=" uppercase font-bold">{{$item->nombre}}: </span> {{$item->descripcion}}</option>
-                        @endforeach
-                    </select>
-                    <label for="adicional_id" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                        Seleccione adicional a aplicar
-                    </label>
+            @if ($actual && $valorapagar)
+
+                <div class="w-full bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mt-3 mb-3">
+                    <ul class="flex flex-wrap font-extrabold text-4xl text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 " id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">
+                        <li class="me-2">
+                            <button id="statistics-tab" data-tabs-target="#statistics" type="button" role="tab" aria-controls="statistics" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+                                Datos del pago para: <span class=" uppercase"> {{$actual->nombre}}</span> del mes de: {{$actual->mes}} del año: {{$actual->anio}}
+                            </button>
+                        </li>
+                    </ul>
+                    <div id="defaultTabContent">
+                        <div class="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="statistics" role="tabpanel" aria-labelledby="statistics-tab">
+                            <dl class="grid max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto text-gray-900 sm:grid-cols-3 xl:grid-cols-3 dark:text-white sm:p-8">
+                                <div class="flex flex-col">
+                                    <dt class="mb-2 text-3xl font-extrabold">
+                                        $ {{number_format($valorapagar, 0, ',', '.')}}
+                                    </dt>
+                                    <dd class="text-gray-500 dark:text-gray-400">
+                                        Valor a Pagar
+                                    </dd>
+                                </div>
+                                <div class="flex flex-col">
+                                    <dt class="mb-2 text-3xl font-extrabold">
+                                        $ {{number_format($actual->total_empleado, 0, ',', '.')}}
+                                    </dt>
+                                    <dd class="text-gray-500 dark:text-gray-400">
+                                        Descuentos
+                                    </dd>
+                                </div>
+                                <div class="flex flex-col">
+                                    <dt class="mb-2 text-3xl font-extrabold">
+                                        $ {{number_format($adicionales->sum('total'), 0, ',', '.')}}
+                                    </dt>
+                                    <dd class="text-gray-500 dark:text-gray-400">
+                                        Total adicionales
+                                    </dd>
+                                </div>
+                            </dl>
+
+                            @if ($adicionales && $adicionales->count()>0)
+                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3">
+
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                CONCEPTO
+                                            </th>
+                                            <th scope="col" class="px-6 py-3" >
+                                                VALOR UNITARIO
+                                            </th>
+                                            <th scope="col" class="px-6 py-3" >
+                                                CANTIDAD
+                                            </th>
+                                            <th scope="col" class="px-6 py-3" >
+                                                TOTAL
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                DETALLE
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($adicionales as $item)
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200">
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    <div class="inline-flex rounded-md shadow-sm" role="group">
+                                                        @if ($item->status===0)
+                                                            @can('hu_contratosModify')
+                                                                <button wire:click.prevent="show({{$item->id}},{{1}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 border border-blue-900 rounded-lg hover:bg-blue-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-blue-700 dark:focus:bg-blue-700">
+                                                                    <i class="fa-solid fa-marker"></i>
+                                                                </button>
+                                                            @endcan
+                                                        @endif
+                                                    </div>
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white uppercase">
+                                                    {{$item->adicional->nombre}}
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
+                                                    {{number_format($item->unitario, 0, ',', '.')}}
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
+                                                    {{number_format($item->cantidad, 0, ',', '.')}}
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
+                                                    {{number_format($item->total, 0, ',', '.')}}
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
+                                                    {{$item->detalle}}
+                                                </th>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                <p class=" capitalize">
+                                    No tiene valores adicionales cargados
+                                </p>
+                            @endif
+                        </div>
+                    </div>
                 </div>
-                @if ($adicional_id>0)
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input wire:model.live="cantidad" name="cantidad" id="cantidad" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                        <label for="cantidad" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Cantidad</label>
+
+                <div class="w-full bg-blue-400 border border-blue-800 border-spacing-8 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mt-3 mb-3 p-8">
+                    <h2 class=" font-semibold text-center uppercase">
+                        Cargar valores adicionales.
+                    </h2>
+                    <div class="relative z-0 w-full m-5 group">
+                        <select wire:model.live="adicional_id" id="adicional_id" class="block py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize">
+                            <option>Elegir...</option>
+                            @foreach ($concepadicionales as $item)
+                                <option value={{$item->id}}><span class=" uppercase font-bold">{{$item->nombre}}: </span> {{$item->descripcion}}</option>
+                            @endforeach
+                        </select>
+                        <label for="adicional_id" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Seleccione adicional a aplicar
+                        </label>
                     </div>
-                    <button type="button" wire:click.prevent="edit" class="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800">
-                        Carga Adicional {{$totadicional}}
-                    </button>
-                @endif
+                    @if ($adicional_id>0)
+                        <div class="relative z-0 w-full m-5 group">
+                            <textarea wire:model.live="detalle"
+                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required
+                                name="detalle"
+                                id="detalle" >
+                            </textarea>
+                            <label for="detalle" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Observaciones</label>
+                            @error('detalle')
+                                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                                    <span class="font-medium">¡IMPORTANTE!</span>  {{ $message }} .
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="relative z-0 w-full m-5 group">
+                            <input wire:model.live="cantidad" name="cantidad" id="cantidad" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                            <label for="cantidad" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Cantidad</label>
+                        </div>
+                        @if ($cantidad>0)
+                            <button type="button" wire:click.prevent="calculadicional" class="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800 m-5">
+                                Carga Adicional
+                            </button>
+                        @endif
+                    @endif
+                </div>
+
+                <div class="w-full bg-green-200 border border-green-800 border-spacing-8 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mt-3 mb-3 p-8">
+                    <h2 class=" font-semibold text-center uppercase">
+                        cargar diligencias
+                    </h2>
+                    <div class="relative z-0 w-full m-5 group">
+                        <select wire:model.live="adicional_id" id="adicional_id" class="block py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize">
+                            <option>Elegir...</option>
+                            @foreach ($concepadicionales as $item)
+                                <option value={{$item->id}}><span class=" uppercase font-bold">{{$item->nombre}}: </span> {{$item->descripcion}}</option>
+                            @endforeach
+                        </select>
+                        <label for="adicional_id" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Seleccione adicional a aplicar
+                        </label>
+                    </div>
+                    @if ($adicional_id>0)
+                        <div class="relative z-0 w-full m-5 group">
+                            <textarea wire:model.live="detalle"
+                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required
+                                name="detalle"
+                                id="detalle" >
+                            </textarea>
+                            <label for="detalle" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Observaciones</label>
+                            @error('detalle')
+                                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                                    <span class="font-medium">¡IMPORTANTE!</span>  {{ $message }} .
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="relative z-0 w-full m-5 group">
+                            <input wire:model.live="cantidad" name="cantidad" id="cantidad" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                            <label for="cantidad" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Cantidad</label>
+                        </div>
+                        @if ($cantidad>0)
+                            <button type="button" wire:click.prevent="calculadicional" class="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800 m-5">
+                                Carga Adicional
+                            </button>
+                        @endif
+                    @endif
+                </div>
+
+
             @endif
-
-
-
-
-            <div class="relative z-0 w-full mb-5 group">
-                <input wire:model.live="finaliza" name="finaliza" id="finaliza" type="date" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                <label for="finaliza" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Fecha de Finalización de la inasistencia</label>
-                @error('finaliza')
-                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                        <span class="font-medium">¡IMPORTANTE!</span>  {{ $message }} .
-                    </div>
-                @enderror
-            </div>
-
-            <div class="relative z-0 w-full mb-5 group">
-                <select wire:model.live="motivo" id="motivo" class="block py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize">
-                    <option>Elegir...</option>
-                    @for ($i = 0; $i < count($inasistenciamotivo); $i++)
-                        <option value={{$i}}>{{$inasistenciamotivo[$i]}}</option>
-                    @endfor
-
-                </select>
-                <label for="motivo" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                    Motivo de la inasistencia.
-                </label>
-                @error('motivo')
-                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                        <span class="font-medium">¡IMPORTANTE!</span>  {{ $message }} .
-                    </div>
-                @enderror
-            </div>
-
-            <div class="relative z-0 w-full mb-5 group">
-                <select wire:model.live="justificada" id="justificada" class="block py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer capitalize">
-                    <option>Elegir...</option>
-                    @for ($i = 0; $i < count($inasistenciajustificada); $i++)
-                        <option value={{$i}}>{{$inasistenciajustificada[$i]}}</option>
-                    @endfor
-
-                </select>
-                <label for="justificada" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                    Justificación de la inasistencia.
-                </label>
-                @error('justificada')
-                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                        <span class="font-medium">¡IMPORTANTE!</span>  {{ $message }} .
-                    </div>
-                @enderror
-            </div>
 
             <div class="relative z-0 w-full mb-5 group">
                 <input type="file" wire:model.live="foto" accept="image/jpg, image/bmp, image/png, image/jpeg, application/pdf" name="foto" id="foto" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
@@ -164,20 +282,6 @@
                     Se gestiono la inasistencia.
                 </label>
                 @error('status')
-                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                        <span class="font-medium">¡IMPORTANTE!</span>  {{ $message }} .
-                    </div>
-                @enderror
-            </div>
-
-            <div class="relative z-0 w-full mb-5 group">
-                <textarea wire:model.live="observaciones"
-                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required
-                    name="observaciones"
-                    id="observaciones" >
-                </textarea>
-                <label for="observaciones" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Observaciones</label>
-                @error('observaciones')
                     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
                         <span class="font-medium">¡IMPORTANTE!</span>  {{ $message }} .
                     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Humana\Devengado;
 
+use App\Models\Humana\AdicionalDevengado;
 use App\Models\Humana\Adicionale;
 use App\Models\Humana\Devengado;
 use App\Models\Humana\Planta;
@@ -23,6 +24,14 @@ class DevengadosCreate extends Component
     public $planta_id;
     public $salario_id;
     public $adicional_id;
+    public $detalle;
+    public $adicionales;
+    public $totadicional;
+    public $selecadicional;
+    public $cantidad;
+    public $adiempleado;
+    public $adiempresa;
+    public $ibcadicional;
     public $nombre;
     public $dias;
     public $total_empresa;
@@ -36,6 +45,7 @@ class DevengadosCreate extends Component
     public $salud_empleado=0;
     public $pension_empresa=0;
     public $pension_empleado=0;
+    public $valorapagar;
     public $arl=0;
     public $cesantias=0;
     public $interesescesantias=0;
@@ -112,6 +122,11 @@ class DevengadosCreate extends Component
 
             $this->porce();
             $this->cargadicionales();
+            $this->totaliza();
+    }
+
+    public function totaliza(){
+        $this->valorapagar=$this->actual->basico+$this->actual->rodamiento+$this->actual->subsidio_transporte+$this->adicionales->sum('total')-$this->actual->total_empleado;
     }
 
     //Porcentajes aplicables
@@ -192,11 +207,89 @@ class DevengadosCreate extends Component
         $this->new();
     }
 
-
-
     //Adicionales cargados
     public function cargadicionales(){
+        $this->reset('adicionales');
+        $this->adicionales=AdicionalDevengado::where('devengado_id',$this->actual->id)
+                                                ->get();
 
+        $this->totaliza();
+    }
+
+    public function calculadicional(){
+
+        $this->selecadicional=Adicionale::find($this->adicional_id);
+
+        switch ($this->selecadicional->aplica) {
+            case 0:
+                $this->ibcadicional=1;
+                break;
+
+            case 1:
+                $this->ibcadicional=240;
+                break;
+        }
+
+        if($this->selecadicional->form_calculo===0){
+            $ibc=$this->selecadicional->valor;
+            $ib2=$this->selecadicional->valor;
+        }else if($this->selecadicional->form_calculo===1){
+            $ibc=(($this->actual->basico+$this->actual->subsidio_transporte)/$this->ibcadicional)*$this->selecadicional->valor/100; //Salud, pensiones, parafiscales, ARL
+            $ib2=($this->actual->basico/$this->ibcadicional)*$this->selecadicional->valor/100; //Prestaciones prima, cesantias, vacaciones
+        }
+
+        if($this->selecadicional->aplica<2){
+            $this->totadicional =           $ib2;
+            $this->valorapagar =            $this->valorapagar+$this->totadicional;
+            $this->salud_empresa =          $this->actual->salud_empresa+($this->porcentajesvigentes->porcen_salud*$ibc/100)*$this->cantidad;
+            $this->salud_empleado =         $this->actual->salud_empleado+($this->porcentajesvigentes->porcen_salud_emple*$ibc/100)*$this->cantidad;
+            $this->pension_empresa =        $this->actual->pension_empresa+($this->porcentajesvigentes->porcen_pension*$ibc/100)*$this->cantidad;
+            $this->pension_empleado =       $this->actual->pension_empleado+($this->porcentajesvigentes->porcen_pension_emple*$ibc/100)*$this->cantidad;
+            $this->cesantias =              $this->actual->cesantias+($this->porcentajesvigentes->porcen_cesantias*$ib2/100)*$this->cantidad;
+            $this->interesescesantias =     $this->actual->interesescesantias+($this->porcentajesvigentes->porcen_interesescesantias*$ib2/100)*$this->cantidad;
+            $this->prima =                  $this->actual->prima+($this->porcentajesvigentes->porcen_prima*$ib2/100)*$this->cantidad;
+            $this->vacaciones =             $this->actual->vacaciones+($this->porcentajesvigentes->porcen_vacaciones*$ib2/100)*$this->cantidad;
+            $this->sena =                   $this->actual->sena+($this->porcentajesvigentes->porcen_sena*$ibc/100)*$this->cantidad;
+            $this->icbf =                   $this->actual->icbf+($this->porcentajesvigentes->porcen_icbf*$ibc/100)*$this->cantidad;
+            $this->caja =                   $this->actual->caja+($this->porcentajesvigentes->porcen_caja*$ibc/100)*$this->cantidad;
+        }
+
+        if($this->selecadicional->aplica===2){
+            $this->totadicional =           $this->selecadicional->valor;
+            $this->valorapagar =            $this->valorapagar+$this->totadicional;/*
+            $this->salud_empresa =          $this->actual->salud_empresa;
+            $this->salud_empleado =         $this->actual->salud_empleado;
+            $this->pension_empresa =        $this->actual->pension_empresa;
+            $this->pension_empleado =       $this->actual->pension_empleado;
+            $this->cesantias =              $this->actual->cesantias;
+            $this->interesescesantias =     $this->actual->interesescesantias;
+            $this->prima =                  $this->actual->prima;
+            $this->vacaciones =             $this->actual->vacaciones;
+            $this->sena =                   $this->actual->sena;
+            $this->icbf =                   $this->actual->icbf;
+            $this->caja =                   $this->actual->caja; */
+        }
+
+        $this->observaciones =          now().": Se cargo adicional: ".$this->selecadicional->nombre." ----- ".$this->actual->observaciones;
+        $this->cargarDevengadosAdicional();
+    }
+
+    public function cargarDevengadosAdicional(){
+        $total=$this->totadicional*$this->cantidad;
+        AdicionalDevengado::create([
+            'adicional_id'      =>  $this->adicional_id,
+            'devengado_id'      =>  $this->actual->id,
+            'unitario'          =>  $this->totadicional,
+            'cantidad'          =>  $this->cantidad,
+            'total'             =>  $total,
+            'detalle'           =>  $this->detalle,
+        ]);
+
+        $this->resetAdicionalFields();
+
+        $this->cargadicionales();
+
+        $this->edit();
     }
 
     //Inactivar Registro
@@ -337,19 +430,15 @@ class DevengadosCreate extends Component
         // Notificación
         $this->dispatch('alerta', name:'Se ha creado correctamente la nómina: '.$this->nombre);
         $this->mount($crea->id);
-
     }
 
     // Editar Registro
     public function edit(){
 
-        $this->emplenombre();
         $this->cargasoporte();
 
         // validate
         $this->validate();
-
-        $obs=now()." ".Auth::user()->name.": ".$this->observaciones." ----- ".$this->actual->observaciones;
 
         $this->actual->update([
                 'user_id' => $this->ser_id,
@@ -380,17 +469,18 @@ class DevengadosCreate extends Component
                 'soporte_pago' => $this->soporte_pago,
                 'movimiento_banco' => $this->movimiento_banco,
                 'calculo' => $this->calculo,
-                'observaciones' => $obs,
+                'observaciones' => $this->observaciones,
                 'status' => $this->status,
         ]);
 
         // Notificación
         $this->dispatch('alerta', name:'Se ha actualizado correctamente la nómina: '.$this->nombre);
-        $this->resetFields();
 
-        //refresh
-        $this->dispatch('refresh');
-        $this->dispatch('cancelando');
+        $this->mount($this->actual->id);
+    }
+
+    private function resetAdicionalFields() {
+        $this->reset('adicional_id', 'cantidad', 'detalle');
     }
 
     private function cargasoporte(){
@@ -416,7 +506,7 @@ class DevengadosCreate extends Component
                         ->get();
     }
 
-    private function adicionales(){
+    private function concepadicionales(){
         return Adicionale::where('status', 2)
                             ->orderBy('nombre', 'ASC')
                             ->get();
@@ -426,7 +516,7 @@ class DevengadosCreate extends Component
     {
         return view('livewire.humana.devengado.devengados-create',[
             'empleados' => $this->empleados(),
-            'adicionales'   => $this->adicionales(),
+            'concepadicionales'   => $this->concepadicionales(),
         ]);
     }
 }

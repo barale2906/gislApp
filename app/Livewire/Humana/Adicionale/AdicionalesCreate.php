@@ -11,15 +11,11 @@ class AdicionalesCreate extends Component
     public $nombre;
     public $descripcion;
     public $aplica;
-    public $crt_base;
-    public $valor_tra;
-    public $tipo_tra;
-    public $valor_emp;
-    public $tipo_emp;
+    public $valor;
+    public $form_calculo;
     public $actual;
     public $tipo=0;
     public $status;
-    public $responsable;
 
     public function mount($elegido=null, $tipo=null){
         if($elegido){
@@ -39,11 +35,8 @@ class AdicionalesCreate extends Component
         $this->nombre=$this->actual->nombre;
         $this->descripcion=$this->actual->descripcion;
         $this->aplica=$this->actual->aplica;
-        $this->crt_base=$this->actual->crt_base;
-        $this->valor_tra=$this->actual->valor_tra;
-        $this->tipo_tra=$this->actual->tipo_tra;
-        $this->tipo_emp=$this->actual->tipo_emp;
-        $this->valor_emp=$this->actual->valor_emp;
+        $this->form_calculo=$this->actual->form_calculo;
+        $this->valor=$this->actual->valor;
         $this->status=$this->actual->status;
     }
 
@@ -72,11 +65,8 @@ class AdicionalesCreate extends Component
         'nombre'=>'required|unique:contratos',
         'descripcion'=>'required',
         'aplica'=>'required',
-        'crt_base'=>'required',
-        'valor_emp'=>'required|numeric|min:0',
-        'tipo_emp'=>'required',
-        'valor_tra'=>'required|numeric|min:0',
-        'tipo_tra'=>'required',
+        'valor'=>'required|numeric',
+        'form_calculo'=>'required',
         'status'=>'required',
     ];
 
@@ -89,54 +79,17 @@ class AdicionalesCreate extends Component
             'nombre',
             'descripcion',
             'aplica',
-            'crt_base',
-            'valor_emp',
-            'tipo_emp',
-            'valor_tra',
-            'tipo_tra',
+            'valor',
+            'form_calculo',
             'status'
         );
-
     }
 
     // Crear Registro
     public function control(){
         // validate
         $this->validate();
-
-        $this->reset('responsable');
-
-        if($this->valor_tra==="0" || $this->valor_tra===0){
-            $empleado=intval($this->valor_tra);
-        }else{
-            $empleado=floatval($this->valor_tra);
-        }
-
-        if($this->valor_emp==="0" || $this->valor_emp===0){
-            $empresa=intval($this->valor_emp);
-        }else{
-            $empresa=floatval($this->valor_emp);
-        }
-
-        if($empresa===0 && $empleado===0){
-            $this->dispatch('alerta', name:'Debe asignar un valor al empleado y/o la empresa.');
-        }
-
-        if($empresa===0 && $empleado>0){
-            $this->responsable=0;
-            $this->accion();
-        }
-
-        if($empresa>0 && $empleado===0){
-            $this->responsable=1;
-            $this->accion();
-        }
-
-        if($empresa>0 && $empleado>0){
-            $this->responsable=2;
-            $this->accion();
-        }
-
+        $this->accion();
     }
 
     public function accion(){
@@ -157,12 +110,8 @@ class AdicionalesCreate extends Component
             'nombre'          =>strtolower($this->nombre),
             'descripcion'     =>strtolower($this->descripcion),
             'aplica'          =>$this->aplica,
-            'crt_base'        =>$this->crt_base,
-            'valor_emp'       =>$this->valor_emp,
-            'tipo_emp'        =>$this->tipo_emp,
-            'valor_tra'       =>$this->valor_tra,
-            'tipo_tra'        =>$this->tipo_tra,
-            'responsable'     =>$this->responsable,
+            'valor'           =>$this->valor,
+            'form_calculo'    =>$this->form_calculo,
             'status'          =>$this->status,
         ]);
 
@@ -183,12 +132,8 @@ class AdicionalesCreate extends Component
             'nombre'          =>strtolower($this->nombre),
             'descripcion'     =>strtolower($this->descripcion),
             'aplica'          =>$this->aplica,
-            'crt_base'        =>$this->crt_base,
-            'valor_emp'       =>$this->valor_emp,
-            'tipo_emp'        =>$this->tipo_emp,
-            'valor_tra'       =>$this->valor_tra,
-            'tipo_tra'        =>$this->tipo_tra,
-            'responsable'     =>$this->responsable,
+            'valor'           =>$this->valor,
+            'form_calculo'    =>$this->form_calculo,
             'status'          =>$this->status,
         ]);
 

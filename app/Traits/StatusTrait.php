@@ -6,7 +6,7 @@ trait StatusTrait
 {
     public $contratostatus=["Inactivo","En Proceso","Activo"];
     public $adicionalestatus=["Inactivo","En Proceso","Activo"];
-    public $adicionalesaplica=["Básico Mensual","Básico hora"];
+    public $adicionalesaplica=["Básico Mensual","Básico hora","No Salarial"];
     public $adicionalesbase=["Básico","Básico mas subsidio de transporte"];
     public $inasistenciamotivo=["Cita médica","Cita familiar", "Incapacidad", "Evadido", "Vacaciones", "Capacitación"];
     public $inasistenciajustificada=["Injustificada", "Justificada"];

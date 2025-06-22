@@ -16,14 +16,16 @@ return new class extends Migration
 
             $table->string('nombre')->comment('Nombre identificador del documento');
             $table->longText('descripcion')->comment('Detalles del adicional');
-            $table->integer('aplica')->default(0)->comment('0 Básico, 1 Hora');
-            $table->integer('crt_base')->default(0)->comment('0 Básico, 2 Básico + subsidio transporte');
-            $table->double('valor_tra')->comment('Porcentaje o valor final del adicional sobre la base');
-            $table->integer('tipo_tra')->default(0)->comment('0 Directo, 1 Porcentaje');
-            $table->integer('responsable')->default(0)->comment('0 empleado, 1 Empresa, 2 Los dos');
-            $table->double('valor_emp')->comment('Porcentaje o valor final del adicional sobre la base para la empresa');
-            $table->integer('tipo_emp')->default(0)->comment('0 Directo, 1 Porcentaje para la empresa');
+            $table->integer('aplica')->default(0)->comment('0 Básico, 1 Hora, 2 No salarial');
+            $table->double('valor')->comment('Porcentaje o valor final del adicional sobre la base');
+            $table->integer('form_calculo')->default(0)->comment('0 Directo, 1 Porcentaje');
             $table->integer('status')->default(1)->comment('0 Inactivo, 1 En proceso, 2 Activo');
+
+            /* $table->integer('responsable')->default(0)->comment('0 empleado, 1 Empresa, 2 Los dos');
+            $table->integer('crt_base')->default(0)->comment('0 Básico, 1 Básico + subsidio transporte');
+            $table->double('valor_tra')->comment('Porcentaje o valor final del adicional sobre la base');
+            $table->double('valor_emp')->comment('Porcentaje o valor final del adicional sobre la base para la empresa');
+            $table->integer('tipo_emp')->default(0)->comment('0 Directo, 1 Porcentaje para la empresa'); */
 
             $table->timestamps();
         });

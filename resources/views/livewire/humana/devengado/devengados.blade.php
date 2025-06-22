@@ -104,10 +104,10 @@
                                 {{$item->nombre}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                {{$item->anio}}--- detalle
+                                {{number_format($item->total_empresa+$item->total_empleado, 2, ',', '.')}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                {{number_format($item->costo_empresa+$item->total_empleado, 2, '.', ' ')}}
+                                {{number_format($item->basico+$item->rodamiento+$item->subsidio_transporte+$item->adiciodevengados->sum('total')-$item->total_empleado, 2, ',', '.')}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                 {{$item->anio}}
@@ -119,15 +119,19 @@
                                 {{$item->fecha_pago}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                {{$item->aprobo}}
+                                {{$item->calculo}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 text-sm  dark:text-white capitalize">
                                 {{$item->observaciones}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                <a href="{{Storage::url($item->soporte)}}" target="_blank">
-                                    <i class="fa-solid fa-download "></i>
-                                </a>
+                                @if ($item->soporte)
+                                    <a href="{{Storage::url($item->soporte)}}" target="_blank">
+                                        <i class="fa-solid fa-download "></i>
+                                    </a>
+                                @else
+                                    No se ha cargado soporte.
+                                @endif
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
                                 {{$devengadostatus[$item->status]}}
