@@ -123,6 +123,49 @@
                         </dl>
 
                         @if ($adicionales && $adicionales->count()>0)
+                            <div class="overflow-hidden rounded-lg shadow-lg border border-gray-300 mb-5">
+                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 bg-green-200">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" colspan="4" class="px-6 py-3 border-b border-gray-300 text-center text-xl">
+                                                CONSOLIDADO ADICIONALES
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 border-b border-gray-300">
+                                                CONCEPTO
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 border-b border-gray-300" >
+                                                CANTIDAD
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 border-b border-gray-300" >
+                                                UNITARIO
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 border-b border-gray-300" >
+                                                TOTAL
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($adicionaleagrupados as $value)
+                                            <tr class="bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200 last:border-b-0">
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white uppercase border-r border-gray-200">
+                                                    {{$value->adicional->nombre}}
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize border-r border-gray-200 text-center">
+                                                    {{number_format($value->total_cantidad, 0, ',', '.')}}
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize border-r border-gray-200 text-right">
+                                                    $ {{number_format($value->unitario, 0, ',', '.')}}
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize text-right">
+                                                    $ {{number_format($value->total_valor, 0, ',', '.')}}
+                                                </th>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
@@ -151,9 +194,9 @@
                                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200">
                                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 <div class="inline-flex rounded-md shadow-sm" role="group">
-                                                    @if ($item->status===0)
+                                                    @if ($actual->status===0)
                                                         @can('hu_contratosModify')
-                                                            <button wire:click.prevent="show({{$item->id}},{{1}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 border border-blue-900 rounded-lg hover:bg-blue-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-blue-700 dark:focus:bg-blue-700">
+                                                            <button wire:click.prevent="eliminAdicional({{$item->id}},{{1}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-red-900 bg-gradient-to-r from-red-300 via-red-400 to-red-500 border border-red-900 rounded-lg hover:bg-red-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-red-500 focus:bg-red-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-red-700 dark:focus:bg-red-700">
                                                                 <i class="fa-solid fa-marker"></i>
                                                             </button>
                                                         @endcan

@@ -28,6 +28,7 @@ class DevengadosCreate extends Component
     public $adicional_id;
     public $detalle;
     public $adicionales;
+    public $adicionaleagrupados;
     public $totadicional;
     public $selecadicional;
     public $cantidad;
@@ -215,6 +216,11 @@ class DevengadosCreate extends Component
         $this->reset('adicionales');
         $this->adicionales=AdicionalDevengado::where('devengado_id',$this->actual->id)
                                                 ->get();
+
+        $this->adicionaleagrupados=AdicionalDevengado::where('devengado_id',$this->actual->id)
+                                                        ->selectRaw('adicional_id, unitario, SUM(cantidad) as total_cantidad, SUM(total) as total_valor')
+                                                        ->groupBy('adicional_id','unitario')
+                                                        ->get();
 
         $this->cargaDiligencias();
     }
