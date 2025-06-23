@@ -222,7 +222,7 @@ class MovimientosCreate extends Component
 
     public function cargasoporte(){
 
-        $nombre='public/librodiario/'.$this->actual->id."-".uniqid().".".$this->soporte->extension();
+        $nombre='soportesbanco/'.$this->actual->id."-".uniqid()."movimiento.".$this->soporte->extension();
             $this->soporte->storeAs($nombre);
 
             $this->actual->update([

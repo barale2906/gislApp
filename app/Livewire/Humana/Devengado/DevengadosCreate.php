@@ -4,6 +4,9 @@ namespace App\Livewire\Humana\Devengado;
 
 use App\Models\Diligencias\Diligencia;
 use App\Models\Diligencias\Dilimensajero;
+use App\Models\Financiera\Banco;
+use App\Models\Financiera\Concepto;
+use App\Models\Financiera\Librodiario;
 use App\Models\Humana\AdicionalDevengado;
 use App\Models\Humana\Adicionale;
 use App\Models\Humana\Devengado;
@@ -60,6 +63,8 @@ class DevengadosCreate extends Component
     public $caja=0;
     public $rodamiento;
     public $soporte_pago;
+    public $banco_id;
+    public $concepto_id;
     public $movimiento_banco;
     public $calculo;
     public $observaciones;
@@ -522,14 +527,36 @@ class DevengadosCreate extends Component
 
         $this->cargasoporte();
 
-        $obs=now().": ".Auth::user()->name." registro el pago y anexo el soporte. ----- ".$this->actual->observaciones;
+        $obs=now().": ".Auth::user()->name." registro el pago y anexo el soporte. ----- ";
 
         $this->actual->update([
 
                 'soporte_pago'  => $this->soporte_pago,
-                'observaciones' => $obs,
+                'observaciones' => $obs.$this->actual->observaciones,
                 'fecha_pago'    => $this->fecha_pago,
                 'status'        => 1,
+        ]);
+
+        $ultima=Librodiario::where('banco_id', $this->banco_id)
+                            ->where('status', true)
+                            ->first();
+
+
+
+        //Crear registro
+        Librodiario::create([
+            'banco_id'      =>$this->banco_id,
+            'concepto_id'   =>$this->concepto_id,
+            'fecha'         =>$this->fecha_pago,
+            'valor'         =>$this->valorapagar,
+            'saldo'         =>$ultima->saldo-$this->valorapagar,
+            'tipo'          =>0,
+            'comentario'    =>$obs,
+            'soporte'       =>$this->soporte_pago,
+        ]);
+
+        $ultima->update([
+            'status'=>false
         ]);
 
         // Notificación
@@ -548,7 +575,7 @@ class DevengadosCreate extends Component
 
     private function cargasoporte(){
         if($this->foto){
-            $nombre='soportespagos/'.$this->actual->id."-".uniqid().".".$this->foto->extension();
+            $nombre='soportesbanco/'.$this->actual->id."-".uniqid()."devengado.".$this->foto->extension();
             $this->foto->storeAs($nombre);
             $this->soporte_pago=$nombre;
         }
@@ -575,11 +602,26 @@ class DevengadosCreate extends Component
                             ->get();
     }
 
+    private function conceptos(){
+        return Concepto::where('status', true)
+                        ->whereIn('id', [14,15])
+                        ->orderBy('concepto', 'ASC')
+                        ->get();
+    }
+
+    private function bancos(){
+        return Banco::where('status', true)
+                    ->orderBy('nombre', 'ASC')
+                    ->get();
+    }
+
     public function render()
     {
         return view('livewire.humana.devengado.devengados-create',[
-            'empleados' => $this->empleados(),
-            'concepadicionales'   => $this->concepadicionales(),
+            'empleados'             => $this->empleados(),
+            'concepadicionales'     => $this->concepadicionales(),
+            'conceptos'             => $this->conceptos(),
+            'bancos'                => $this->bancos()
         ]);
     }
 }

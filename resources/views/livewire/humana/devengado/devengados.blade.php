@@ -126,7 +126,7 @@
                                 {{$item->observaciones}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                @if ($item->soporte)
+                                @if ($item->soporte_pago)
                                     <a href="{{Storage::url($item->soporte_pago)}}" target="_blank">
                                         <i class="fa-solid fa-download "></i>
                                     </a>
