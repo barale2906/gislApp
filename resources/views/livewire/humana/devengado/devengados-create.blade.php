@@ -69,167 +69,167 @@
                         </div>
                     @enderror
                 </div>
-                <button type="button" wire:click.prevent="creardevengado" class="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800 mb-4">
+                <button type="button" wire:click.prevent="creardevengado(0,0)" class="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800 mb-4">
                     Cargar Básico
                 </button>
             @endif
 
             @if ($actual && $valorapagar)
-            <div class="w-full bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mt-3 mb-3">
-                <ul class="flex flex-wrap font-extrabold text-4xl text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 " id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">
-                    <li class="me-2">
-                        <button id="statistics-tab" data-tabs-target="#statistics" type="button" role="tab" aria-controls="statistics" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">
-                            Datos del pago para: <span class=" uppercase"> {{$actual->nombre}}</span> del mes de: {{$actual->mes}} del año: {{$actual->anio}}
-                        </button>
-                    </li>
-                    @if ($actual->status===1)
+                <div class="w-full bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mt-3 mb-3">
+                    <ul class="flex flex-wrap font-extrabold text-4xl text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 " id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">
                         <li class="me-2">
                             <button id="statistics-tab" data-tabs-target="#statistics" type="button" role="tab" aria-controls="statistics" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">
-                                Soporte de pago: <a href="{{Storage::url($actual->soporte_pago)}}" target="_blank">
-                                    <i class="fa-solid fa-download "></i>
-                                </a>
+                                Datos del pago para: <span class=" uppercase"> {{$actual->nombre}}</span> del mes de: {{$actual->mes}} del año: {{$actual->anio}}
                             </button>
                         </li>
-                    @endif
+                        @if ($actual->status===1)
+                            <li class="me-2">
+                                <button id="statistics-tab" data-tabs-target="#statistics" type="button" role="tab" aria-controls="statistics" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+                                    Soporte de pago: <a href="{{Storage::url($actual->soporte_pago)}}" target="_blank">
+                                        <i class="fa-solid fa-download "></i>
+                                    </a>
+                                </button>
+                            </li>
+                        @endif
 
-                </ul>
-                <div id="defaultTabContent">
-                    <div class="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="statistics" role="tabpanel" aria-labelledby="statistics-tab">
-                        <dl class="grid max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto text-gray-900 sm:grid-cols-3 xl:grid-cols-3 dark:text-white sm:p-8">
-                            <div class="flex flex-col">
-                                <dt class="mb-2 text-3xl font-extrabold">
-                                    $ {{number_format($valorapagar, 0, ',', '.')}}
-                                </dt>
-                                <dd class="text-gray-500 dark:text-gray-400">
-                                    Valor a Pagar
-                                </dd>
-                            </div>
-                            <div class="flex flex-col">
-                                <dt class="mb-2 text-3xl font-extrabold">
-                                    $ {{number_format($actual->total_empleado, 0, ',', '.')}}
-                                </dt>
-                                <dd class="text-gray-500 dark:text-gray-400">
-                                    Descuentos
-                                </dd>
-                            </div>
-                            <div class="flex flex-col">
-                                <dt class="mb-2 text-3xl font-extrabold">
-                                    $ {{number_format($adicionales->sum('total'), 0, ',', '.')}}
-                                </dt>
-                                <dd class="text-gray-500 dark:text-gray-400">
-                                    Total adicionales
-                                </dd>
-                            </div>
-                        </dl>
+                    </ul>
+                    <div id="defaultTabContent">
+                        <div class="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="statistics" role="tabpanel" aria-labelledby="statistics-tab">
+                            <dl class="grid max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto text-gray-900 sm:grid-cols-3 xl:grid-cols-3 dark:text-white sm:p-8">
+                                <div class="flex flex-col">
+                                    <dt class="mb-2 text-3xl font-extrabold">
+                                        $ {{number_format($valorapagar, 0, ',', '.')}}
+                                    </dt>
+                                    <dd class="text-gray-500 dark:text-gray-400">
+                                        Valor a Pagar
+                                    </dd>
+                                </div>
+                                <div class="flex flex-col">
+                                    <dt class="mb-2 text-3xl font-extrabold">
+                                        $ {{number_format($actual->total_empleado, 0, ',', '.')}}
+                                    </dt>
+                                    <dd class="text-gray-500 dark:text-gray-400">
+                                        Descuentos
+                                    </dd>
+                                </div>
+                                <div class="flex flex-col">
+                                    <dt class="mb-2 text-3xl font-extrabold">
+                                        $ {{number_format($adicionales->sum('total'), 0, ',', '.')}}
+                                    </dt>
+                                    <dd class="text-gray-500 dark:text-gray-400">
+                                        Total adicionales
+                                    </dd>
+                                </div>
+                            </dl>
 
-                        @if ($adicionales && $adicionales->count()>0)
-                            <div class="overflow-hidden rounded-lg shadow-lg border border-gray-300 mb-5">
-                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 bg-green-200">
+                            @if ($adicionales && $adicionales->count()>0)
+                                <div class="overflow-hidden rounded-lg shadow-lg border border-gray-300 mb-5">
+                                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 bg-green-200">
+                                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                            <tr>
+                                                <th scope="col" colspan="4" class="px-6 py-3 border-b border-gray-300 text-center text-xl">
+                                                    CONSOLIDADO ADICIONALES
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3 border-b border-gray-300">
+                                                    CONCEPTO
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 border-b border-gray-300" >
+                                                    CANTIDAD
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 border-b border-gray-300" >
+                                                    UNITARIO
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 border-b border-gray-300" >
+                                                    TOTAL
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($adicionaleagrupados as $value)
+                                                <tr class="bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200 last:border-b-0">
+                                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white uppercase border-r border-gray-200">
+                                                        {{$value->adicional->nombre}}
+                                                    </th>
+                                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize border-r border-gray-200 text-center">
+                                                        {{number_format($value->total_cantidad, 0, ',', '.')}}
+                                                    </th>
+                                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize border-r border-gray-200 text-right">
+                                                        $ {{number_format($value->unitario, 0, ',', '.')}}
+                                                    </th>
+                                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize text-right">
+                                                        $ {{number_format($value->total_valor, 0, ',', '.')}}
+                                                    </th>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr>
-                                            <th scope="col" colspan="4" class="px-6 py-3 border-b border-gray-300 text-center text-xl">
-                                                CONSOLIDADO ADICIONALES
+                                            <th scope="col" class="px-6 py-3">
+
                                             </th>
-                                        </tr>
-                                        <tr>
-                                            <th scope="col" class="px-6 py-3 border-b border-gray-300">
+                                            <th scope="col" class="px-6 py-3">
                                                 CONCEPTO
                                             </th>
-                                            <th scope="col" class="px-6 py-3 border-b border-gray-300" >
+                                            <th scope="col" class="px-6 py-3" >
+                                                VALOR UNITARIO
+                                            </th>
+                                            <th scope="col" class="px-6 py-3" >
                                                 CANTIDAD
                                             </th>
-                                            <th scope="col" class="px-6 py-3 border-b border-gray-300" >
-                                                UNITARIO
-                                            </th>
-                                            <th scope="col" class="px-6 py-3 border-b border-gray-300" >
+                                            <th scope="col" class="px-6 py-3" >
                                                 TOTAL
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                DETALLE
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($adicionaleagrupados as $value)
-                                            <tr class="bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200 last:border-b-0">
-                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white uppercase border-r border-gray-200">
-                                                    {{$value->adicional->nombre}}
+                                        @foreach ($adicionales as $item)
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200">
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    <div class="inline-flex rounded-md shadow-sm" role="group">
+                                                        @if ($actual->status===0)
+                                                            @can('hu_contratosModify')
+                                                                <button wire:click.prevent="eliminAdicional({{$item}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-red-900 bg-gradient-to-r from-red-300 via-red-400 to-red-500 border border-red-900 rounded-lg hover:bg-red-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-red-500 focus:bg-red-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-red-700 dark:focus:bg-red-700">
+                                                                    <i class="fa-solid fa-trash"></i>
+                                                                </button>
+                                                            @endcan
+                                                        @endif
+                                                    </div>
                                                 </th>
-                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize border-r border-gray-200 text-center">
-                                                    {{number_format($value->total_cantidad, 0, ',', '.')}}
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white uppercase">
+                                                    {{$item->adicional->nombre}}
                                                 </th>
-                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize border-r border-gray-200 text-right">
-                                                    $ {{number_format($value->unitario, 0, ',', '.')}}
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
+                                                    {{number_format($item->unitario, 0, ',', '.')}}
                                                 </th>
-                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize text-right">
-                                                    $ {{number_format($value->total_valor, 0, ',', '.')}}
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
+                                                    {{number_format($item->cantidad, 0, ',', '.')}}
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
+                                                    {{number_format($item->total, 0, ',', '.')}}
+                                                </th>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
+                                                    {{$item->detalle}}
                                                 </th>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                            </div>
-                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3">
-
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            CONCEPTO
-                                        </th>
-                                        <th scope="col" class="px-6 py-3" >
-                                            VALOR UNITARIO
-                                        </th>
-                                        <th scope="col" class="px-6 py-3" >
-                                            CANTIDAD
-                                        </th>
-                                        <th scope="col" class="px-6 py-3" >
-                                            TOTAL
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            DETALLE
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($adicionales as $item)
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-green-200">
-                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                <div class="inline-flex rounded-md shadow-sm" role="group">
-                                                    @if ($actual->status===0)
-                                                        @can('hu_contratosModify')
-                                                            <button wire:click.prevent="eliminAdicional({{$item->id}},{{1}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-red-900 bg-gradient-to-r from-red-300 via-red-400 to-red-500 border border-red-900 rounded-lg hover:bg-red-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-red-500 focus:bg-red-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-red-700 dark:focus:bg-red-700">
-                                                                <i class="fa-solid fa-marker"></i>
-                                                            </button>
-                                                        @endcan
-                                                    @endif
-                                                </div>
-                                            </th>
-                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white uppercase">
-                                                {{$item->adicional->nombre}}
-                                            </th>
-                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                                {{number_format($item->unitario, 0, ',', '.')}}
-                                            </th>
-                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                                {{number_format($item->cantidad, 0, ',', '.')}}
-                                            </th>
-                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                                {{number_format($item->total, 0, ',', '.')}}
-                                            </th>
-                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
-                                                {{$item->detalle}}
-                                            </th>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        @else
-                            <p class=" capitalize">
-                                No tiene valores adicionales cargados
-                            </p>
-                        @endif
+                            @else
+                                <p class=" capitalize">
+                                    No tiene valores adicionales cargados
+                                </p>
+                            @endif
+                        </div>
                     </div>
                 </div>
-            </div>
             @endif
 
             @if ($actual && $valorapagar && $actual->status===0)
@@ -268,7 +268,7 @@
                             <label for="cantidad" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Cantidad</label>
                         </div>
                         @if ($cantidad>0)
-                            <button type="button" wire:click.prevent="calculadicional" class="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800 m-5">
+                            <button type="button" wire:click.prevent="calculadicional(0,0)" class="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800 m-5">
                                 Carga Adicional
                             </button>
                         @endif
@@ -384,6 +384,13 @@
             @endif
 
 
+
+            <!-- Botón temporal para debug de validación -->
+            @if ($actual && $tipo === 1)
+                <button type="button" wire:click.prevent="checkValidationStatus" class="text-white bg-yellow-600 hover:bg-yellow-700 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800 mb-2">
+                    🔍 Debug Validación
+                </button>
+            @endif
 
             <button type="button" wire:click.prevent="$dispatch('cancelando')" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                 Cancelar
