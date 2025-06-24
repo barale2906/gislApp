@@ -635,7 +635,7 @@ class DevengadosCreate extends Component
         ]);
 
         // Notificación
-        $this->dispatch('alerta', name:'Se ha actualizado correctamente la nómina: '.$this->nombre);
+        //$this->dispatch('alerta', name:'Se ha actualizado correctamente la nómina: '.$this->nombre);
 
         $this->mount($this->actual->id);
     }
