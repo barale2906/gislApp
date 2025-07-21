@@ -169,6 +169,7 @@ class DevengadosCreate extends Component
             $esta=Devengado::where('mes',$this->mes)
                             ->where('anio',$this->anio)
                             ->where('user_id',$planta->user_id)
+                            ->where('status',0)
                             ->first();
 
             if($esta && $esta->count()>0){

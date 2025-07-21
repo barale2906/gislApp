@@ -45,7 +45,8 @@ class Devengado extends Model
     public function scopeBuscar($query, $item){
         $query->when($item ?? null, function($qu, $item){
                     $qu->where('nombre', 'like', "%".$item."%")
-                            ->orwhere('aprobo', 'like', "%".$item."%");
+                            ->orwhere('mes', 'like', "%".$item."%")
+                            ->orwhere('anio', 'like', "%".$item."%");
                 });
     }
 }

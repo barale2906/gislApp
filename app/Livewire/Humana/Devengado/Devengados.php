@@ -21,8 +21,8 @@ class Devengados extends Component
     public $elegido;
     public $tipo;
 
-    public $ordena='id';
-    public $ordenado='DESC';
+    public $ordena='status';
+    public $ordenado='ASC';
     public $pages = 15;
 
     public $is_modify = true;
