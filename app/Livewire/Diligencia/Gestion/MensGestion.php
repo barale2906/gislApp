@@ -32,7 +32,7 @@ class MensGestion extends Component
      */
     protected $rules = [
         'observaciones'     => 'required',
-        'foto'              => 'nullable|mimes:jpg,bmp,png,jpeg',
+        'foto'              => 'nullable|mimes:jpg,bmp,png,jpeg,pdf',
     ];
 
     /**
