@@ -139,10 +139,10 @@
                                 {{$item->vencimiento}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-right text-gray-900  dark:text-white uppercase">
-                                $ {{number_format($item->total, 0, '.', ' ')}}
+                                $ {{number_format($item->total, 0, ',', '.')}}
                             </th>
                             <th scope="row" class="px-6 py-4 text-right font-medium text-gray-900  dark:text-white capitalize">
-                                $ {{number_format($item->descuento, 0, '.', ' ')}}
+                                $ {{number_format($item->descuento, 0, ',', '.')}}
                             </th>
 
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white capitalize">
