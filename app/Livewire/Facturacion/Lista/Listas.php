@@ -32,7 +32,7 @@ class Listas extends Component
     public $is_modify = true;
     public $is_creating = false;
 
-
+    public $verInactivas = false;
 
     public $tipo;
     public $elegido;
@@ -63,6 +63,12 @@ class Listas extends Component
     public function paginas($valor){
         $this->resetPage();
         $this->pages=$valor;
+    }
+
+    //Alternar entre listas activas e inactivas
+    public function toggleInactivas(){
+        $this->resetPage();
+        $this->verInactivas = !$this->verInactivas;
     }
 
     //Activar evento
@@ -127,6 +133,10 @@ class Listas extends Component
         return Lista::buscar($this->busqueda)
                         ->inicia($this->filtroInicia)
                         ->finaliza($this->filtroTermina)
+                        ->when($this->verInactivas,
+                            fn($query) => $query->where('status', 0),
+                            fn($query) => $query->where('status', '>', 0)
+                        )
                         ->orderBy($this->ordena, $this->ordenado)
                         ->paginate($this->pages);
     }

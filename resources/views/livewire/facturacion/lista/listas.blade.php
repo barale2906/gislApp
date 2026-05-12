@@ -3,6 +3,23 @@
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             @include('include.filtro')
 
+            <div class="flex items-center justify-end gap-2 px-2 py-2">
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Mostrando:
+                    <strong class="uppercase">
+                        {{ $verInactivas ? 'Listas Inactivas' : 'Listas Activas' }}
+                    </strong>
+                </span>
+                <button wire:click.prevent="toggleInactivas" type="button"
+                    class="inline-flex items-center px-4 py-2 text-sm font-medium {{ $verInactivas ? 'text-red-900 bg-gradient-to-r from-red-300 via-red-400 to-red-500 border-red-900 hover:bg-red-900' : 'text-emerald-900 bg-gradient-to-r from-emerald-300 via-emerald-400 to-emerald-500 border-emerald-900 hover:bg-emerald-900' }} border rounded-lg hover:text-white focus:z-10 focus:ring-2 focus:ring-blue-500">
+                    @if ($verInactivas)
+                        <i class="fa-solid fa-eye-slash mr-2"></i> Ver Listas Activas
+                    @else
+                        <i class="fa-solid fa-eye mr-2"></i> Ver Listas Inactivas
+                    @endif
+                </button>
+            </div>
+
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -86,7 +103,10 @@
                                                     @break
                                             @endswitch
                                         @else
-                                            <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Vencida</span>
+                                            <button wire:click.prevent="show({{$item->id}},{{1}})" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-red-900 bg-gradient-to-r from-red-300 via-red-400 to-red-500 border border-red-900 rounded-lg hover:bg-red-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-red-500 focus:bg-red-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-red-700 dark:focus:bg-red-700">
+                                                <i class="fa-solid fa-magnifying-glass"></i>
+                                            </button>
+                                            <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Inactiva</span>
                                         @endif
                                     @endcan
                                 </div>

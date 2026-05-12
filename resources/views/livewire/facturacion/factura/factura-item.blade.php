@@ -326,6 +326,12 @@
                             TOTAL NETO
                         </th>
                         <th scope="col" class="px-6 py-3" >
+                            FECHA RECOLECCIÓN
+                        </th>
+                        <th scope="col" class="px-6 py-3" >
+                            FECHA ENTREGA
+                        </th>
+                        <th scope="col" class="px-6 py-3" >
                             OBSERVACIONES
                         </th>
                     </tr>
@@ -369,6 +375,12 @@
                             </th>
                             <th scope="row" class="px-1 py-2 text-right text-sm text-gray-900  dark:text-white capitalize">
                                 $ {{number_format($item->total-$item->descuento_total, 0, '.', ' ')}}
+                            </th>
+                            <th scope="row" class="px-1 py-2 text-center text-xs text-gray-900  dark:text-white">
+                                {{ optional($item->diligenciaInfo)->fecha_recepcion }}
+                            </th>
+                            <th scope="row" class="px-1 py-2 text-center text-xs text-gray-900  dark:text-white">
+                                {{ optional($item->diligenciaInfo)->fecha_entrega }}
                             </th>
                             <th scope="row" class="px-1 py-2 text-justify text-xs text-gray-900  dark:text-white capitalize">
                                 {{$item->observaciones}}

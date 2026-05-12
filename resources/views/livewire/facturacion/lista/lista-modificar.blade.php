@@ -4,25 +4,103 @@
             Crear Lista de Precios
         @endif
         @if ($tipo===1)
-            Editar Lista de Precios con Estado:
-            @switch($actual->status)
-                @case(1)
-                    EN PROCESO
-                    @break
-                @case(2)
-                    APROBADA
-                    @break
-                @case(3)
-                    VIGENTE
-                    @break
-            @endswitch
+            @if ($actual && $actual->status === 0)
+                Detalle de Lista Inactiva
+            @else
+                Editar Lista de Precios con Estado:
+                @switch($actual->status)
+                    @case(1)
+                        EN PROCESO
+                        @break
+                    @case(2)
+                        APROBADA
+                        @break
+                    @case(3)
+                        VIGENTE
+                        @break
+                @endswitch
+            @endif
         @endif
         @if ($tipo===2)
             Inactivar Lista de Precios
         @endif
     </h1>
 
-    @if ($tipo!==2)
+    @if ($tipo===1 && $actual && $actual->status === 0)
+        <div class="max-w-3xl mx-auto mb-4">
+            @if ($is_confirmaActivar)
+                <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
+                    <span class="font-medium">¡CONFIRMACIÓN!</span>
+                    ¿Está seguro(a) de activar la lista <strong class="uppercase">{{ $name }}</strong>?
+                    La lista pasará al estado <strong>VIGENTE</strong> y sus clientes quedarán asociados a ella.
+                </div>
+                <button type="button" wire:click.prevent="confirmarActivar" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                    <i class="fa-solid fa-check"></i> Confirmar Activación
+                </button>
+                <button type="button" wire:click.prevent="cancelarActivar" class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-500 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
+                    <i class="fa-solid fa-xmark"></i> Cancelar
+                </button>
+            @else
+                <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-300" role="alert">
+                    <span class="font-medium">Información:</span>
+                    Esta lista se encuentra <strong>INACTIVA</strong>. Para activarla, ninguno de sus clientes debe estar asignado a otra lista activa.
+                </div>
+                @can('fa_listamodify')
+                    <button type="button" wire:click.prevent="activarLista" class="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800">
+                        <i class="fa-solid fa-power-off"></i> Activar Lista
+                    </button>
+                @endcan
+                <button type="button" wire:click.prevent="$dispatch('cancelando')" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                    <i class="fa-solid fa-rectangle-xmark"></i> Volver
+                </button>
+            @endif
+
+            @if (!empty($conflictos))
+                <div class="mt-4 p-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 border border-red-300" role="alert">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-bold uppercase">
+                            <i class="fa-solid fa-triangle-exclamation"></i> No se puede activar la lista
+                        </span>
+                        <button type="button" wire:click.prevent="limpiarConflictos" class="text-red-700 hover:text-red-900">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <p class="mb-2">
+                        Los siguientes clientes ya pertenecen a otra(s) lista(s) activa(s):
+                    </p>
+                    <table class="w-full text-xs text-left">
+                        <thead class="text-xs uppercase bg-red-100 dark:bg-red-900">
+                            <tr>
+                                <th class="px-2 py-1">Cliente</th>
+                                <th class="px-2 py-1">Lista Activa</th>
+                                <th class="px-2 py-1">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($conflictos as $c)
+                                <tr class="border-b border-red-200">
+                                    <td class="px-2 py-1 capitalize">{{ $c['empresa'] }}</td>
+                                    <td class="px-2 py-1 capitalize">{{ $c['lista'] }}</td>
+                                    <td class="px-2 py-1">
+                                        @switch($c['estado'])
+                                            @case(1) En proceso @break
+                                            @case(2) Aprobada @break
+                                            @case(3) Vigente @break
+                                        @endswitch
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <p class="mt-2 italic">
+                        Para activar esta lista, retire dichos clientes de la(s) lista(s) activa(s) o inactive esa(s) lista(s).
+                    </p>
+                </div>
+            @endif
+        </div>
+    @endif
+
+    @if ($tipo!==2 && !($tipo===1 && $actual && $actual->status === 0))
         <form class="max-w-3xl mx-auto">
 
             <div class="relative z-0 w-full mb-5 group">

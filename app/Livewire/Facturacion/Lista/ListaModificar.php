@@ -31,6 +31,9 @@ class ListaModificar extends Component
     public $is_modifica=false;
     public $is_empresas=1;
 
+    public $conflictos=[];
+    public $is_confirmaActivar=false;
+
     protected $listeners = ['refresh' => '$refresh'];
 
     public function mount($elegido=null, $tipo=null){
@@ -234,6 +237,94 @@ class ListaModificar extends Component
             $this->dispatch('alerta', name:'Se actualizo la lista');
             $this->valores();
         }
+    }
+
+    /**
+     * Valida si los clientes de la lista actual están en alguna lista activa.
+     * Retorna un arreglo con los conflictos encontrados.
+     */
+    private function validarClientesActivos(){
+        $empresaIds = ListaEmpresa::where('lista_id', $this->actual->id)
+                                    ->pluck('empresa_id')
+                                    ->toArray();
+
+        if(empty($empresaIds)){
+            return [];
+        }
+
+        return ListaEmpresa::join('listas', 'listas.id', '=', 'lista_empresas.lista_id')
+                            ->whereIn('lista_empresas.empresa_id', $empresaIds)
+                            ->where('lista_empresas.lista_id', '!=', $this->actual->id)
+                            ->where('listas.status', '>', 0)
+                            ->select(
+                                'lista_empresas.empresa as empresa',
+                                'listas.name as lista',
+                                'listas.status as estado'
+                            )
+                            ->orderBy('listas.name')
+                            ->orderBy('lista_empresas.empresa')
+                            ->get()
+                            ->map(function($item){
+                                return [
+                                    'empresa' => $item->empresa,
+                                    'lista'   => $item->lista,
+                                    'estado'  => $item->estado,
+                                ];
+                            })
+                            ->toArray();
+    }
+
+    /**
+     * Inicia el proceso de activación de una lista inactiva.
+     * Verifica conflictos antes de pedir confirmación.
+     */
+    public function activarLista(){
+        $this->conflictos = $this->validarClientesActivos();
+
+        if(!empty($this->conflictos)){
+            $this->is_confirmaActivar = false;
+            $this->dispatch('alerta', name:'No se puede activar la lista: hay clientes asignados a otras listas activas.');
+            return;
+        }
+
+        $this->is_confirmaActivar = true;
+    }
+
+    /**
+     * Confirma la activación de la lista pasando su estado a Vigente (3).
+     * Re-valida los conflictos antes de confirmar.
+     */
+    public function confirmarActivar(){
+        $this->conflictos = $this->validarClientesActivos();
+
+        if(!empty($this->conflictos)){
+            $this->is_confirmaActivar = false;
+            $this->dispatch('alerta', name:'No se puede activar la lista: hay clientes asignados a otras listas activas.');
+            return;
+        }
+
+        $this->actual->update([
+            'status' => 3
+        ]);
+
+        ListaEmpresa::where('lista_id', $this->lista)->update([
+            'status' => 3
+        ]);
+
+        $this->is_confirmaActivar = false;
+        $this->conflictos = [];
+
+        $this->dispatch('alerta', name:'Lista activada correctamente.');
+        $this->valores();
+    }
+
+    public function cancelarActivar(){
+        $this->is_confirmaActivar = false;
+        $this->conflictos = [];
+    }
+
+    public function limpiarConflictos(){
+        $this->conflictos = [];
     }
 
     private function remitentes(){

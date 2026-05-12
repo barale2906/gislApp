@@ -22,4 +22,14 @@ class FacturaDetalle extends Model
     {
         return $this->belongsTo(Factura::class);
     }
+
+    /**
+     * Relación uno a muchos inversa.
+     * Diligencia asociada (cuando el detalle se generó desde una diligencia).
+     * La columna `diligencia` almacena el id de la diligencia.
+     */
+    public function diligenciaInfo() : BelongsTo
+    {
+        return $this->belongsTo(Diligencia::class, 'diligencia');
+    }
 }
