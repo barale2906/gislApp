@@ -12,13 +12,16 @@
                     CANTIDAD
                 </th>
                 <th scope="col" class="px-6 py-3" >
-                    FECHA
+                    FECHA ENTREGA
+                </th>
+                <th scope="col" class="px-6 py-3" >
+                    ID
                 </th>
                 <th scope="col" class="px-6 py-3" >
                     DESTINO
                 </th>
                 <th scope="col" class="px-6 py-3" >
-                    OBSERVACIONES
+                    DETALLE / OBS.
                 </th>
             </tr>
         </thead>
@@ -58,14 +61,33 @@
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white capitalize">
                         {{$item->guias}}
                     </th>
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white uppercase">
-                        {{$item->fecha_entrega}}
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white tabular-nums whitespace-nowrap">
+                        {{ $item->fecha_entrega ? \Illuminate\Support\Carbon::parse($item->fecha_entrega)->format('d/m/Y') : '—' }}
                     </th>
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white uppercase">
-                        {{$item->direccion_dest}}
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white tabular-nums">
+                        {{ $item->id }}
                     </th>
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white capitalize">
-                        {{$item->descripcion}}
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-normal max-w-md text-left">
+                        @if(filled($item->descripcion))
+                            <span class="block normal-case">{{ $item->descripcion }}</span>
+                        @endif
+                        @if(filled($item->direccion_dest))
+                            <span class="block mt-1 text-xs font-normal uppercase text-gray-600 dark:text-gray-300">{{ $item->direccion_dest }}</span>
+                        @endif
+                        @if(! filled($item->descripcion) && ! filled($item->direccion_dest))
+                            <span class="text-gray-400">—</span>
+                        @endif
+                    </th>
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-normal max-w-sm text-left text-xs">
+                        @if(filled($item->detalle))
+                            <span class="block"><span class="font-semibold">Detalle:</span> {{ $item->detalle }}</span>
+                        @endif
+                        @if(filled($item->observaciones))
+                            <span class="block mt-1"><span class="font-semibold">Obs.:</span> {{ $item->observaciones }}</span>
+                        @endif
+                        @if(! filled($item->detalle) && ! filled($item->observaciones))
+                            <span class="text-gray-400">—</span>
+                        @endif
                     </th>
                 </tr>
             @endforeach
