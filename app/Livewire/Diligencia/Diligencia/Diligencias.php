@@ -2,13 +2,19 @@
 
 namespace App\Livewire\Diligencia\Diligencia;
 
+use App\Exports\Diligencia\DiligenciasClienteExport;
 use App\Models\Configuracion\Ubica;
+use App\Models\Diligencias\Diligencia;
+use App\Models\Facturacion\Empresa;
 use App\Traits\DiligenciasTrait;
 use App\Traits\FiltroTrait;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Diligencias extends Component
 {
@@ -148,6 +154,47 @@ class Diligencias extends Component
     public function impor(){
         $this->is_modify=!$this->is_modify;
         $this->is_cargar=!$this->is_cargar;
+    }
+
+    /**
+     * Exporta a Excel todas las diligencias de la empresa del usuario (sin filtro por pestaña, búsqueda ni fechas de la pantalla).
+     */
+    public function exportarDiligenciasExcel(): BinaryFileResponse
+    {
+        Gate::authorize('di_diligencias');
+
+        $empresaId = Auth::user()->empresa_id;
+        abort_if($empresaId === null, 403);
+
+        $diligencias = Diligencia::query()
+            ->where('diligencias.empresa_id', $empresaId)
+            ->with([
+                'empresa:id,name',
+                'ubica.user:id,name',
+                'ubica.sucursal:id,name',
+                'ubica.area:id,name',
+                'ciudad:id,name',
+                'mensajeros' => function ($q) {
+                    $q->orderBy('id')->with('mensajero:id,name');
+                },
+                'facturaAsociada:id,numero',
+            ])
+            ->orderByDesc('diligencias.id')
+            ->get();
+
+        $empresaNombre = Empresa::query()->whereKey($empresaId)->value('name') ?? 'Empresa';
+        $alcance = 'Todas las diligencias registradas para esta empresa en el sistema (independiente de la pestaña o filtros de esta pantalla).';
+
+        $fileName = 'diligencias_todas_empresa_'.now()->format('Y-m-d_His').'.xlsx';
+
+        return Excel::download(
+            new DiligenciasClienteExport(
+                diligencias: $diligencias,
+                contextoLista: $alcance,
+                empresaNombre: (string) $empresaNombre,
+            ),
+            $fileName
+        );
     }
 
     public function render()

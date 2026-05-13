@@ -5,6 +5,7 @@ namespace App\Models\Diligencias;
 use App\Models\Configuracion\Ciudad;
 use App\Models\Configuracion\Ubica;
 use App\Models\Facturacion\Empresa;
+use App\Models\Facturacion\Factura;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,6 +34,14 @@ class Diligencia extends Model
     public function empresa() : BelongsTo
     {
         return $this->belongsTo(Empresa::class);
+    }
+
+    /**
+     * Factura a la que quedó asociada la diligencia (`numero_fac` almacena el id de `facturas`).
+     */
+    public function facturaAsociada(): BelongsTo
+    {
+        return $this->belongsTo(Factura::class, 'numero_fac');
     }
 
     /**

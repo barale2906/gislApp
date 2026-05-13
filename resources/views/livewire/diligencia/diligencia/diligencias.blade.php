@@ -2,6 +2,14 @@
     @if ($is_modify)
         <div class="overflow-x-auto shadow-md sm:rounded-lg">
             @include('include.filtro')
+            <div class="flex flex-wrap justify-end gap-2 mb-2 px-1">
+                @can('di_diligencias')
+                    <button type="button" wire:click="exportarDiligenciasExcel" wire:loading.attr="disabled" title="Descarga todas las diligencias de su empresa en el sistema (no usa la pestaña ni los filtros de esta pantalla)." class="inline-flex items-center gap-2 rounded-lg border border-emerald-600 bg-emerald-600 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 disabled:opacity-60 dark:border-emerald-500 dark:bg-emerald-700 dark:hover:bg-emerald-600">
+                        <span wire:loading.remove wire:target="exportarDiligenciasExcel"><i class="fa-regular fa-file-excel"></i> Exportar todas (empresa)</span>
+                        <span wire:loading wire:target="exportarDiligenciasExcel"><i class="fa-solid fa-spinner fa-spin"></i> Generando…</span>
+                    </button>
+                @endcan
+            </div>
             <div>
                 <table class="text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase ">
