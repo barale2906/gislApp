@@ -7,9 +7,11 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\WithTitle;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 final class DiligenciasClienteExport implements WithMultipleSheets
 {
@@ -61,7 +63,7 @@ final class DiligenciasClienteResumenSheet implements FromCollection, WithHeadin
     }
 }
 
-final class DiligenciasClienteDatosSheet implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
+final class DiligenciasClienteDatosSheet implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize, WithColumnFormatting
 {
     public function __construct(
         private Collection $diligencias,
@@ -70,6 +72,16 @@ final class DiligenciasClienteDatosSheet implements FromCollection, WithHeadings
     public function title(): string
     {
         return 'Diligencias';
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function columnFormats(): array
+    {
+        return [
+            'D' => NumberFormat::FORMAT_NUMBER_0,
+        ];
     }
 
     public function headings(): array
@@ -123,7 +135,7 @@ final class DiligenciasClienteDatosSheet implements FromCollection, WithHeadings
             $d->id,
             $d->identificador,
             self::estadoDiligencia((int) $d->status),
-            (int) $d->guias,
+            round((float) $d->guias, 1),
             self::tipoDiligencia((int) $d->tipo),
             $d->created_at ? Carbon::parse($d->created_at)->format('Y-m-d H:i') : '',
             $d->empresa?->name ?? '',

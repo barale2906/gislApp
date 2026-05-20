@@ -211,7 +211,7 @@
                                     {{$item->concepto}}
                                 </th>
                                 <th scope="row" class="px-6 py-4 font-medium text-center text-gray-900  dark:text-white uppercase">
-                                    {{number_format($item->cantidad, 0, '.', ' ')}}
+                                    {{number_format($item->cantidad, 1, '.', ' ')}}
                                 </th>
                                 <th scope="row" class="px-6 py-4 text-right font-medium text-gray-900  dark:text-white capitalize">
                                     $ {{number_format($item->unitario, 0, '.', ' ')}}
@@ -305,7 +305,13 @@
 
                         </th>
                         <th scope="col" class="px-6 py-3" >
-                            CONCEPTO
+                            OBSERVACIONES
+                        </th>
+                        <th scope="col" class="px-6 py-3" >
+                            FECHA RECOLECCIÓN
+                        </th>
+                        <th scope="col" class="px-6 py-3" >
+                            FECHA ENTREGA
                         </th>
                         <th scope="col" class="px-6 py-3" >
                             CANTIDAD
@@ -326,13 +332,7 @@
                             TOTAL NETO
                         </th>
                         <th scope="col" class="px-6 py-3" >
-                            FECHA RECOLECCIÓN
-                        </th>
-                        <th scope="col" class="px-6 py-3" >
-                            FECHA ENTREGA
-                        </th>
-                        <th scope="col" class="px-6 py-3" >
-                            OBSERVACIONES
+                            CONCEPTO
                         </th>
                     </tr>
                 </thead>
@@ -355,11 +355,17 @@
 
                                 </div>
                             </th>
-                            <th scope="row" class="px-1 py-2 text-sm text-gray-900 dark:text-white">
-                                {{$item->concepto}}
+                            <th scope="row" class="px-1 py-2 text-justify text-xs text-gray-900  dark:text-white capitalize">
+                                {{$item->observaciones}}
+                            </th>
+                            <th scope="row" class="px-1 py-2 text-center text-xs text-gray-900  dark:text-white">
+                                {{ optional($item->diligenciaInfo)->fecha_recepcion }}
+                            </th>
+                            <th scope="row" class="px-1 py-2 text-center text-xs text-gray-900  dark:text-white">
+                                {{ optional($item->diligenciaInfo)->fecha_entrega }}
                             </th>
                             <th scope="row" class="px-1 py-2 text-sm text-center text-gray-900  dark:text-white uppercase">
-                                {{number_format($item->cantidad, 0, '.', ' ')}}
+                                {{number_format($item->cantidad, 1, '.', ' ')}}
                             </th>
                             <th scope="row" class="px-1 py-2 text-right text-sm text-gray-900  dark:text-white capitalize">
                                 $ {{number_format($item->unitario, 0, '.', ' ')}}
@@ -376,14 +382,8 @@
                             <th scope="row" class="px-1 py-2 text-right text-sm text-gray-900  dark:text-white capitalize">
                                 $ {{number_format($item->total-$item->descuento_total, 0, '.', ' ')}}
                             </th>
-                            <th scope="row" class="px-1 py-2 text-center text-xs text-gray-900  dark:text-white">
-                                {{ optional($item->diligenciaInfo)->fecha_recepcion }}
-                            </th>
-                            <th scope="row" class="px-1 py-2 text-center text-xs text-gray-900  dark:text-white">
-                                {{ optional($item->diligenciaInfo)->fecha_entrega }}
-                            </th>
-                            <th scope="row" class="px-1 py-2 text-justify text-xs text-gray-900  dark:text-white capitalize">
-                                {{$item->observaciones}}
+                            <th scope="row" class="px-1 py-2 text-sm text-gray-900 dark:text-white">
+                                {{$item->concepto}}
                             </th>
                         </tr>
                     @endforeach
